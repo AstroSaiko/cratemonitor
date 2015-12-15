@@ -13,7 +13,7 @@ import rrdtool
 
 if __name__ == "__main__":
 
-	filepath = ''
+	filepath = '/home/xtaldaq/monitoring/'
 	for crate in ['mch01','mch02']:
 
 		for sched in ['daily' , 'weekly', 'monthly']:
@@ -57,11 +57,11 @@ if __name__ == "__main__":
 				 "LINE:t12#FF0099:AMC12",
 				 #"LINE:t13#FF99CC:AMC13",
 				 "LINE:t14#CC0000:CU1",
-				 "LINE:t15#660000:CU2",)
+				 "LINE:t15#660000:CU2")
 			
 			ret = rrdtool.graph( "{0}{1}-{2}-curr.png".format(filepath,crate,period), 
 				"--start", "-1{0}".format(period), 
-				"--vertical-label=Current (A)",
+				"--vertical-label=Current 1V (A)",
 				 "-w 400", "-h 200",
 				 "--upper-limit=3.0", "--lower-limit=0.0","--rigid",
 				 "-t Crate {0}".format(crate),
@@ -125,7 +125,8 @@ if __name__ == "__main__":
 				 "GPRINT:t11avg:%2.1lf %SA ",
 				 "LINE:t12cal#FF0099:AMC12",
 				 "GPRINT:t12avg:%2.1lf %SA")
-		ret = rrdtool.graph( "{0}{1}-{2}-12curr.png".format(filepath,crate,period), 
+
+			ret = rrdtool.graph( "{0}{1}-{2}-12curr.png".format(filepath,crate,period), 
 				"--start", "-1{0}".format(period), 
 				"--vertical-label=12V Current (A)",
 				 "-w 400", "-h 200",

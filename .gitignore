@@ -1,0 +1,7 @@
+*.png
+*.rrd
+*.tar
+monitoring_tcds/*
+nic_monitor/*
+*.txt
+*.dat
