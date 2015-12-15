@@ -35,7 +35,7 @@ if __name__ == "__main__":
 			"DS:AMC10temp:GAUGE:120:U:U",
 			"DS:AMC11temp:GAUGE:120:U:U",
 			"DS:AMC12temp:GAUGE:120:U:U",
-			#"DS:AMC13temp:GAUGE:120:U:U",
+			"DS:AMC13temp:GAUGE:120:U:U",
 			"DS:CU1temp:GAUGE:120:U:U",
 			"DS:CU2temp:GAUGE:120:U:U",
 			"DS:AMC1curr1V0:GAUGE:120:U:U",

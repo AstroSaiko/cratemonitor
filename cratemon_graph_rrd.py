@@ -40,7 +40,7 @@ if __name__ == "__main__":
 				 "DEF:t10={0}{1}.rrd:AMC10temp:AVERAGE".format(filepath,crate),
 				 "DEF:t11={0}{1}.rrd:AMC11temp:AVERAGE".format(filepath,crate),
 				 "DEF:t12={0}{1}.rrd:AMC12temp:AVERAGE".format(filepath,crate),
-				 #"DEF:t13={0}{1}.rrd:AMC13temp:AVERAGE".format(filepath,crate),
+				 "DEF:t13={0}{1}.rrd:AMC13temp:AVERAGE".format(filepath,crate),
 				 "DEF:t14={0}{1}.rrd:CU1temp:AVERAGE".format(filepath,crate),
 				 "DEF:t15={0}{1}.rrd:CU2temp:AVERAGE".format(filepath,crate),
 				 "LINE:t1#000000:AMC1",
@@ -55,7 +55,7 @@ if __name__ == "__main__":
 				 "LINE:t10#6600FF:AMC10",
 				 "LINE:t11#FF00FF:AMC11",
 				 "LINE:t12#FF0099:AMC12",
-				 #"LINE:t13#FF99CC:AMC13",
+				 "LINE:t13#FF99CC:AMC13",
 				 "LINE:t14#CC0000:CU1",
 				 "LINE:t15#660000:CU2")
 			
