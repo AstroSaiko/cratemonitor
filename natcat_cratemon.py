@@ -65,21 +65,25 @@ if __name__ == "__main__":
 
         for item in data.split("\n"):
             if "FPGA Temp" in item:
-#                print item.strip()
+             #   print item.strip()
                 temperature = item.strip().split(" ")[16]
             if "30   Full" in item:
-#                print item.strip()
+            #    print item.strip()
                 current12 = item.strip().split(" ")[13]
             if "28   Full" in item:
-#                print item.strip()
+           #     print item.strip()
                 current = item.strip().split(" ")[13]
 # AMC 13
 #            if "T2 Temp" in item:
 #                print item.strip()
 #                temperature = item.strip().split(" ")[16]
             if "5   Full     Temp    0x1e" in item:
-#                print item.strip()
+          #      print item.strip()
                 temperature = item.strip().split(" ")[16]
+	    if "1   Full     Temp    0x1e" in item:
+         #       print item.strip()
+                temperature = item.strip().split(" ")[16]
+        
         #print 'The Temperature is ' + temperature + ' C'
         #print 'The Current is ' + current + ' A'
 	#print 'The 12V current is ' + current12 + 'A'
