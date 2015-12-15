@@ -2,15 +2,15 @@
 # This script will fill the psu rrd 
 
 NETTXBYTES=`cat /sys/class/net/eth1/statistics/tx_bytes`
-echo $NETTXBYTES
+echo 'Tx Bytes ' $NETTXBYTES
 
 NETRXBYTES=`cat /sys/class/net/eth1/statistics/rx_bytes`
-#echo $NETRXBYTES
+echo 'Rx Bytes ' $NETRXBYTES
 
 NETTXERRORS=`cat /sys/class/net/eth1/statistics/tx_errors`
-#echo $NETTXERRORS
+echo 'Tx Errors ' $NETTXERRORS
 
 NETRXERRORS=`cat /sys/class/net/eth1/statistics/rx_errors`
-#echo $NETRXERRORS
+echo 'Rx Errors ' $NETRXERRORS
 
 rrdtool update /home/xtaldaq/monitoring/pixp1_chub_nic.rrd N:$NETTXBYTES:$NETRXBYTES:$NETTXERRORS:$NETRXERRORS
