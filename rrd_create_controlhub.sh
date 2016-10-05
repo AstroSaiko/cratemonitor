@@ -15,7 +15,7 @@
 # 780 samples of 2 hours    (15 + 50 days = 65 days)
 # 800 samples of 1 day      (65 days plus 2 yrs rounded to 800)
 
-    rrdtool create --step=60 pixp1_chub_nic.rrd         \
+	rrdtool create --step=60 cmsfpixch001_nic.rrd         \
              DS:NetTxBytes:COUNTER:120:U:U   \
              DS:NetRxBytes:COUNTER:120:U:U  \
              DS:NetTxErrors:COUNTER:120:U:U   \

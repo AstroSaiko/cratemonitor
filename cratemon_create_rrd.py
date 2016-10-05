@@ -14,19 +14,19 @@ import rrdtool
 if __name__ == "__main__":
 
 #    for crate in ['s1e02-27','s1e02-18','s1e02-10','s1e03-36','s1e03-27','s1e03-18']:
-    for crate in ['01', '02']:
+    for crate in ['s1g04-18', 's1g04-27', 's1g04-36', 's1g04-45']:
 
 # 1,440 samples of 1 minute  (24 hours)
 # 720 samples of 30 mins (24 hrs + 14 days = 15 days)
 # 780 samples of 2 hours    (15 + 50 days = 65 days)
 # 800 samples of 1 day      (65 days plus 2 yrs rounded to 800)
 
-		ret = rrdtool.create("mch%s.rrd" %crate, 
+		ret = rrdtool.create("mch-%s.rrd" %crate, 
 			"--step", "60",
 			"DS:AMC1temp:GAUGE:120:U:U",
 			"DS:AMC2temp:GAUGE:120:U:U",
 			"DS:AMC3temp:GAUGE:120:U:U",
-			"DS:AMC4temp:GAUGE:120:U:U",
+                        "DS:AMC4temp:GAUGE:120:U:U",
 			"DS:AMC5temp:GAUGE:120:U:U",
 			"DS:AMC6temp:GAUGE:120:U:U",
 			"DS:AMC7temp:GAUGE:120:U:U",
