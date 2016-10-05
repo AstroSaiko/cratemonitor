@@ -13,4 +13,4 @@ echo 'Tx Errors ' $NETTXERRORS
 NETRXERRORS=`cat /sys/class/net/rename5/statistics/rx_errors`
 echo 'Rx Errors ' $NETRXERRORS
 
-rrdtool update /home/xtaldaq/cratemonitor/cmsfpixch001_nic.rrd N:$NETTXBYTES:$NETRXBYTES:$NETTXERRORS:$NETRXERRORS
+rrdtool update /home/xtaldaq/cratemonitor_v3/rrd/cmsfpixch001_nic.rrd N:$NETTXBYTES:$NETRXBYTES:$NETTXERRORS:$NETRXERRORS
