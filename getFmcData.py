@@ -48,8 +48,11 @@ hostname = str.lower(ipaddr) #for the rrd database at the bottom of the script
 
 ##################################################################
 #For the rrd database
+def rack(hostname):
+   return str.split(hostname, '-')[1]
+
 def crate(hostname):
-   return str.split(hostname, '-')[1] + '-' + str.split(hostname, '-')[2]
+   return str.split(hostname, '-')[2]
 
 def amc(hostname):
    return str.split(hostname, '-')[3]
@@ -523,10 +526,11 @@ for i in range(0, 4):
 
 #one database for each AMC. Database format = [RX1TEMP, RX2TEMP, RX1V1, RX2V1, ... ]
 
+rack = rack(hostname)
 crate = crate(hostname)
 amc = amc(hostname)
 
-ret = rrd_update('/home/xtaldaq/cratemonitor_v3/rrd/amc-{0}-{1}.rrd'.format(crate, amc), 'N:{0[0]}:{0[1]}:{1[0]}:{1[1]}:{2[0]}:{2[1]}:{3[0]}:{3[1]}\
+ret = rrd_update('/home/xtaldaq/cratemonitor_v3/rrd/amc-{0}-{1}-{2}.rrd'.format(rack, crate, amc), 'N:{0[0]}:{0[1]}:{1[0]}:{1[1]}:{2[0]}:{2[1]}:{3[0]}:{3[1]}\
 :{4[0]}:{4[1]}:{5[0]}:{5[1]}'.format(T_INT, V1, V2, V3, V4, VCC))
 
 
