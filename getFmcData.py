@@ -2,18 +2,20 @@
 
 # Author: Laurent CHARLES (IPHC Strasbourg)
 # PixFED project - CMS Upgrade Ph.1
-# Edited by Birk Engegaard (CERN) for monitoring purposes
+# Edited by Birk Engegaard (CERN) for crate monitoring purposes
 
 #========================================================
 # This script will return T_INT, V1, V2, V3, V4 and VCC
 # from the FITEL FED.
-# Run as $python fmcmonitor.py hostname
+# Run as [you] $ python getFmcData.py hostname
 # =======================================================
 
 from time import sleep
 from struct import *
 import sys; sys.path.append('/home/xtaldaq/PyChips')  #To set PYTHONPATH to the PyChips installation src folder
 from time import *
+import uhal
+import datetime
 
 import os
 import socket
@@ -25,6 +27,50 @@ from rrdtool import update as rrd_update
 from PyChipsUser import *
 
 #t = time() #for timing
+
+def errorMessage(errorMsg):                                                                              
+    f = open('/home/xtaldaq/cratemonitor_v3/fmcErrorLog.log', 'a')
+    now = datetime.datetime.now() #Time of event                                                                                                                                                                                          
+    f.write(now.strftime("%Y-%b-%d %H:%M:%S") + ':'  ' {0}\n'.format(errorMsg))
+    f.close()
+
+def fmcPresent(hostname):
+   #A function to check if the FMC is present
+   uhal.setLogLevelTo( uhal.LogLevel.WARNING)
+   manager = uhal.ConnectionManager("file:///home/xtaldaq/cratemonitor_v3/FEDconnection.xml")
+   try:
+      fed = manager.getDevice(hostname)
+   except:
+      print "Could not connect to {0}".format(hostname) #There is probably not a FED in the given slot
+      return False
+   device_id = fed.id()
+   
+   # Read the value back.                                                                                                                                                                                                                   
+   # NB: the reg variable below is a uHAL "ValWord", not just a simple integer                                                                                                                                                              
+   fmc_l8_present = fed.getNode("status.fmc_l8_present").read()
+   # Send IPbus transactions                                                                                                                                                                                                                
+   fed.dispatch()
+   
+   # Return status                                                                                                                                                                                                                          
+   if hex(fmc_l8_present) == '0x1':
+      return True
+   else:
+    #FC7 is present, but not the FED FITEL
+      errorMessage('FMC not present for {0}'.format(hostname))
+      return False
+
+##################################################################                                                                                                                                                                      
+#For the rrd database                                                                                                                                                                       
+def rack(hostname):
+   return str.split(hostname, '-')[1]
+
+def crate(hostname):
+   return str.split(hostname, '-')[2]
+
+def amc(hostname):
+   return str.split(hostname, '-')[3]
+
+################################################################## 
 
 ##--=======================================--
 ##=> IP address
@@ -46,20 +92,16 @@ else:
    f.close()
 hostname = str.lower(ipaddr) #for the rrd database at the bottom of the script
 
-##################################################################
-#For the rrd database
-def rack(hostname):
-   return str.split(hostname, '-')[1]
-
-def crate(hostname):
-   return str.split(hostname, '-')[2]
-
-def amc(hostname):
-   return str.split(hostname, '-')[3]
-
-##################################################################
+#===========================================
+#First, check if the FMC is present. If not, 
+#stop the script.
+#===========================================
 
 
+if not fmcPresent(hostname):
+   sys.exit()
+
+###################################
 
 fc7AddrTable = AddressTable('/home/xtaldaq/cratemonitor_v3/fc7AddrTable.dat')
 #f = open('./ipaddr.dat', 'r')
@@ -435,7 +477,7 @@ for i in range(0, 4):
          print "-> Measurement for ADC from Fitel FMCL12_FRR1"
       elif  i==3:        
          print "-> Measurement for ADC from Fitel FMCL12_FRR2"
-      #
+
       for j in range(measureNb):
 
          ###################################################################################

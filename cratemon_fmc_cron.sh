@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/cactus/lib
+
 #If this works as excepted, just follow the naming conventions and don't worry about the monitoring.
 #Nothing ever works as excpected though.
 

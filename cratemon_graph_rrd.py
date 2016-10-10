@@ -27,7 +27,7 @@ if __name__ == "__main__":
 			#For the MCH databases
 				ret = rrdtool.graph( "{0}png/{1}-{2}-{3}-mchtemp.png".format(filepath,rack,crate,period), 
 						     "--start", "-1{0}".format(period), 
-						     "--vertical-label=Temperature (degC)",
+						     "--vertical-label=FC7 Temperature (degC)",
 						     "-w 400", "-h 240",
 						     #"--slope-mode",
 						     "-t Crate {0}-{1}".format(str.upper(rack), str.upper(crate)),
@@ -64,7 +64,7 @@ if __name__ == "__main__":
 			
 				ret = rrdtool.graph( "{0}png/{1}-{2}-{3}-curr.png".format(filepath,rack,crate,period), 
 						     "--start", "-1{0}".format(period), 
-						     "--vertical-label=Current 1V (A)",
+						     "--vertical-label=FC7 Current 1V (A)",
 						     "-w 400", "-h 215",
 						     "--upper-limit=3.0", "--lower-limit=0.0","--rigid",
 						     "-t Crate {0}-{1}".format(str.upper(rack), str.upper(crate)),
@@ -131,7 +131,7 @@ if __name__ == "__main__":
 			
 				ret = rrdtool.graph( "{0}png/{1}-{2}-{3}-12curr.png".format(filepath,rack,crate,period), 
 						     "--start", "-1{0}".format(period), 
-						     "--vertical-label=12V Current (A)",
+						     "--vertical-label=FC7 12V Current (A)",
 						     "-w 400", "-h 215",
 						     "--upper-limit=3.0", "--lower-limit=0.0","--rigid",
 						     "-t Crate {0}-{1}".format(str.upper(rack), str.upper(crate)),
@@ -199,7 +199,7 @@ if __name__ == "__main__":
 				
 				ret = rrdtool.graph( "{0}png/{1}-{2}-{3}-fmctemp.png".format(filepath, rack, crate, period), 
 						     "--start", "-1{0}".format(period), 
-						     "--vertical-label= Internal temperature (degC)",
+						     "--vertical-label=FMC Temperature (degC)",
 						     "-w 400", "-h 200",
 						     "--slope-mode",
 						     #"--upper-limit=60.0", "--lower-limit=15.0","--rigid",
@@ -255,7 +255,7 @@ if __name__ == "__main__":
 
 				ret = rrdtool.graph( "{0}png/{1}-{2}-{3}-v1.png".format(filepath, rack, crate, period), 
 						     "--start", "-1{0}".format(period), 
-						     "--vertical-label= V1 (V) -> 3.3V  ",
+						     "--vertical-label=FMC Pin 1 3.3V Voltage (V)",
 						     "-w 400", "-h 200",
 						     "--upper-limit=4.5", "--lower-limit=0.0","--rigid",
 						     "-t Crate {0}-{1}".format(str.upper(rack), str.upper(crate)),
@@ -310,7 +310,7 @@ if __name__ == "__main__":
 
 				ret = rrdtool.graph( "{0}png/{1}-{2}-{3}-v2.png".format(filepath, rack, crate, period), 
 						     "--start", "-1{0}".format(period), 
-						     "--vertical-label= V2 (V) -> 3.3V",
+						     "--vertical-label=FMC Pin 2 3.3V Voltage (V)",
 						     "-w 400", "-h 200",
 						     "--upper-limit=4.5", "--lower-limit=0.0","--rigid",
 						     "-t Crate {0}-{1}".format(str.upper(rack), str.upper(crate)),
@@ -365,7 +365,7 @@ if __name__ == "__main__":
 
 				ret = rrdtool.graph( "{0}png/{1}-{2}-{3}-v3.png".format(filepath, rack,  crate, period), 
 						     "--start", "-1{0}".format(period), 
-						     "--vertical-label= V3 (V) -> RSSI",
+						     "--vertical-label=FMC RSSI Voltage (V)",
 						     "-w 400", "-h 200",
 						     "--upper-limit=4.5", "--lower-limit=0.0","--rigid",
 						     "-t Crate {0}-{1}".format(str.upper(rack), str.upper(crate)),
@@ -420,7 +420,7 @@ if __name__ == "__main__":
 				
 				ret = rrdtool.graph( "{0}png/{1}-{2}-{3}-v4.png".format(filepath, rack, crate, period), 
 						     "--start", "-1{0}".format(period), 
-						     "--vertical-label= V4 (V) -> GND",
+						     "--vertical-label=FMC GND Voltage (V)",
 						     "-w 400", "-h 200",
 						     #"--upper-limit=4.5", "--lower-limit=0.0","--rigid",
 						     "-t Crate {0}-{1}".format(str.upper(rack), str.upper(crate)),
@@ -475,7 +475,7 @@ if __name__ == "__main__":
 
 				ret = rrdtool.graph( "{0}png/{1}-{2}-{3}-vcc.png".format(filepath, rack, crate, period), 
 						     "--start", "-1{0}".format(period), 
-						     "--vertical-label= V5 (V) -> VCC ",
+						     "--vertical-label=FMC VCC Voltage (V)",
 						     "-w 400", "-h 200",
 						     "--upper-limit=4.5", "--lower-limit=0.0","--rigid",
 						     "-t Crate {0}-{1}".format(str.upper(rack), str.upper(crate)),
