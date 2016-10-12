@@ -30,7 +30,7 @@ from PyChipsUser import *
 
 def errorMessage(errorMsg):                                                                              
     f = open('/home/xtaldaq/cratemonitor_v3/fmcErrorLog.log', 'a')
-    now = datetime.datetime.now() #Time of event                                                                                                                                                                                          
+    now = datetime.datetime.now() #Time of event             
     f.write(now.strftime("%Y-%b-%d %H:%M:%S") + ':'  ' {0}\n'.format(errorMsg))
     f.close()
 
@@ -44,14 +44,12 @@ def fmcPresent(hostname):
       print "Could not connect to {0}".format(hostname) #There is probably not a FED in the given slot
       return False
    device_id = fed.id()
-   
-   # Read the value back.                                                                                                                                                                                                                   
-   # NB: the reg variable below is a uHAL "ValWord", not just a simple integer                                                                                                                                                              
+   # Read the value back.                                                                      
+   # NB: the reg variable below is a uHAL "ValWord", not just a simple integer                                                 
    fmc_l8_present = fed.getNode("status.fmc_l8_present").read()
-   # Send IPbus transactions                                                                                                                                                                                                                
+   # Send IPbus transactions                                                      
    fed.dispatch()
-   
-   # Return status                                                                                                                                                                                                                          
+   # Return status                                                                   
    if hex(fmc_l8_present) == '0x1':
       return True
    else:
@@ -493,37 +491,45 @@ for i in range(0, 4):
          
          ###################################################################################
 
-         if j == 0: 
-            data = (((rdBuffer[index+2*j] & 0x1f)   << 8) + rdBuffer[index+2*j+1]) #generates the unisgned 13-bit word for T_INT
-            T_INT.append(float(data)/16) # [Fitel 1 RX 1, Fitel 1 RX 2, Fitel 2 RX1, Fitel 2 RX2, ...]
+         if j == 0:
+             dataValid = bin(rdBuffer[index + 2*j] << 5)[2]
+             if not dataValid:
+                 print 'Temperature invalid'
+                 sys.exit()
+             data = (((rdBuffer[index+2*j] & 0x1f)   << 8) + rdBuffer[index+2*j+1]) #generates the unisgned 13-bit word for T_INT
+             T_INT.append(float(data)/16) # [Fitel 1 RX 1, Fitel 1 RX 2, Fitel 2 RX1, Fitel 2 RX2, ...]
          else:
-            data = (((rdBuffer[index+2*j] & 0x7f)   << 8) + rdBuffer[index+2*j+1]) # generates the signed 15-bit word  
-            sign = data >> 14 #bit(14)
-            if j == 1:
-               if sign == 0b1:
-                  V1.append(-(fullScale - data) * 0.00030518)
-               else:
-                  V1.append(data * 0.00030518)
-            elif j == 2:
-               if sign == 0b1:
-                  V2.append(-(fullScale - data) * 0.00030518)
-               else:
-                  V2.append(data * 0.00030518)
-            elif j == 3:
-               if sign == 0b1:
-                  V3.append(-(fullScale - data) * 0.00030518)
-               else:
-                  V3.append(data * 0.00030518)
-            elif j == 4:
-               if sign == 0b1:
-                  V4.append(-(fullScale - data) * 0.00030518)
-               else:
-                  V4.append(data * 0.00030518)
-            elif j == 5:
-               if sign == 0b1:
-                  VCC.append(-(fullScale - data) * 0.00030518 + 2.5)
-               else:
-                  VCC.append(data * 0.00030518 + 2.5)
+             dataValid = bin(rdBuffer[index + 2*j] >> 6)[2]
+             if not dataValid:
+                 print 'Voltage data not invalid'
+                 sys.exit()
+             data = (((rdBuffer[index+2*j] & 0x7f)   << 8) + rdBuffer[index+2*j+1]) # generates the signed 15-bit word  
+             sign = data >> 14 #bit(14)
+             if j == 1:
+                 if sign == 0b1:
+                     V1.append(-(fullScale - data) * 0.00030518)
+                 else:
+                     V1.append(data * 0.00030518)
+             elif j == 2:
+                 if sign == 0b1:
+                     V2.append(-(fullScale - data) * 0.00030518)
+                 else:
+                     V2.append(data * 0.00030518)
+             elif j == 3:
+                 if sign == 0b1:
+                     V3.append(-(fullScale - data) * 0.00030518)
+                 else:
+                     V3.append(data * 0.00030518)
+             elif j == 4:
+                 if sign == 0b1:
+                     V4.append(-(fullScale - data) * 0.00030518)
+                 else:
+                     V4.append(data * 0.00030518)
+             elif j == 5:
+                 if sign == 0b1:
+                     VCC.append(-(fullScale - data) * 0.00030518 + 2.5)
+                 else:
+                     VCC.append(data * 0.00030518 + 2.5)
 
             #data2sComp = fullScale - data # 2's complement of data  
          ###################################################################################   
