@@ -201,7 +201,7 @@ if __name__ == "__main__":
 						     "--start", "-1{0}".format(period), 
 						     "--vertical-label=FMC Temperature (degC)",
 						     "-w 400", "-h 200",
-						     "--slope-mode",
+						     #"--slope-mode",
 						     #"--upper-limit=60.0", "--lower-limit=15.0","--rigid",
 						     "-t Crate {0}-{1}".format(str.upper(rack), str.upper(crate)),
 						     "DEF:t1={0}/rrd/amc-{1}-{2}-01.rrd:AMC1RX1temp:AVERAGE".format(filepath,rack,crate),
