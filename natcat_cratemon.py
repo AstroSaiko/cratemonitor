@@ -14,7 +14,7 @@ import datetime #for debugging and errorlog
 def connectionErrorMessage(hostname):
     #Makes a file 'errorlog.txt' in the same directory as natcat_cratemon
     #made by Birk
-    f = open('/home/xtaldaq/cratemonitor_v3/errorlog.txt', 'a')
+    f = open('/home/xtaldaq/cratemonitor_v3/logs/errorlog.txt', 'a')
     now = datetime.datetime.now() #Time of event
     f.write(now.strftime("%Y-%b-%d %H:%M:%S") + ':'  ' Could not connect to {0}\n'.format(hostname))
     f.close()
@@ -22,7 +22,7 @@ def connectionErrorMessage(hostname):
 def busyErrorMessage(hostname):
     #Makes a file 'errorlog.txt' in the same directory as natcat_cratemon
     #made by Birk 
-    f = open('/home/xtaldaq/cratemonitor_v3/errorlog.txt', 'a')
+    f = open('/home/xtaldaq/cratemonitor_v3/logs/errorlog.txt', 'a')
     now = datetime.datetime.now() #Time of event
     f.write(now.strftime("%Y-%b-%d %H:%M:%S") + ':'  ' Receiving failed, {0} is probably busy\n'.format(hostname))
     f.close()
