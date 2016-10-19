@@ -8,24 +8,28 @@ import sys
 
 import pdb
 from rrdtool import update as rrd_update
-
+import subprocess
 import datetime #for debugging and errorlog
 ###############################################################################
-def connectionErrorMessage(hostname):
-    #Makes a file 'errorlog.txt' in the same directory as natcat_cratemon
-    #made by Birk
-    f = open('/home/xtaldaq/cratemonitor_v3/logs/errorlog.txt', 'a')
-    now = datetime.datetime.now() #Time of event
-    f.write(now.strftime("%Y-%b-%d %H:%M:%S") + ':'  ' Could not connect to {0}\n'.format(hostname))
+
+def errorMessage(errorMsg):
+    f = open('/home/xtaldaq/cratemonitor_v3/logs/mchErrorLog.log', 'a')
+    now = datetime.datetime.now() #Time of event   
+    f.write(now.strftime("%Y-%b-%d %H:%M:%S") + ':'  ' {0}\n'.format(errorMsg))
     f.close()
 
-def busyErrorMessage(hostname):
-    #Makes a file 'errorlog.txt' in the same directory as natcat_cratemon
-    #made by Birk 
-    f = open('/home/xtaldaq/cratemonitor_v3/logs/errorlog.txt', 'a')
-    now = datetime.datetime.now() #Time of event
-    f.write(now.strftime("%Y-%b-%d %H:%M:%S") + ':'  ' Receiving failed, {0} is probably busy\n'.format(hostname))
-    f.close()
+def processChecker(keywordList):
+    #Checks the computer for running processes
+    #that can cause an inconvenient conflict.
+    ps = subprocess.Popen(('ps', 'aux'), stdout=subprocess.PIPE)
+    output = ps.communicate()[0]
+    for line in output.split('\n'):
+        for keyword in keywordList:
+            if keyword in line:
+                print "Found {0}, initiating self-termination".format(keyword)
+                errorMessage("Found {0}, initiating self-termination".format(keyword))
+                sys.exit()
+    print "Did not find any conflicting processes, carry on"
 
 def natcat(hostname, port, content):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -34,7 +38,7 @@ def natcat(hostname, port, content):
         s.connect((hostname, port))
     except :
         print 'Unable to connect'
-        connectionErrorMessage(hostname)
+        errorMessage('Unable to connect to {0}'.format(hostname))
         sys.exit()
     s.sendall(content)
     s.sendall("exit\r\n")
@@ -45,7 +49,7 @@ def natcat(hostname, port, content):
             tmp = s.recv(1024)
         except :
             print 'receiving failed, MCH is probably busy'
-            busyErrorMessage(hostname)
+            errorMessage('Receiving failed, {0} is probably busy'.format(hostname))
             break
         if not len(tmp):
             break
@@ -58,7 +62,14 @@ def natcat(hostname, port, content):
 ###############################################################################
 
 if __name__ == "__main__":
-
+    #=================================
+    # Processes that will interfere with
+    # this script and cause bad things to happen
+    processList = ['fpgaconfig',
+                   'firmware_jump',
+                   'mmc_interface',
+                   'firmware_list',
+                   'firmware_write']
     args = sys.argv
     if len(args) < 1:
         print >> sys.stderr, \
@@ -75,9 +86,11 @@ if __name__ == "__main__":
     currents12 = []
     for fru in [5,6,7,8,9,10,11,12,13,14,15,16,30,40,41]:
         cmd = 'show_sensorinfo {0}\r\n'.format(fru)
+        #Check for conflicting processes.
+        processChecker(processList)
         #print 'Querying FRU #{0}'.format(fru)
         data = natcat(mch_address, 23, cmd)
-#        print data
+        #print data
         temperature = 'U'
         current = 'U'
 	current12 = 'U'
