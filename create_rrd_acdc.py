@@ -30,6 +30,8 @@ if __name__ == "__main__":
                              "DS:acPhase1Voltage:GAUGE:120:U:U",
                              "DS:acPhase2Voltage:GAUGE:120:U:U",
                              "DS:acPhase3Voltage:GAUGE:120:U:U",
+                             "DS:systemVoltage:GAUGE:120:U:U",
+                             "DS:rectifierCurrent:GAUGE:120:U:U",
                              "RRA:AVERAGE:0.5:1:1440",
                              "RRA:AVERAGE:0.5:30:720",
                              "RRA:AVERAGE:0.5:120:780",

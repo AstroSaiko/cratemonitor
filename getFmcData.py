@@ -6,7 +6,7 @@
 
 #========================================================
 # This script will return T_INT, V1, V2, V3, V4 and VCC
-# from the FITEL FED.
+# from the FITEL FED FMC.
 # Run as [you] $ python getFmcData.py hostname
 # =======================================================
 
@@ -21,6 +21,7 @@ import os
 import socket
 import pdb
 from rrdtool import update as rrd_update
+import subprocess
 
 # -*- coding: cp1252 -*-
 #  Import the PyChips code - PYTHONPATH must be set to the PyChips installation src folder!
@@ -29,7 +30,7 @@ from PyChipsUser import *
 #t = time() #for timing
 
 def errorMessage(errorMsg):                                                                              
-    f = open('/home/xtaldaq/cratemonitor_v3/fmcErrorLog.log', 'a')
+    f = open('/home/xtaldaq/cratemonitor_v3/logs/fmcErrorLog.log', 'a')
     now = datetime.datetime.now() #Time of event             
     f.write(now.strftime("%Y-%b-%d %H:%M:%S") + ':'  ' {0}\n'.format(errorMsg))
     f.close()
@@ -57,8 +58,21 @@ def fmcPresent(hostname):
       errorMessage('FMC not present for {0}'.format(hostname))
       return False
 
-##################################################################                                                                                                                                                                      
-#For the rrd database                                                                                                                                                                       
+def processChecker(keywordList):
+    #Checks the computer for running processes   
+    #that will cause an inconvenient conflict.  
+    ps = subprocess.Popen(('ps', 'aux'), stdout=subprocess.PIPE)
+    output = ps.communicate()[0]
+    for line in output.split('\n'):
+        for keyword in keywordList:
+            if keyword in line:
+                print "Found {0}, initiating self-termination".format(keyword)
+                errorMessage("Found {0}, initiating self-termination".format(keyword))
+                sys.exit()
+    print "Did not find any conflicting processes, carry on"
+
+################################################################## 
+#For the rrd database                       
 def rack(hostname):
    return str.split(hostname, '-')[1]
 
@@ -92,9 +106,17 @@ hostname = str.lower(ipaddr) #for the rrd database at the bottom of the script
 
 #===========================================
 #First, check if the FMC is present. If not, 
-#stop the script.
+#stop the script. Also check if FIRMWARE loading
+#tools are being used. If so, self-terminate
 #===========================================
 
+processList = ['fpgaconfig',
+               'firmware_jump',
+               'mmc_interface',
+               'firmware_list',
+               'firmware_write']
+
+processChecker(processList)
 
 if not fmcPresent(hostname):
    sys.exit()
@@ -469,68 +491,125 @@ for i in range(0, 4):
    if FITEL_ACCESS[i] == 1:
       if    i==0:        
          print "-> Measurement for ADC from Fitel FMCL8_FRR1"
+         FRR1 = True
+         FRR2 = False
       elif  i==1:       
-         print "-> Measurement for ADC from Fitel FMCL8_FRR2"    
+         print "-> Measurement for ADC from Fitel FMCL8_FRR2"
+         FRR2 = True
+         FRR1 = False
       elif  i==2:         
          print "-> Measurement for ADC from Fitel FMCL12_FRR1"
+         FRR1 = True
+         FRR2 = False
       elif  i==3:        
          print "-> Measurement for ADC from Fitel FMCL12_FRR2"
+         FRR2 = True
+         FRR1 = False
 
       for j in range(measureNb):
 
          ###################################################################################
          #Debugging
-         #if j == 0: #for temp
-         #    debugBits = rdBuffer[index + 2*j] << 5  # show bit 7, 6 and 5 of MSB. See documentation                                                   
-         #    print('DV, SS, SO: ' + bin(debugBits)[2] + ', ' + bin(debugBits)[3] + ', ' + bin(debugBits)[4])
-         #else: #for voltages
-         #debugBits = rdBuffer[index + 2*j] >> 6 # show bit 7 and 6 of MSB. See documentation
-         #print('DV, Sign: ' + bin(debugBits)[2] + ', ' + bin(debugBits)[3])
-
+         debugBits = 'U' 
+         fatalErrorReported = False #To avoid double reporting that something is very wrong
+         if j == 0: #for temp
+             debugBits = rdBuffer[index + 2*j] << 5  # show bit 7, 6 and 5 of MSB. See documentation
+             try:
+                 print('DV, SS, SO: ' + bin(debugBits)[2] + ', ' + bin(debugBits)[3] + ', ' + bin(debugBits)[4])
+             except:
+                 if bin(debugBits)=='0b0':
+                     print 'DebugBits = 0b0. Data is invalid.'
+                     if FRR1:
+                         errorMessage('DebugBits = 0b0. Temperature data is invalid for Rx1 at {0}'.format(hostname))
+                     elif FRR2:
+                         errorMessage('DebugBits = 0b0. Temperature data is invalid for Rx2 at {0}'.format(hostname))
+                     fatalErrorReported = True
+         else: #for voltages
+             debugBits = rdBuffer[index + 2*j] >> 6 # show bit 7 and 6 of MSB. See documentation
+             try:
+                 print('DV, Sign: ' + bin(debugBits)[2] + ', ' + bin(debugBits)[3])
+             except:
+                 if bin(debugBits)=='0b0':
+                     print 'DebugBits = 0b0. Data is invalid.'
+                     if FRR1:
+                         errorMessage('DebugBits = 0b0. Voltage data is invalid for Rx1 at {0}'.format(hostname))
+                     elif FRR2:
+                         errorMessage('DebugBits = 0b0. Voltage data is invalid for Rx2 at {0}'.format(hostname))
+                     fatalErrorReported = True
          ###################################################################################
          
          ###################################################################################
 
          if j == 0:
-             dataValid = bin(rdBuffer[index + 2*j] << 5)[2]
-             if not dataValid:
-                 print 'Temperature invalid'
-                 sys.exit()
+             dataValid = 'U'
+
+             try:
+                 dataValid = bin(rdBuffer[index + 2*j] << 5)[2]
+                 sensorShort = bin(debugBits)[3]
+                 sensorOpen = bin(debugBits)[4]
+             except:
+                 pass
+
              data = (((rdBuffer[index+2*j] & 0x1f)   << 8) + rdBuffer[index+2*j+1]) #generates the unisgned 13-bit word for T_INT
-             T_INT.append(float(data)/16) # [Fitel 1 RX 1, Fitel 1 RX 2, Fitel 2 RX1, Fitel 2 RX2, ...]
+
+             if (int(dataValid) == 1) and (int(sensorShort) == 0) and (int(sensorOpen) == 0): #Updates database only if data is valid.
+                 T_INT.append(float(data)/16) # [Fitel 1 RX 1, Fitel 1 RX 2, Fitel 2 RX1, Fitel 2 RX2, ...]
+             else:
+                 T_INT.append('U') #Give database an unkown value
+                 try:
+                     if FRR1:
+                         errorMessage('DV, SS, SO: {0}, {1}, {2} for Rx1 at {3}'.format(bin(debugBits)[2], bin(debugBits)[3], bin(debugBits)[4], hostname))
+                     elif FRR2:
+                         errorMessage('DV, SS, SO: {0}, {1}, {2} for Rx2 at {3}'.format(bin(debugBits)[2], bin(debugBits)[3], bin(debugBits)[4], hostname))
+                 except:
+                     if not fatalErrorReported:
+                         print 'Something is very wrong!'
+                         errorMessage('Something is very wrong!')
+                     else:
+                         pass
          else:
              dataValid = bin(rdBuffer[index + 2*j] >> 6)[2]
-             if not dataValid:
-                 print 'Voltage data not invalid'
-                 sys.exit()
-             data = (((rdBuffer[index+2*j] & 0x7f)   << 8) + rdBuffer[index+2*j+1]) # generates the signed 15-bit word  
+             data = (((rdBuffer[index+2*j] & 0x7f)   << 8) + rdBuffer[index+2*j+1]) # generates the signed 15-bit word
              sign = data >> 14 #bit(14)
-             if j == 1:
-                 if sign == 0b1:
-                     V1.append(-(fullScale - data) * 0.00030518)
-                 else:
-                     V1.append(data * 0.00030518)
-             elif j == 2:
-                 if sign == 0b1:
-                     V2.append(-(fullScale - data) * 0.00030518)
-                 else:
-                     V2.append(data * 0.00030518)
-             elif j == 3:
-                 if sign == 0b1:
-                     V3.append(-(fullScale - data) * 0.00030518)
-                 else:
-                     V3.append(data * 0.00030518)
-             elif j == 4:
-                 if sign == 0b1:
-                     V4.append(-(fullScale - data) * 0.00030518)
-                 else:
-                     V4.append(data * 0.00030518)
-             elif j == 5:
-                 if sign == 0b1:
-                     VCC.append(-(fullScale - data) * 0.00030518 + 2.5)
-                 else:
-                     VCC.append(data * 0.00030518 + 2.5)
-
+             if int(dataValid) == 1:
+                 if j == 1:
+                     if sign == 0b1:
+                         V1.append(-(fullScale - data) * 0.00030518)
+                     else:
+                         V1.append(data * 0.00030518)
+                 elif j == 2:
+                     if sign == 0b1:
+                         V2.append(-(fullScale - data) * 0.00030518)
+                     else:
+                         V2.append(data * 0.00030518)
+                 elif j == 3:
+                     if sign == 0b1:
+                         V3.append(-(fullScale - data) * 0.00030518)
+                     else:
+                         V3.append(data * 0.00030518)
+                 elif j == 4:
+                     if sign == 0b1:
+                         V4.append(-(fullScale - data) * 0.00030518)
+                     else:
+                         V4.append(data * 0.00030518)
+                 elif j == 5:
+                     if sign == 0b1:
+                         VCC.append(-(fullScale - data) * 0.00030518 + 2.5)
+                     else:
+                         VCC.append(data * 0.00030518 + 2.5)
+             else:
+                 V1.append('U'); V2.append('U'); V3.append('U'); V4.append('U'); VCC.append('U')
+                 try:
+                     if FRR1:
+                         errorMessage('DV, Sign: {0}, {1} for Rx1 at {2}'.format(bin(debugBits)[2], bin(debugBits)[3], hostname))
+                     elif FRR2:
+                         errorMessage('DV, Sign: {0}, {1} for Rx2 at {2}'.format(bin(debugBits)[2], bin(debugBits)[3], hostname))
+                 except:
+                     if not fatalErrorReported:
+                         errorMessage('Something is very wrong!')
+                     else:
+                         pass
+                 
             #data2sComp = fullScale - data # 2's complement of data  
          ###################################################################################   
          if j == 0: #For T_INT

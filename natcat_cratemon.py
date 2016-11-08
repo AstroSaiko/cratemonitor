@@ -10,6 +10,8 @@ import pdb
 from rrdtool import update as rrd_update
 import subprocess
 import datetime #for debugging and errorlog
+#from peaceNegotiator import PeaceNegotiator
+
 ###############################################################################
 
 def errorMessage(errorMsg):
@@ -84,16 +86,21 @@ if __name__ == "__main__":
     temperatures = []
     currents = []
     currents12 = []
-    for fru in [5,6,7,8,9,10,11,12,13,14,15,16,30,40,41]:
+    voltagesA = []
+    voltagesB=[]
+
+    for fru in [5,6,7,8,9,10,11,12,13,14,15,16,30,40,41,50,53]:
         cmd = 'show_sensorinfo {0}\r\n'.format(fru)
         #Check for conflicting processes.
-        processChecker(processList)
+        #processChecker(processList)
         #print 'Querying FRU #{0}'.format(fru)
         data = natcat(mch_address, 23, cmd)
         #print data
         temperature = 'U'
         current = 'U'
 	current12 = 'U'
+        voltageA = 'U'
+        voltageB = 'U'
 
         for item in data.split("\n"):
             if "FPGA Temp" in item:
@@ -115,6 +122,22 @@ if __name__ == "__main__":
 	    if "1   Full     Temp    0x1e" in item:
          #       print item.strip()
                 temperature = item.strip().split(" ")[16]
+        # Power Modules    
+            if "T-Base" in item:
+                #print item.strip()                                                                                                      
+                temperature = item.strip().split(" ")[16]
+                #print temperature                                                                                                                                    
+                #print item.strip().split(" ")                                                                                                                        
+            if "VOUT-A" in item:
+                #print item.strip()                                                                                                                                   
+                voltageA = item.strip().split(" ")[13]
+                #print voltage                                                                                                                                        
+                #print item.strip().split(" ")                                                                                                                        
+            if "VOUT-B" in item:
+                #print item.strip()                                                                                                                                   
+                voltageB = item.strip().split(" ")[13]
+                #print voltage                                                                                                                                        
+                #print item.strip().split(" ")
         
         #print 'The Temperature is ' + temperature + ' C'
         #print 'The Current is ' + current + ' A'
@@ -122,11 +145,13 @@ if __name__ == "__main__":
         temperatures.append(temperature)
         currents.append(current)
 	currents12.append(current12)
+        voltagesA.append(voltageA)
+        voltagesB.append(voltageB)
    # print temperatures
    # print currents
    # print currents12
    # print "Done"
 
 ###############################################################################
-ret = rrd_update('/home/xtaldaq/cratemonitor_v3/rrd/{0}.rrd'.format(mch_address), 'N:{0[0]}:{0[1]}:{0[2]}:{0[3]}:{0[4]}:{0[5]}:{0[6]}:{0[7]}:{0[8]}:{0[9]}:{0[10]}:{0[11]}:{0[12]}:{0[13]}:{0[14]}:{1[0]}:{1[1]}:{1[2]}:{1[3]}:{1[4]}:{1[5]}:{1[6]}:{1[7]}:{1[8]}:{1[9]}:{1[10]}:{1[11]}:{2[0]}:{2[1]}:{2[2]}:{2[3]}:{2[4]}:{2[5]}:{2[6]}:{2[7]}:{2[8]}:{2[9]}:{2[10]}:{2[11]}'.format(temperatures,currents, currents12))
+ret = rrd_update('/home/xtaldaq/cratemonitor_v3/rrd/{0}.rrd'.format(mch_address), 'N:{0[0]}:{0[1]}:{0[2]}:{0[3]}:{0[4]}:{0[5]}:{0[6]}:{0[7]}:{0[8]}:{0[9]}:{0[10]}:{0[11]}:{0[12]}:{0[13]}:{0[14]}:{0[15]}:{0[16]}:{1[0]}:{1[1]}:{1[2]}:{1[3]}:{1[4]}:{1[5]}:{1[6]}:{1[7]}:{1[8]}:{1[9]}:{1[10]}:{1[11]}:{2[0]}:{2[1]}:{2[2]}:{2[3]}:{2[4]}:{2[5]}:{2[6]}:{2[7]}:{2[8]}:{2[9]}:{2[10]}:{2[11]}:{3[15]}:{3[16]}:{4[15]}:{4[16]}'.format(temperatures,currents, currents12, voltagesA, voltagesB))
 print "Done"
