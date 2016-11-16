@@ -520,9 +520,9 @@ for i in range(0, 4):
                  if bin(debugBits)=='0b0':
                      print 'DebugBits = 0b0. Data is invalid.'
                      if FRR1:
-                         errorMessage('DebugBits = 0b0. Temperature data is invalid for Rx1 at {0}'.format(hostname))
+                         errorMessage('DebugBits = 0b0. Temperature data is invalid for Rx1 on {0}'.format(hostname))
                      elif FRR2:
-                         errorMessage('DebugBits = 0b0. Temperature data is invalid for Rx2 at {0}'.format(hostname))
+                         errorMessage('DebugBits = 0b0. Temperature data is invalid for Rx2 on {0}'.format(hostname))
                      fatalErrorReported = True
          else: #for voltages
              debugBits = rdBuffer[index + 2*j] >> 6 # show bit 7 and 6 of MSB. See documentation
@@ -532,9 +532,9 @@ for i in range(0, 4):
                  if bin(debugBits)=='0b0':
                      print 'DebugBits = 0b0. Data is invalid.'
                      if FRR1:
-                         errorMessage('DebugBits = 0b0. Voltage data is invalid for Rx1 at {0}'.format(hostname))
+                         errorMessage('DebugBits = 0b0. Voltage data is invalid for Rx1 on {0}'.format(hostname))
                      elif FRR2:
-                         errorMessage('DebugBits = 0b0. Voltage data is invalid for Rx2 at {0}'.format(hostname))
+                         errorMessage('DebugBits = 0b0. Voltage data is invalid for Rx2 on {0}'.format(hostname))
                      fatalErrorReported = True
          ###################################################################################
          
@@ -558,9 +558,9 @@ for i in range(0, 4):
                  T_INT.append('U') #Give database an unkown value
                  try:
                      if FRR1:
-                         errorMessage('DV, SS, SO: {0}, {1}, {2} for Rx1 at {3}'.format(bin(debugBits)[2], bin(debugBits)[3], bin(debugBits)[4], hostname))
+                         errorMessage('DV, SS, SO: {0}, {1}, {2} for Rx1 on {3}'.format(bin(debugBits)[2], bin(debugBits)[3], bin(debugBits)[4], hostname))
                      elif FRR2:
-                         errorMessage('DV, SS, SO: {0}, {1}, {2} for Rx2 at {3}'.format(bin(debugBits)[2], bin(debugBits)[3], bin(debugBits)[4], hostname))
+                         errorMessage('DV, SS, SO: {0}, {1}, {2} for Rx2 on {3}'.format(bin(debugBits)[2], bin(debugBits)[3], bin(debugBits)[4], hostname))
                  except:
                      if not fatalErrorReported:
                          print 'Something is very wrong!'
@@ -568,7 +568,12 @@ for i in range(0, 4):
                      else:
                          pass
          else:
-             dataValid = bin(rdBuffer[index + 2*j] >> 6)[2]
+             dataValid = '-1'
+             try:
+                 dataValid = bin(rdBuffer[index + 2*j] >> 6)[2]
+             except:
+                 print 'something is very wrong'
+                 pass
              data = (((rdBuffer[index+2*j] & 0x7f)   << 8) + rdBuffer[index+2*j+1]) # generates the signed 15-bit word
              sign = data >> 14 #bit(14)
              if int(dataValid) == 1:
@@ -601,9 +606,9 @@ for i in range(0, 4):
                  V1.append('U'); V2.append('U'); V3.append('U'); V4.append('U'); VCC.append('U')
                  try:
                      if FRR1:
-                         errorMessage('DV, Sign: {0}, {1} for Rx1 at {2}'.format(bin(debugBits)[2], bin(debugBits)[3], hostname))
+                         errorMessage('DV, Sign: {0}, {1} for Rx1 on {2}'.format(bin(debugBits)[2], bin(debugBits)[3], hostname))
                      elif FRR2:
-                         errorMessage('DV, Sign: {0}, {1} for Rx2 at {2}'.format(bin(debugBits)[2], bin(debugBits)[3], hostname))
+                         errorMessage('DV, Sign: {0}, {1} for Rx2 on {2}'.format(bin(debugBits)[2], bin(debugBits)[3], hostname))
                  except:
                      if not fatalErrorReported:
                          errorMessage('Something is very wrong!')

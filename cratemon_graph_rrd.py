@@ -206,7 +206,7 @@ if __name__ == "__main__":
 						     "--vertical-label=FMC Temperature (degC)",
 						     "-w 400", "-h 200",
 						     #"--slope-mode",
-						     "--upper-limit=60.0", "--lower-limit=15.0","--rigid",
+						     #"--upper-limit=60.0", "--lower-limit=15.0","--rigid",
 						     "-t Crate {0}-{1}".format(str.upper(rack), str.upper(crate)),
 						     "DEF:t1={0}/rrd/amc-{1}-{2}-01.rrd:AMC1RX1temp:AVERAGE".format(filepath,rack,crate),
 						     "DEF:t2={0}/rrd/amc-{1}-{2}-01.rrd:AMC1RX2temp:AVERAGE".format(filepath,rack,crate),
@@ -547,6 +547,14 @@ if __name__ == "__main__":
                                                      "LINE:t3#00FF00:PM2VoutA",
                                                      "LINE:t4#0000FF:PM2VoutB")
                                
-                                           
-                                             
+				ret = rrdtool.graph( "{0}png/{1}-{2}-{3}-PMsumCurr.png".format(filepath, rack, crate, period),
+                                                     "--start", "-1{0}".format(period),
+                                                     "--vertical-label=Crate PM Current (SUM) (V)",
+                                                     "-w 400", "-h 200",
+                                                     #"--upper-limit=4.5", "--lower-limit=0.0","--rigid",                                                             
+                                                     "-t Crate {0}-{1}".format(str.upper(rack), str.upper(crate)),
+                                                     "DEF:t1={0}/rrd/mch-{1}-{2}.rrd:PM1sumCurr:AVERAGE".format(filepath, rack,crate),
+                                                     "DEF:t2={0}/rrd/mch-{1}-{2}.rrd:PM2sumCurr:AVERAGE".format(filepath, rack,crate),
+                                                     "LINE:t1#0000FF:PM1sumCurr",
+                                                     "LINE:t2#FF0000:PM2sumCurr")
 			                                   

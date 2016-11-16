@@ -87,7 +87,8 @@ if __name__ == "__main__":
     currents = []
     currents12 = []
     voltagesA = []
-    voltagesB=[]
+    voltagesB = []
+    sumCurrs = []
 
     for fru in [5,6,7,8,9,10,11,12,13,14,15,16,30,40,41,50,53]:
         cmd = 'show_sensorinfo {0}\r\n'.format(fru)
@@ -101,6 +102,7 @@ if __name__ == "__main__":
 	current12 = 'U'
         voltageA = 'U'
         voltageB = 'U'
+        sumCurr = 'U'
 
         for item in data.split("\n"):
             if "FPGA Temp" in item:
@@ -138,6 +140,10 @@ if __name__ == "__main__":
                 voltageB = item.strip().split(" ")[13]
                 #print voltage                                                                                                                                        
                 #print item.strip().split(" ")
+            if "Current(SUM)" in item:
+                sumCurr = item.strip().split(" ")[13]
+                #print sumCurr  
+                #print item.strip()
         
         #print 'The Temperature is ' + temperature + ' C'
         #print 'The Current is ' + current + ' A'
@@ -147,11 +153,12 @@ if __name__ == "__main__":
 	currents12.append(current12)
         voltagesA.append(voltageA)
         voltagesB.append(voltageB)
+        sumCurrs.append(sumCurr)
    # print temperatures
    # print currents
    # print currents12
    # print "Done"
 
 ###############################################################################
-ret = rrd_update('/home/xtaldaq/cratemonitor_v3/rrd/{0}.rrd'.format(mch_address), 'N:{0[0]}:{0[1]}:{0[2]}:{0[3]}:{0[4]}:{0[5]}:{0[6]}:{0[7]}:{0[8]}:{0[9]}:{0[10]}:{0[11]}:{0[12]}:{0[13]}:{0[14]}:{0[15]}:{0[16]}:{1[0]}:{1[1]}:{1[2]}:{1[3]}:{1[4]}:{1[5]}:{1[6]}:{1[7]}:{1[8]}:{1[9]}:{1[10]}:{1[11]}:{2[0]}:{2[1]}:{2[2]}:{2[3]}:{2[4]}:{2[5]}:{2[6]}:{2[7]}:{2[8]}:{2[9]}:{2[10]}:{2[11]}:{3[15]}:{3[16]}:{4[15]}:{4[16]}'.format(temperatures,currents, currents12, voltagesA, voltagesB))
+ret = rrd_update('/home/xtaldaq/cratemonitor_v3/rrd/{0}.rrd'.format(mch_address), 'N:{0[0]}:{0[1]}:{0[2]}:{0[3]}:{0[4]}:{0[5]}:{0[6]}:{0[7]}:{0[8]}:{0[9]}:{0[10]}:{0[11]}:{0[12]}:{0[13]}:{0[14]}:{0[15]}:{0[16]}:{1[0]}:{1[1]}:{1[2]}:{1[3]}:{1[4]}:{1[5]}:{1[6]}:{1[7]}:{1[8]}:{1[9]}:{1[10]}:{1[11]}:{2[0]}:{2[1]}:{2[2]}:{2[3]}:{2[4]}:{2[5]}:{2[6]}:{2[7]}:{2[8]}:{2[9]}:{2[10]}:{2[11]}:{3[15]}:{3[16]}:{4[15]}:{4[16]}:{5[15]}:{5[16]}'.format(temperatures,currents, currents12, voltagesA, voltagesB, SumCurrs))
 print "Done"
