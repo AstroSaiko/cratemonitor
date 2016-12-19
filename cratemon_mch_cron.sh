@@ -15,10 +15,15 @@
 #Early stage testing
 #===================
 
-for rack in 's1g04' # 's1g03' 's1g04'
+for rack in "s1g01" "s1g03" "s1g04"
 do
     for crate in 18 27 36 45
     do
-	/home/xtaldaq/cratemonitor_v3/natcat_cratemon.py mch-$rack-$crate &
+	if [ $rack == "s1g01" ] && [ "$crate" == 18 ]
+	then
+	    continue
+	else
+	    /home/xtaldaq/cratemonitor_v3/natcat_cratemon_peace.py mch-$rack-$crate &
+	fi
     done
 done

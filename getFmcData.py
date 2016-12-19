@@ -37,26 +37,26 @@ def errorMessage(errorMsg):
 
 def fmcPresent(hostname):
    #A function to check if the FMC is present
-   uhal.setLogLevelTo( uhal.LogLevel.WARNING)
+   uhal.setLogLevelTo( uhal.LogLevel.ERROR)
    manager = uhal.ConnectionManager("file:///home/xtaldaq/cratemonitor_v3/FEDconnection.xml")
-   try:
-      fed = manager.getDevice(hostname)
-   except:
-      print "Could not connect to {0}".format(hostname) #There is probably not a FED in the given slot
-      return False
+   fed = manager.getDevice(hostname)
    device_id = fed.id()
    # Read the value back.                                                                      
    # NB: the reg variable below is a uHAL "ValWord", not just a simple integer                                                 
    fmc_l8_present = fed.getNode("status.fmc_l8_present").read()
-   # Send IPbus transactions                                                      
-   fed.dispatch()
+   # Send IPbus transactions
+   try:
+       fed.dispatch()
+   except:
+       print "Could not connect to {0}".format(hostname) #There is probably not a FED in the given slot 
+       return False
    # Return status                                                                   
    if hex(fmc_l8_present) == '0x1':
-      return True
+       return True
    else:
     #FC7 is present, but not the FED FITEL
-      errorMessage('FMC not present for {0}'.format(hostname))
-      return False
+       errorMessage('FMC not present for {0}'.format(hostname))
+       return False
 
 def processChecker(keywordList):
     #Checks the computer for running processes   

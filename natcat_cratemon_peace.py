@@ -118,7 +118,7 @@ if __name__ == "__main__":
             print peaceStr + ' exiting'
             errorMessage('Negotiations file not "Done!" for {0}, exiting. Line = {1}'.format(mch_address, peaceStr))
             sys.exit()
-        peace.done()
+        peace.done() #The work is finished and "Done!" is printed to the negotiations file
         #print data
         temperature = 'U'
         current = 'U'
