@@ -45,20 +45,17 @@ def getCUData(CU_index):
 if __name__ == "__main__":
 
     #For PMs
-    PMTempA = []
-    PMTempB = []
-    PMTempBase = []
-    PMVINs = []
-    PMVOutsA = []
-    PMVOutsB = []
-    PM12Vs = []
-    PM3V3s = []
-    PMCurrents = []
-
     PMVoltages = []
     PMTemperatures = []
 
-    for i in [1]:
+    #For CUs
+    CUVoltages = []
+    CUTemperatures = []
+    fanSpeeds = []
+
+    for i in [1, 2]:
+
+        #for PMs
         tempA = None
         tempB = None
         tempBase = None
@@ -76,20 +73,20 @@ if __name__ == "__main__":
             for item in data:
                 #Temperatures
                 if "TBrick-A" in item:
-                    print item.strip().split(" ")[10]
+                    #print item.strip().split(" ")[10]
                     tempA = item.strip().split(" ")[10]
                 elif "TBrick-B" in item:
-                    print item.strip().split(" ")[10]                                                                                                                                                                                      
+                    #print item.strip().split(" ")[10]                                                   
                     tempB = item.strip().split(" ")[10]
                 elif "T-Base" in item:
-                    print item.strip().split(" ")[12]
+                    #print item.strip().split(" ")[12]
                     tempBase = item.strip().split(" ")[12]
                 #Input Voltage
                 elif "VIN" in item:
                     #print item.strip().split(" ")[15]
                     VIN = item.strip().split(" ")[15]
                 #Output Voltage
-                elif "VOUT-A" in item:                                                                                                                                   
+                elif "VOUT-A" in item:   
                     VOutA = item.strip().split(" ")[12]
                     #print VOutA
                 elif "VOUT-B" in item:                                                                                                            
@@ -109,12 +106,82 @@ if __name__ == "__main__":
                     #print current
                 #print tempA
                 #print tempB
-        print tempBase
-                #PMTemperatures.append(tempA)
-                #PMTemperatures.append(tempB)
-                #PMTemperatures.append(tempBase)
-                #PMVoltages.append(VIN)
-             #PMVoltages.append(VOutA)
-                #PMVoltages.append(VOutB)
-                #PMVoltages.append(volt12)
-                #PMVoltages.append(volt3V3)
+        #print tempBase
+        PMTemperatures.append(tempA)
+        PMTemperatures.append(tempB)
+        PMTemperatures.append(tempBase)
+        PMVoltages.append(VIN)
+        PMVoltages.append(VOutA)
+        PMVoltages.append(VOutB)
+        PMVoltages.append(volt12)
+        PMVoltages.append(volt3V3)
+
+        #For CUs
+        CU3V3 = None
+        CU12V = None
+        CU12V_1 = None
+        LM75Temp = None
+        LM75Temp2 = None
+        fan1 = None
+        fan2 = None
+        fan3 = None
+        fan4 = None
+        fan5 = None
+        fan6 = None
+
+        dataCU = getCUData(i)
+        if dataCU == -1:
+            print "CU error"
+        else:
+            for item in dataCU:
+                if "+3.3V" in item:
+                    CU3V3 = item.strip().split(" ")[13]
+                elif "+12V " in item:
+                    CU12V = item.strip().split(" ")[14]
+                elif "+12V_1" in item:
+                    CU12V_1 = item.strip().split(" ")[12]
+                elif "LM75 Temp " in item:
+                    LM75Temp = item.strip().split(" ")[10]
+                elif "LM75 Temp2" in item:
+                    LM75Temp2 = item.strip().split(" ")[9]
+                elif "Fan 1" in item:
+                    fan1 = item.strip().split(" ")[14]
+                elif "Fan 2" in item:
+                    fan2 = item.strip().split(" ")[14]
+                elif "Fan 3" in item:
+                    fan3 = item.strip().split(" ")[14]
+                elif "Fan 4" in item:
+                    fan4 = item.strip().split(" ")[14]
+                elif "Fan 5" in item:
+                    fan5 = item.strip().split(" ")[14]
+                elif "Fan 6" in item:
+                    fan6 = item.strip().split(" ")[14]
+        CUVoltages.append(CU3V3)
+        CUVoltages.append(CU12V)
+        CUVoltages.append(CU12V_1)
+        CUTemperatures.append(LM75Temp)
+        CUTemperatures.append(LM75Temp2)
+        fanSpeeds.append(fan1)
+        fanSpeeds.append(fan2)
+        fanSpeeds.append(fan3)
+        fanSpeeds.append(fan4)
+        fanSpeeds.append(fan5)
+        fanSpeeds.append(fan6)
+
+    #
+    print "PMTemperatures: [PM1 tbrick-a, PM1 tbrick-b, PM1 t-base, PM2 trick-a, PM2 tbrick-b, PM2, t-base]"
+    print PMTemperatures
+    print "PMVoltages: [PM1 VIN, PM1 VOutA, PM1 VOutB, PM1 12V, PM1 3.3V, PM2 VIN, PM2 VOutA, PM2 VOutB, PM2 12V, PM2 3.3V]"
+    print PMVoltages
+
+    print "CUVoltages: [CU1 3.3V, CU1 12V, CU1 12V_1, CU2 3.3V, CU2 12V, CU2 12V_1]"
+    print CUVoltages
+    print "CUTemperatures: [CU1 LM75Temp, CU1 LM75Temp2, CU2 LM75Temp, CU2 LM75Temp2]"
+    print CUVoltages
+    print "fanSpeeds: [CU1 fan1, CU1 fan2, CU1 fan3, CU1 fan4, CU1 fan5, CU1 fan6, CU2 fan1, CU2 fan2, CU3 fan3, C21 fan4, CU2 fan5, CU2 fan6]"
+    print fanSpeeds
+    
+    #if everything is fine
+    sys.exit(0)
+
+    
