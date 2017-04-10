@@ -6,6 +6,54 @@ import os
 import signal
 import time
 
+HOST = "mch-e1a04-18"
+
+def getCrateInfo(mch_hostname):
+    return 0
+
+def getMCHData(mch_hostname):
+    tempCPU = None
+    tempIO = None
+    volt1V5 = None
+    volt1V8 = None
+    volt2V5 = None
+    volt3V3 = None
+    volt12V = None
+    current = None
+    proc = subprocess.Popen(("ipmitool -H {0} -U admin -P admin sdr entity 194.97".format(mch_hostname)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
+    (data, err) = proc.communicate()
+    if err != '':
+        #if not "Get HPM.x Capabilities request failed, compcode = c9" in err:                                                                                                                                                              
+        if err != "Get HPM.x Capabilities request failed, compcode = c9\n":
+            print err
+            return -1
+    data = data.split('\n')
+    if "NAT-MCH-MCMC" in data[0]:
+        for item in data:
+            if "Temp CPU" in item:
+                tempCPU = item.strip().split(" ")[18]
+            elif "Temp I/O" in item:
+                tempIO = item.strip().split(" ")[18]
+            elif "Base 1.2V" in item:
+                volt1V2 = item.strip().split(" ")[17]
+            elif "Base 1.5V" in item:
+                volt1V5 = item.strip().split(" ")[17]
+            elif "Base 1.8V" in item:
+                volt1V8 = item.strip().split(" ")[17]
+            elif "Base 2.5V" in item:
+                volt2V5 = item.strip().split(" ")[17]
+            elif "Base 3.3V" in item:
+                volt3V3 = item.strip().split(" ")[17]
+            elif "Base 12V" in item:
+                volt12V = item.strip().split(" ")[18]
+            elif "Base Current" in item:
+                current = item.strip().split(" ")[14]
+    else:
+        print "Unkown MCH flavor"
+    return [tempCPU, tempIO, volt1V2, volt1V8, volt2V5, volt3V3, volt12V, current]
+        
+            
+        
 def getPMData(slot):
     if slot == 1:
         PM = "0xc2"
@@ -62,6 +110,7 @@ if __name__ == "__main__":
     #For PMs
     PMVoltages = []
     PMTemperatures = []
+    PMCurrents = []
 
     #For CUs
     CUVoltages = []
@@ -94,17 +143,13 @@ if __name__ == "__main__":
             for item in data:
                 #Temperatures
                 if "TBrick-A" in item:
-                    #print item.strip().split(" ")[10]
                     tempA = item.strip().split(" ")[10]
                 elif "TBrick-B" in item:
-                    #print item.strip().split(" ")[10]                                                   
                     tempB = item.strip().split(" ")[10]
                 elif "T-Base" in item:
-                    #print item.strip().split(" ")[12]
                     tempBase = item.strip().split(" ")[12]
                 #Input Voltage
                 elif "VIN" in item:
-                    #print item.strip().split(" ")[15]
                     VIN = item.strip().split(" ")[15]
                 #Output Voltage
                 elif "VOUT-A" in item:   
@@ -136,6 +181,7 @@ if __name__ == "__main__":
         PMVoltages.append(VOutB)
         PMVoltages.append(volt12)
         PMVoltages.append(volt3V3)
+        PMCurrents.append(current)
 
         #For CUs
         CU3V3 = None
@@ -204,26 +250,34 @@ if __name__ == "__main__":
                 amc13_3V3 = item.strip().split(" ")[20]
             elif "+1.2V" in item:
                 amc13_1V2 = item.strip().split(" ")[20]
+
+    def printData():
+        print ''
+        print "Data:"
+        print ''
+        print "MCH: [tempCPU, tempIO, volt1V2, volt1V8, volt2V5, volt3V3, volt12V, current]"
+        print getMCHData(HOST)
+        print ''
+        print "PMTemperatures: [PM1 tbrick-a, PM1 tbrick-b, PM1 t-base, PM2 trick-a, PM2 tbrick-b, PM2, t-base]"
+        print "              ", PMTemperatures
+        print "PMVoltages: [PM1 VIN, PM1 VOutA, PM1 VOutB, PM1 12V, PM1 3.3V, PM2 VIN, PM2 VOutA, PM2 VOutB, PM2 12V, PM2 3.3V]"
+        print "              ", PMVoltages
+        print "PMCurrents: [PM1 Current(sum), PM2 current(sum)]"
+        print "          ", PMCurrents
+        print ''
+        print "CUVoltages: [CU1 3.3V, CU1 12V, CU1 12V_1, CU2 3.3V, CU2 12V, CU2 12V_1]"
+        print "            ", CUVoltages
+        print "CUTemperatures: [CU1 LM75Temp, CU1 LM75Temp2, CU2 LM75Temp, CU2 LM75Temp2]"
+        print "             ", CUTemperatures
+        print "fanSpeeds: [CU1 fan1, CU1 fan2, CU1 fan3, CU1 fan4, CU1 fan5, CU1 fan6, CU2 fan1, CU2 fan2, CU3 fan3, C21 fan4, CU2 fan5, CU2 fan6]"
+        print "           ", fanSpeeds
+        print ''
+        print "AMC13: [T2Temp, 12V, 3.3V, 1.2V]"
+        print "       ", [T2Temp, amc13_12V, amc13_3V3, amc13_1V2]
+        print ''
     
-    print ''
-    print "Data:"
-    print ''
-    print "PMTemperatures: [PM1 tbrick-a, PM1 tbrick-b, PM1 t-base, PM2 trick-a, PM2 tbrick-b, PM2, t-base]"
-    print "              ", PMTemperatures
-    print "PMVoltages: [PM1 VIN, PM1 VOutA, PM1 VOutB, PM1 12V, PM1 3.3V, PM2 VIN, PM2 VOutA, PM2 VOutB, PM2 12V, PM2 3.3V]"
-    print "              ", PMVoltages
-    print ''
-    print "CUVoltages: [CU1 3.3V, CU1 12V, CU1 12V_1, CU2 3.3V, CU2 12V, CU2 12V_1]"
-    print "            ", CUVoltages
-    print "CUTemperatures: [CU1 LM75Temp, CU1 LM75Temp2, CU2 LM75Temp, CU2 LM75Temp2]"
-    print "             ", CUVoltages
-    print "fanSpeeds: [CU1 fan1, CU1 fan2, CU1 fan3, CU1 fan4, CU1 fan5, CU1 fan6, CU2 fan1, CU2 fan2, CU3 fan3, C21 fan4, CU2 fan5, CU2 fan6]"
-    print "           ", fanSpeeds
-    print ''
-    print "AMC13: [T2Temp, 12V, 3.3V, 1.2V]"
-    print "       ", [T2Temp, amc13_12V, amc13_3V3, amc13_1V2]
-    print ''
-    
+    printData()
+        
     #if everything is fine
     sys.exit(0)
 
