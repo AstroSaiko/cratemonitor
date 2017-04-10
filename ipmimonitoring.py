@@ -48,13 +48,41 @@ def getMCHData(mch_hostname):
                 volt12V = item.strip().split(" ")[18]
             elif "Base Current" in item:
                 current = item.strip().split(" ")[14]
-    else:
-        print "Unkown MCH flavor"
     return [tempCPU, tempIO, volt1V2, volt1V8, volt2V5, volt3V3, volt12V, current]
-        
-            
-        
+                           
 def getPMData(slot):
+    class PM:
+        def __init__(self, PMIndex):
+            self.PMIndex = PMIndex
+            self.entity = "10.{0}".format(str(96 + self.PMIndex))
+            self.tempA = None
+            self.tempB = None
+            self.tempBase = None
+            self.VIN = None
+            self.VOutA = None
+            self.VOutB = None
+            self.volt12 = None
+            self.volt3V3 = None
+            self.current = None
+            self.getData()
+
+        def getData(self):
+            proc = subprocess.Popen(("ipmitool -H mch-e1a04-18 -U '' -P '' sdr entity {0}".format(self.entity)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
+            (self.data, self.err) = proc.communicate()
+            if self.err != '':
+                #if not "Get HPM.x Capabilities request failed, compcode = c9" in err:                                                                                                                                                      
+                if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n":
+                    print self.err
+                    return -1
+            self.data = self.data.split('\n')
+            if "NAT-PM-DC840" in self.data[0]:
+                print "hello!"
+
+    PM1 = PM(1)
+    PM2 = PM(2)
+    PM3 = PM(3)
+    PM4 = PM(4)
+
     if slot == 1:
         PM = "0xc2"
     elif slot == 2:
