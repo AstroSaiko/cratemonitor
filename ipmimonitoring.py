@@ -6,103 +6,342 @@ import os
 import signal
 import time
 
-HOST = "mch-e1a04-18"
+HOSTNAME = "mch-e1a04-18"
 
-def getCrateInfo(mch_hostname):
-    return 0
+#Defining every board as a class, hence treating each card as an object with sensor data
 
-def getMCHData(mch_hostname):
-    tempCPU = None
-    tempIO = None
-    volt1V5 = None
-    volt1V8 = None
-    volt2V5 = None
-    volt3V3 = None
-    volt12V = None
-    current = None
-    proc = subprocess.Popen(("ipmitool -H {0} -U admin -P admin sdr entity 194.97".format(mch_hostname)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
-    (data, err) = proc.communicate()
-    if err != '':
-        #if not "Get HPM.x Capabilities request failed, compcode = c9" in err:                                                                                                                                                              
-        if err != "Get HPM.x Capabilities request failed, compcode = c9\n":
-            print err
-            return -1
-    data = data.split('\n')
-    if "NAT-MCH-MCMC" in data[0]:
-        for item in data:
-            if "Temp CPU" in item:
-                tempCPU = item.strip().split(" ")[18]
-            elif "Temp I/O" in item:
-                tempIO = item.strip().split(" ")[18]
-            elif "Base 1.2V" in item:
-                volt1V2 = item.strip().split(" ")[17]
-            elif "Base 1.5V" in item:
-                volt1V5 = item.strip().split(" ")[17]
-            elif "Base 1.8V" in item:
-                volt1V8 = item.strip().split(" ")[17]
-            elif "Base 2.5V" in item:
-                volt2V5 = item.strip().split(" ")[17]
-            elif "Base 3.3V" in item:
-                volt3V3 = item.strip().split(" ")[17]
-            elif "Base 12V" in item:
-                volt12V = item.strip().split(" ")[18]
-            elif "Base Current" in item:
-                current = item.strip().split(" ")[14]
-    return [tempCPU, tempIO, volt1V2, volt1V8, volt2V5, volt3V3, volt12V, current]
-                           
-def getPMData(slot):
-    class PM:
-        def __init__(self, PMIndex):
-            self.PMIndex = PMIndex
-            self.entity = "10.{0}".format(str(96 + self.PMIndex))
-            self.tempA = None
-            self.tempB = None
-            self.tempBase = None
-            self.VIN = None
-            self.VOutA = None
-            self.VOutB = None
-            self.volt12 = None
-            self.volt3V3 = None
-            self.current = None
-            self.getData()
+#===============
+# Start PM Class
+#===============
+class PM:
+    """Power module object"""
+    def __init__(self, PMIndex):
+        self.PMIndex = PMIndex #PM index in crate
+        self.entity = "10.{0}".format(str(96 + self.PMIndex)) #converting PM index to ipmi entity
+        self.hostname = HOSTNAME
+        #Initializing empty variables
+        self.tempA = None
+        self.tempB = None
+        self.tempBase = None
+        self.VIN = None
+        self.VOutA = None
+        self.VOutB = None
+        self.volt12V = None
+        self.volt3V3 = None
+        self.currentSum = None
+        #Get data upon instantiation
+        self.sensorValueList = self.getData()
 
-        def getData(self):
-            proc = subprocess.Popen(("ipmitool -H mch-e1a04-18 -U '' -P '' sdr entity {0}".format(self.entity)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
-            (self.data, self.err) = proc.communicate()
-            if self.err != '':
+    def setHostname(self, hostname):
+        self.hostname = hostname
+         
+    def getData(self):
+        self.proc = subprocess.Popen(("ipmitool -H {0} -U '' -P '' sdr entity {1}".format(self.hostname, self.entity)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
+        (self.data, self.err) = self.proc.communicate()
+        if self.err != '':
                 #if not "Get HPM.x Capabilities request failed, compcode = c9" in err:                                                                                                                                                      
-                if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n":
-                    print self.err
-                    return -1
-            self.data = self.data.split('\n')
-            if "NAT-PM-DC840" in self.data[0]:
-                print "hello!"
+            if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n":
+                print self.err
+                return -1
+        self.data = self.data.split('\n')
+        #=========================================#
+        # This block is for NAT-PM-DC840 type PMs #
+        #=========================================#
+        if "NAT-PM-DC840" in self.data[0]:
+            if self.data == '':
+                print "Error or whatever"
+            else:
+                for item in self.data:
+                    #Temperatures                                                                                                                                                                                                           
+                    if "TBrick-A" in item:
+                        self.tempA = item.strip().split(" ")[17]    
+                    elif "TBrick-B" in item:
+                        self.tempB = item.strip().split(" ")[17]
+                    elif "T-Base" in item:
+                        self.tempBase = item.strip().split(" ")[19]
+                    #Input Voltage                                                                                                                                                                                                          
+                    elif "VIN" in item:
+                        self.VIN = item.strip().split(" ")[22]
+                    #Output Voltage                                                                                                                                                                                                         
+                    elif "VOUT-A" in item:
+                        self.VOutA = item.strip().split(" ")[19]
+                    elif "VOUT-B" in item:
+                        self.VOutB = item.strip().split(" ")[19]
+                    #12V                                                                                                                                                                                                                    
+                    elif "12V" in item:
+                        self.volt12V = item.strip().split(" ")[22]
+                    elif "3.3V" in item:
+                        self.volt3V3 = item.strip().split(" ")[21]
+                    #Total utput current                                                                                                                                                                                                    
+                    elif "Current(SUM)" in item:
+                        self.currentSum = item.strip().split(" ")[13]
+        #==========================================#
+        # End NAT-PM-DC840 block                   #
+        #==========================================#
+        return [self.tempA, self.tempB, self.tempBase, self.VIN, self.VOutA, self.VOutB, self.volt12V, self.volt3V3, self.currentSum]
 
-    PM1 = PM(1)
-    PM2 = PM(2)
-    PM3 = PM(3)
-    PM4 = PM(4)
+    def printSensorValues(self):
+        self.getData()
+        print ''
+        print "==============================="
+        print "    Sensor Values for PM{0}    ".format(self.PMIndex)
+        print "==============================="
+        print ''
+        print "TBrick-A:", self.tempA, "degC"
+        print "TBrick-B:", self.tempB, "degC"
+        print "T-Base:", self.tempBase, "degC"
+        print "Input Voltage:", self.VIN, "V"
+        print "Ouput Voltage A:", self.VOutA, "V"
+        print "Output Voltage B:", self.VOutB, "V"
+        print "12V:", self.volt12V, "V"
+        print "3.3V:", self.volt3V3, "V"
+        print "Total Current:", self.currentSum, "V"
+        print ""
 
-    if slot == 1:
-        PM = "0xc2"
-    elif slot == 2:
-        PM = "0xc4"
-    elif slot == 3:
-        PM = "0xc6"
-    elif slot == 4:
-        PM = "0xc8"
-    else:
-        print "Please insert a valid slot (1-4)"
-        return -1 
-    proc = subprocess.Popen(("ipmitool -H mch-e1a04-18 -U '' -P '' -T 0x82 -b 7 -B 0 -t {0} sdr".format(PM)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
-    (data, err) = proc.communicate()
-    if err != '':
-        #if not "Get HPM.x Capabilities request failed, compcode = c9" in err:
-        if err != "Get HPM.x Capabilities request failed, compcode = c9\n":
-            print err
-            return -1
-    data = data.split('\n')
-    return data
+#=============
+# End PM class
+#=============
+
+#================
+# Start MCH class
+#================
+
+class MCH:
+    """MCH object"""
+    def __init__(self, MCHIndex = 1):
+        self.MCHIndex = MCHIndex                                                                                                                                                                                                      
+        self.entity = "194.{0}".format(str(96 + self.MCHIndex)) #converting MCH index to ipmi entity                                                                                                                                        
+        self.hostname = "mch-e1a04-18"
+        #Initializing empty variables                                                                                                                                                                                                       
+        self.tempCPU = None
+        self.tempIO = None
+        self.volt1V5 = None
+        self.volt1V8 = None
+        self.volt2V5 = None
+        self.volt3V3 = None
+        self.volt12V = None
+        self.current = None
+        #Get data upon instantiation                                                                                                                                                                                                        
+        self.sensorValueList = self.getData()
+
+    def setHostname(self, hostname):
+        self.hostname = hostname
+
+    def getData(self):
+        self.proc = subprocess.Popen(("ipmitool -H {0} -U admin -P admin sdr entity {1}".format(self.hostname, self.entity)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
+        (self.data, self.err) = self.proc.communicate()
+        if self.err != '':
+        #if not "Get HPM.x Capabilities request failed, compcode = c9" in err:                                                                                                                                                              
+            if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n":
+                print self.err
+                return -1
+        self.data = self.data.split('\n')
+       #=========================================#
+       # This block is for NAT-MCH-MCMC type MCH #
+       #=========================================#
+        if "NAT-MCH-MCMC" in self.data[0]:
+            for item in self.data:
+                if "Temp CPU" in item:
+                    self.tempCPU = item.strip().split(" ")[18]
+                elif "Temp I/O" in item:
+                    self.tempIO = item.strip().split(" ")[18]
+                elif "Base 1.2V" in item:
+                    self.volt1V2 = item.strip().split(" ")[17]
+                elif "Base 1.5V" in item:
+                    self.volt1V5 = item.strip().split(" ")[17]
+                elif "Base 1.8V" in item:
+                    self.volt1V8 = item.strip().split(" ")[17]
+                elif "Base 2.5V" in item:
+                    self.volt2V5 = item.strip().split(" ")[17]
+                elif "Base 3.3V" in item:
+                    self.volt3V3 = item.strip().split(" ")[17]
+                elif "Base 12V" in item:
+                    self.volt12V = item.strip().split(" ")[18]
+                elif "Base Current" in item:
+                    self.current = item.strip().split(" ")[14]
+        #==========================================#                                                                                                                                                                                        
+        # End NAT-MCH-MCMC block                   #                                                                                                                                                                                        
+        #==========================================#            
+        return [self.tempCPU, self.tempIO, self.volt1V2, self.volt1V8, self.volt2V5, self.volt3V3, self.volt12V, self.current]
+
+    def printSensorValues(self):
+        self.getData()
+        print ''
+        print "==============================="
+        print "    Sensor Values for MCH{0}      ".format(self.MCHIndex)
+        print "==============================="
+        print ''
+        print "Temp CPU:", self.tempCPU, "degC"
+        print "Temp I/O:", self.tempIO, "degC"
+        print "Base 1.2V:", self.volt1V2, "V"
+        print "Base 1.5V:", self.volt1V5, "V"
+        print "Base 1.8V:", self.volt1V8, "V"
+        print "Base 2.5V:", self.volt2V5, "V"
+        print "Base 3.3V:", self.volt12V, "V"
+        print "Base 12V:", self.volt12V, "V"
+        print "Base Current:", self.current, "V"
+        print ""
+
+#==============
+# End MCH class
+#==============
+
+#================
+# Start CU class 
+#================
+
+class CU:
+    '''Cooling Unit object'''
+    def __init__(self, CUIndex):
+        self.hostname = HOSTNAME
+        self.CUIndex = CUIndex
+        self.entity = "30.{0}".format(96 + CUIndex)
+        if self.CUIndex == 1:
+            self.target = "0xa8"
+        else:
+            self.target = "0xaa"
+        #Initializing empty variables
+        self.CU3V3 = None
+        self.CU12V = None
+        self.CU12V_1 = None
+        self.LM75Temp = None
+        self.LM75Temp2 = None
+        self.fan1 = None
+        self.fan2 = None
+        self.fan3 = None
+        self.fan4 = None
+        self.fan5 = None
+        self.fan6 = None
+        #Get data upon instantiation
+        self.sensorValueList = self.getData()
+
+    def setHostname(self, hostname):
+        self.hostname = hostname
+
+    def checkFlavor(self, flavor):
+        self._proc = subprocess.Popen(("ipmitool -H {0} -U admin -P admin sdr entity {1}".format(self.hostname, self.entity)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
+        (self._data, self._err) = self._proc.communicate()
+        self._data = self._data.split('\n')
+        if flavor in self._data[0]:
+            return True
+        else:
+            return False
+
+    def getData(self):
+        self.proc = subprocess.Popen(("ipmitool -H {0} -U '' -P '' -T 0x82 -b 7 -t {1} -B 0 sdr".format(self.hostname, self.target)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
+        (self.data, self.err) = self.proc.communicate()
+        if self.err != '':
+        #if not "Get HPM.x Capabilities request failed, compcode = c9" in err:                                                                                                                                                              
+            if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n":
+                print self.err
+                return -1
+        self.data = self.data.split('\n')
+        #=====================================================#                                                                                                                                                                      
+        # This block is for Schroff uTCA CU type Cooling Unit #                                                                       
+        #=====================================================#                                                                                                        
+        if self.checkFlavor("Schroff uTCA CU"):
+            for item in self.data:
+                if "+3.3V" in item:
+                    self.CU3V3 = item.strip().split(" ")[13]
+                elif "+12V " in item:
+                    self.CU12V = item.strip().split(" ")[14]
+                elif "+12V_1" in item:
+                    self.CU12V_1 = item.strip().split(" ")[12]
+                elif "LM75 Temp " in item:
+                    self.LM75Temp = item.strip().split(" ")[10]
+                elif "LM75 Temp2" in item:
+                    self.LM75Temp2 = item.strip().split(" ")[9]
+                elif "Fan 1" in item:
+                    self.fan1 = item.strip().split(" ")[14]
+                elif "Fan 2" in item:
+                    self.fan2 = item.strip().split(" ")[14]
+                elif "Fan 3" in item:
+                    self.fan3 = item.strip().split(" ")[14]
+                elif "Fan 4" in item:
+                    self.fan4 = item.strip().split(" ")[14]
+                elif "Fan 5" in item:
+                    self.fan5 = item.strip().split(" ")[14]
+                elif "Fan 6" in item:
+                    self.fan6 = item.strip().split(" ")[14]
+        #=====================================================#
+        # END Schroff uTCA CU type Cooling Unit block #                                                                                                                                                                             
+        #=====================================================#
+        return [self.CU3V3, self.CU12V, self.CU12V_1, self.LM75Temp, self.LM75Temp2, self.fan1, self.fan2, self.fan3, self.fan4, self.fan5, self.fan6]
+
+    def printSensorValues(self):
+        self.getData()
+        print ''
+        print "==============================="
+        print "    Sensor Values for CU{0}    ".format(self.CUIndex)
+        print "==============================="
+        print ''
+        print "+3.3V:", self.CU3V3, "V"
+        print "+12V:", self.CU12V, "V"
+        print "+12V_1:", self.CU12V_1, "V"
+        print "LM75 Temp:", self.LM75Temp, "degC"
+        print "LM75 Temp2:", self.LM75Temp2, "degC"
+        print "Fan 1:", self.fan1, "rpm"
+        print "Fan 2:", self.fan2, "rpm"
+        print "Fan 3:", self.fan3, "rpm"
+        print "Fan 4:", self.fan4, "rpm"
+        print "Fan 5:", self.fan5, "rpm"
+        print "Fan 6:", self.fan6, "rpm"
+        print ""
+
+                          
+#def getPMData(slot):
+#    class PM:
+#        def __init__(self, PMIndex):
+#            self.PMIndex = PMIndex
+#            self.entity = "10.{0}".format(str(96 + self.PMIndex))
+#            self.tempA = None
+#            self.tempB = None
+#            self.tempBase = None
+#            self.VIN = None
+#            self.VOutA = None
+#            self.VOutB = None
+#            self.volt12 = None
+#            self.volt3V3 = None
+#            self.current = None
+#           self.getData()
+#
+#        def getData(self):
+#            proc = subprocess.Popen(("ipmitool -H mch-e1a04-18 -U '' -P '' sdr entity {0}".format(self.entity)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
+#            (self.data, self.err) = proc.communicate()
+#            if self.err != '':
+#                #if not "Get HPM.x Capabilities request failed, compcode = c9" in err:                                                                                                                                                     # 
+#                if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n":
+#                    print self.err
+#                    return -1
+#            self.data = self.data.split('\n')
+#            if "NAT-PM-DC840" in self.data[0]:
+#                print "hello!"
+#
+#    PM1 = PM(1)
+#    PM2 = PM(2)
+#    PM3 = PM(3)
+#    PM4 = PM(4)
+#
+#    if slot == 1:
+#        PM = "0xc2"
+#    elif slot == 2:
+#        PM = "0xc4"
+#    elif slot == 3:
+#        PM = "0xc6"
+#    elif slot == 4:
+#        PM = "0xc8"
+#    else:
+#        print "Please insert a valid slot (1-4)"
+#        return -1 
+#    proc = subprocess.Popen(("ipmitool -H mch-e1a04-18 -U '' -P '' -T 0x82 -b 7 -B 0 -t {0} sdr".format(PM)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
+#    (data, err) = proc.communicate()
+#    if err != '':
+#        #if not "Get HPM.x Capabilities request failed, compcode = c9" in err:
+#       if err != "Get HPM.x Capabilities request failed, compcode = c9\n":
+#           print err
+#           return -1
+#   data = data.split('\n')
+#   return data
 
 def getCUData(CU_index):
     if CU_index == 1:
@@ -135,6 +374,17 @@ def getAMC13Data():
 
 if __name__ == "__main__":
 
+    PM1 = PM(1)
+    PM2 = PM(2)
+    PM1.printSensorValues()
+    PM2.printSensorValues()
+    MCH = MCH()
+    MCH.printSensorValues()
+    CU1 = CU(1)
+    CU2 = CU(2)
+    CU1.printSensorValues()
+    CU2.printSensorValues()
+    
     #For PMs
     PMVoltages = []
     PMTemperatures = []
@@ -154,62 +404,62 @@ if __name__ == "__main__":
     for i in [1, 2]:
 
         #for PMs
-        tempA = None
-        tempB = None
-        tempBase = None
-        VIN = None
-        VOutA = None
-        VOutB = None
-        current = None
-        volt12 = None
-        volt3V3 = None
+        #empA = None
+        #empB = None
+        #empBase = None
+        #IN = None
+        #OutA = None
+        #OutB = None
+        #urrent = None
+        #olt12 = None
+        #volt3V3 = None
 
-        data = getPMData(i)
-        if data == -1:
-            print "Error or whatever"
-        else:
-            for item in data:
-                #Temperatures
-                if "TBrick-A" in item:
-                    tempA = item.strip().split(" ")[10]
-                elif "TBrick-B" in item:
-                    tempB = item.strip().split(" ")[10]
-                elif "T-Base" in item:
-                    tempBase = item.strip().split(" ")[12]
-                #Input Voltage
-                elif "VIN" in item:
-                    VIN = item.strip().split(" ")[15]
-                #Output Voltage
-                elif "VOUT-A" in item:   
-                    VOutA = item.strip().split(" ")[12]
-                    #print VOutA
-                elif "VOUT-B" in item:                                                                                                            
-                    VOutB = item.strip().split(" ")[12]
-                    #print VOutB
-                #12V
-                elif "12V" in item:
-                    volt12 = item.strip().split(" ")[15]
-                    #print volt12
-                #3.3V
-                elif "3.3V" in item:
-                    volt3V3 = item.strip().split(" ")[14]
-                    #print volt3V3
-                #Total utput current
-                elif "Current(SUM)" in item:
-                    current = item.strip().split(" ")[6]
-                    #print current
+        #data = getPMData(i)
+        #if data == -1:
+        #    print "Error or whatever"
+        #else:
+        #    for item in data:
+        #        #Temperatures
+        #        if "TBrick-A" in item:
+        #            tempA = item.strip().split(" ")[10]
+       #        elif "TBrick-B" in item:
+        #            tempB = item.strip().split(" ")[10]
+        #        elif "T-Base" in item:
+         #           tempBase = item.strip().split(" ")[12]
+         #       #Input Voltage
+        #        elif "VIN" in item:
+        #            VIN = item.strip().split(" ")[15]
+        #        #Output Voltage
+         #       elif "VOUT-A" in item:   
+         #           VOutA = item.strip().split(" ")[12]
+         #           #print VOutA
+         #       elif "VOUT-B" in item:                                                                                                            
+         #           VOutB = item.strip().split(" ")[12]
+         #           #print VOutB
+         #       #12V
+         #       elif "12V" in item:
+         #           volt12 = item.strip().split(" ")[15]
+         #           #print volt12
+         #       #3.3V
+         #       elif "3.3V" in item:
+         #           volt3V3 = item.strip().split(" ")[14]
+          ##          #print volt3V3
+          #      #Total utput current
+          #      elif "Current(SUM)" in item:
+          #          current = item.strip().split(" ")[6]
+          #          #print current
                 #print tempA
                 #print tempB
         #print tempBase
-        PMTemperatures.append(tempA)
-        PMTemperatures.append(tempB)
-        PMTemperatures.append(tempBase)
-        PMVoltages.append(VIN)
-        PMVoltages.append(VOutA)
-        PMVoltages.append(VOutB)
-        PMVoltages.append(volt12)
-        PMVoltages.append(volt3V3)
-        PMCurrents.append(current)
+        #PMTemperatures.append(tempA)
+        #PMTemperatures.append(tempB)
+        #PMTemperatures.append(tempBase)
+        #PMVoltages.append(VIN)
+        #PMVoltages.append(VOutA)
+        #PMVoltages.append(VOutB)
+        ##MVoltages.append(volt12)
+        #PMVoltages.append(volt3V3)
+        #PMCurrents.append(current)
 
         #For CUs
         CU3V3 = None
@@ -224,44 +474,44 @@ if __name__ == "__main__":
         fan5 = None
         fan6 = None
 
-        dataCU = getCUData(i)
-        if dataCU == -1:
-            print "CU error"
-        else:
-            for item in dataCU:
-                if "+3.3V" in item:
-                    CU3V3 = item.strip().split(" ")[13]
-                elif "+12V " in item:
-                    CU12V = item.strip().split(" ")[14]
-                elif "+12V_1" in item:
-                    CU12V_1 = item.strip().split(" ")[12]
-                elif "LM75 Temp " in item:
-                    LM75Temp = item.strip().split(" ")[10]
-                elif "LM75 Temp2" in item:
-                    LM75Temp2 = item.strip().split(" ")[9]
-                elif "Fan 1" in item:
-                    fan1 = item.strip().split(" ")[14]
-                elif "Fan 2" in item:
-                    fan2 = item.strip().split(" ")[14]
-                elif "Fan 3" in item:
-                    fan3 = item.strip().split(" ")[14]
-                elif "Fan 4" in item:
-                    fan4 = item.strip().split(" ")[14]
-                elif "Fan 5" in item:
-                    fan5 = item.strip().split(" ")[14]
-                elif "Fan 6" in item:
-                    fan6 = item.strip().split(" ")[14]
-        CUVoltages.append(CU3V3)
-        CUVoltages.append(CU12V)
-        CUVoltages.append(CU12V_1)
-        CUTemperatures.append(LM75Temp)
-        CUTemperatures.append(LM75Temp2)
-        fanSpeeds.append(fan1)
-        fanSpeeds.append(fan2)
-        fanSpeeds.append(fan3)
-        fanSpeeds.append(fan4)
-        fanSpeeds.append(fan5)
-        fanSpeeds.append(fan6)
+        #dataCU = getCUData(i)
+        #if dataCU == -1:
+        #    print "CU error"
+        #else:
+        #    for item in dataCU:
+        #        if "+3.3V" in item:
+        #            CU3V3 = item.strip().split(" ")[13]
+        #        elif "+12V " in item:
+        #            CU12V = item.strip().split(" ")[14]
+        #        elif "+12V_1" in item:
+        #            CU12V_1 = item.strip().split(" ")[12]
+         #       elif "LM75 Temp " in item:
+         ##           LM75Temp = item.strip().split(" ")[10]
+          #      elif "LM75 Temp2" in item:
+         #           LM75Temp2 = item.strip().split(" ")[9]
+         ##       elif "Fan 1" in item:
+         #           fan1 = item.strip().split(" ")[14]
+           #     elif "Fan 2" in item:
+           #         fan2 = item.strip().split(" ")[14]
+           #     elif "Fan 3" in item:
+           #         fan3 = item.strip().split(" ")[14]
+           #     elif "Fan 4" in item:
+           #         fan4 = item.strip().split(" ")[14]
+           #     elif "Fan 5" in item:
+           #         fan5 = item.strip().split(" ")[14]
+            #    elif "Fan 6" in item:
+           #         fan6 = item.strip().split(" ")[14]
+        #CUVoltages.append(CU3V3)
+        #CUVoltages.append(CU12V)
+        #CUVoltages.append(CU12V_1)
+        #CUTemperatures.append(LM75Temp)
+        #CUTemperatures.append(LM75Temp2)
+        #fanSpeeds.append(fan1)
+        #fanSpeeds.append(fan2)
+        #fanSpeeds.append(fan3)
+        #fanSpeeds.append(fan4)
+        #fanSpeeds.append(fan5)
+        #fanSpeeds.append(fan6)
 
     
     #for AMC13
@@ -304,7 +554,7 @@ if __name__ == "__main__":
         print "       ", [T2Temp, amc13_12V, amc13_3V3, amc13_1V2]
         print ''
     
-    printData()
+    #printData()
         
     #if everything is fine
     sys.exit(0)
