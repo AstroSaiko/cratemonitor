@@ -186,7 +186,7 @@ class MCH:
             print "Base 1.5V:", self.volt1V5, "V"
             print "Base 1.8V:", self.volt1V8, "V"
             print "Base 2.5V:", self.volt2V5, "V"
-            print "Base 3.3V:", self.volt12V, "V"
+            print "Base 3.3V:", self.volt3V3, "V"
             print "Base 12V:", self.volt12V, "V"
             print "Base Current:", self.current, "V"
             print ""

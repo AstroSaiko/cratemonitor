@@ -3,13 +3,12 @@
 import subprocess
 import sys
 import os
-import signal
-import time
+#import signal
 
 #======================================
 #Defining which crate we're working with
 
-if len(sys.argv) > 0:
+if len(sys.argv) > 1:
     HOSTNAME = sys.argv[1]
 else:
     HOSTNAME = "mch-e1a04-18"
@@ -193,7 +192,7 @@ class MCH:
             print "Base 1.5V:", self.volt1V5, "V"
             print "Base 1.8V:", self.volt1V8, "V"
             print "Base 2.5V:", self.volt2V5, "V"
-            print "Base 3.3V:", self.volt12V, "V"
+            print "Base 3.3V:", self.volt3V3, "V"
             print "Base 12V:", self.volt12V, "V"
             print "Base Current:", self.current, "V"
             print ""
@@ -384,19 +383,22 @@ class AMC13:
 if __name__ == "__main__":
     
     try :
+        #Instantiate the objects in the crate
+        MCH = MCH()
         PM1 = PM(1)
         PM2 = PM(2)
-        PM1.printSensorValues()
-        PM2.printSensorValues()
-        MCH = MCH()
-        MCH.printSensorValues()
         CU1 = CU(1)
         CU2 = CU(2)
+        AMC13 = AMC13()
+
+        #Print sensor values
+        MCH.printSensorValues()
+        PM1.printSensorValues()
+        PM2.printSensorValues()
         CU1.printSensorValues()
         CU2.printSensorValues()
-        amc13 = AMC13()
-        amc13.printSensorValues()
-        
+        AMC13.printSensorValues()
+
         sys.exit(0) #Everything is normal
 
     except:
