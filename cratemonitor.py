@@ -46,7 +46,7 @@ class PM:
         self.proc = subprocess.Popen(("ipmitool -H {0} -U '' -P '' sdr entity {1}".format(self.hostname, self.entity)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
         (self.data, self.err) = self.proc.communicate()
         if self.err != '':
-                #if not "Get HPM.x Capabilities request failed, compcode = c9" in err:                                                                                                                                                      
+            # if not "Get HPM.x Capabilities request failed, compcode = c9" in err:                                                                                                                                                     
             if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n":
                 print self.err
                 return -1
@@ -380,28 +380,118 @@ class AMC13:
         else:
             print "Unkown AMC13 type, check code and AMC13 class"
 
+###################
+# END AMC13 class
+##################
+
+#================
+# Start FC7 class
+#================
+
+class FC7:
+    '''FC7 object'''
+    def __init__(self, FC7Index):
+        self.hostname = HOSTNAME
+        self.FC7Index = FC7Index
+        self.entity = "193.{0}".format(96 + FC7Index)
+        #Initializing empty variables                                                                                                                                                                                                       
+        self.flavor = None
+        self.humidity = None
+        self.temperature = None
+        self.volt3V3 = None
+        self.current3V3 = None
+        self.volt5V = None
+        self.current5V = None
+        self.l12_VADJ = None
+        self.l12_IADJ = None
+        self.volt2V5 = None
+        self.current2V5 = None
+        self.volt1V8 = None
+        self.current1V8 = None
+        self.voltMP3V3 = None
+        self.currentMP3V3 = None
+        self.volt12V = None
+        self.current12V = None
+        self.volt1V5 = None
+        self.current1V5 = None
+        self.volt1V = None
+        self.current1V = None
+        self.volt1V8_GTX = None
+        self.current1V8_GTX = None
+        self.volt1V_GTX = None
+        self.current1V_GTX = None
+        self.volt1V2_GTX = None
+        self.current1V2_GTX = None
+        self.l8_VADJ = None
+        self.l8_IADJ = None
+        #Get data upon instantiation                                                                                                                                                                                                        
+        self.sensorValueList = self.getData()
+
+    def setHostname(self, hostname):
+        self.hostname = hostname
+
+    def checkFlavor(self, flavor):
+        self._proc = subprocess.Popen(("ipmitool -H {0} -U admin -P admin sdr entity {1}".format(self.hostname, self.entity)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
+        (self._data, self._err) = self._proc.communicate()
+        self._data = self._data.split('\n')
+        if flavor in self._data[0]:
+            self.flavor = flavor
+            return True
+        else:
+            return False
+
+    def getData(self):
+        self.proc = subprocess.Popen(("ipmitool -H {0} -U admin -P admin sdr entity {1}".format(self.hostname, self.entity)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
+        (self.data, self.err) = self.proc.communicate()
+        if self.err != '':
+            # if not "Get HPM.x Capabilities request failed, compcode = c9" in err:                                                                                                                                                     
+            if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n":
+                print self.err
+                return -1
+        self.data = self.data.split('\n')
+        if "ICL-CERN FC7" in self.data[0]:
+            # =======================================
+            # This block is for the ICL-CERN FC7 type
+            # ======================================
+            print "ICL-CERN FC7 not available"
+            return 0
+
+        elif "FC7-R2" in self.data[0]:
+            # =======================================
+            # This is for the FC7-R2 MMC
+            # =======================================
+            return 0
+
+    def printSensorValues(self):
+        print "This function is not yet completed"
+
 if __name__ == "__main__":
-    
-    try :
-        #Instantiate the objects in the crate
+
+    try:
+        # Instantiate the objects in the crate
         MCH = MCH()
         PM1 = PM(1)
         PM2 = PM(2)
         CU1 = CU(1)
         CU2 = CU(2)
         AMC13 = AMC13()
+        # amc2 = FC7(2)
+        # amc2.printSensorValues()
 
-        #Print sensor values
+        # Print sensor values
         MCH.printSensorValues()
         PM1.printSensorValues()
         PM2.printSensorValues()
         CU1.printSensorValues()
         CU2.printSensorValues()
         AMC13.printSensorValues()
+        
+    except:
+        print "error!!"
+        sys.exit(1) # Warning
 
+    else:
         sys.exit(0) #Everything is normal
 
-    except:
-        sys.exit(1) # Warning
 
     
