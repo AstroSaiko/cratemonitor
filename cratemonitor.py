@@ -1,9 +1,16 @@
 #!/usr/bin/env python 
 
+#==================================================
+# Author: Birk Engegaard
+# birk.engegaard@cern.ch / birkengegaard@gmail.com
+# Call script with mch address of the crate you 
+# want to monitor, or hardcode the mch address into
+# the variable HOSTNAME below
+#==================================================
+
 import subprocess
 import sys
 import os
-#import signal
 
 #======================================
 #Defining which crate we're working with
@@ -11,7 +18,7 @@ import os
 if len(sys.argv) > 1:
     HOSTNAME = sys.argv[1]
 else:
-    HOSTNAME = "mch-e1a04-18"
+    HOSTNAME = "mch-e1a04-18" # Insert hostname of mch here
 #=====================================
 
 #Defining every board as a class, hence treating each card as an object with sensor data
@@ -22,21 +29,21 @@ else:
 class PM:
     """Power module object"""
     def __init__(self, PMIndex):
-        self.PMIndex = PMIndex #PM index in crate
-        self.entity = "10.{0}".format(str(96 + self.PMIndex)) #converting PM index to ipmi entity
-        self.hostname = HOSTNAME
-        #Initializing empty variables
-        self.tempA = None
-        self.tempB = None
-        self.tempBase = None
-        self.VIN = None
-        self.VOutA = None
-        self.VOutB = None
-        self.volt12V = None
-        self.volt3V3 = None
-        self.currentSum = None
-        self.flavor = None
-        #Get data upon instantiation
+        self.PMIndex = PMIndex # PM index in crate
+        self.entity = "10.{0}".format(str(96 + self.PMIndex)) # converting PM index to ipmi entity
+        self.hostname = HOSTNAME # Global variable
+        # Initializing empty variables
+        self.tempA = None # Temperature of brick-A
+        self.tempB = None # Temperature of brick-B
+        self.tempBase = None # Base temperature
+        self.VIN = None # Input voltage
+        self.VOutA = None # Output voltage A
+        self.VOutB = None # Output voltage B
+        self.volt12V = None # 12V
+        self.volt3V3 = None # 3.3V
+        self.currentSum = None # total current
+        self.flavor = None # PM type
+        # Get data upon instantiation
         self.sensorValueList = self.getData()
 
     def setHostname(self, hostname):
@@ -46,8 +53,7 @@ class PM:
         self.proc = subprocess.Popen(("ipmitool -H {0} -U '' -P '' sdr entity {1}".format(self.hostname, self.entity)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
         (self.data, self.err) = self.proc.communicate()
         if self.err != '':
-            # if not "Get HPM.x Capabilities request failed, compcode = c9" in err:                                                                                                                                                     
-            if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n":
+            if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n": # This error can safely be ignored
                 print self.err
                 return -1
         self.data = self.data.split('\n')
@@ -57,30 +63,25 @@ class PM:
         if "NAT-PM-DC840" in self.data[0]:
             self.flavor = "NAT-PM-DC840"
             if self.data == '':
-                print "Error or whatever"
+                print "No data"
             else:
                 for item in self.data:
-                    #Temperatures                                                                                                                                                                                                           
                     if "TBrick-A" in item:
                         self.tempA = item.strip().split(" ")[17]    
                     elif "TBrick-B" in item:
                         self.tempB = item.strip().split(" ")[17]
                     elif "T-Base" in item:
                         self.tempBase = item.strip().split(" ")[19]
-                    #Input Voltage                                                                                                                                                                                                          
                     elif "VIN" in item:
                         self.VIN = item.strip().split(" ")[22]
-                    #Output Voltage                                                                                                                                                                                                         
                     elif "VOUT-A" in item:
                         self.VOutA = item.strip().split(" ")[19]
                     elif "VOUT-B" in item:
                         self.VOutB = item.strip().split(" ")[19]
-                    #12V                                                                                                                                                                                                                    
                     elif "12V" in item:
                         self.volt12V = item.strip().split(" ")[22]
                     elif "3.3V" in item:
                         self.volt3V3 = item.strip().split(" ")[21]
-                    #Total utput current                                                                                                                                                                                                    
                     elif "Current(SUM)" in item:
                         self.currentSum = item.strip().split(" ")[13]
         #==========================================#
@@ -89,7 +90,6 @@ class PM:
         return [self.tempA, self.tempB, self.tempBase, self.VIN, self.VOutA, self.VOutB, self.volt12V, self.volt3V3, self.currentSum]
 
     def printSensorValues(self):
-        #self.getData()
         if self.flavor == "NAT-PM-DC840":
             print ''
             print "==============================="
@@ -121,20 +121,20 @@ class PM:
 class MCH:
     """MCH object"""
     def __init__(self, MCHIndex = 1):
-        self.MCHIndex = MCHIndex                                                                                                                                                                                                      
-        self.entity = "194.{0}".format(str(96 + self.MCHIndex)) #converting MCH index to ipmi entity                                                                                                                                        
-        self.hostname = "mch-e1a04-18"
-        #Initializing empty variables
-        self.flavor = None
-        self.tempCPU = None
-        self.tempIO = None
-        self.volt1V5 = None
-        self.volt1V8 = None
-        self.volt2V5 = None
-        self.volt3V3 = None
-        self.volt12V = None
-        self.current = None
-        #Get data upon instantiation                                                                                                                                                                                                        
+        self.MCHIndex = MCHIndex # Some crates have multiple locations for MCHs         
+        self.entity = "194.{0}".format(str(96 + self.MCHIndex)) # converting MCH index to ipmi entity                  
+        self.hostname = HOSTNAME # Global variable
+        # Initializing empty variables
+        self.flavor = None # MCH type
+        self.tempCPU = None # CPU temperature
+        self.tempIO = None # I/O temperature
+        self.volt1V5 = None # 1.5V
+        self.volt1V8 = None # 1.8V
+        self.volt2V5 = None # 2.5V
+        self.volt3V3 = None # 3.3V
+        self.volt12V = None # 12V
+        self.current = None # base current
+        # Get data upon instantiation                                                                                                                                                                                                
         self.sensorValueList = self.getData()
 
     def setHostname(self, hostname):
@@ -144,8 +144,7 @@ class MCH:
         self.proc = subprocess.Popen(("ipmitool -H {0} -U admin -P admin sdr entity {1}".format(self.hostname, self.entity)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
         (self.data, self.err) = self.proc.communicate()
         if self.err != '':
-        #if not "Get HPM.x Capabilities request failed, compcode = c9" in err:                                                                                                                                                              
-            if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n":
+            if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n": # this error can safely be ignored
                 print self.err
                 return -1
         self.data = self.data.split('\n')
@@ -179,7 +178,6 @@ class MCH:
         return [self.tempCPU, self.tempIO, self.volt1V2, self.volt1V8, self.volt2V5, self.volt3V3, self.volt12V, self.current]
 
     def printSensorValues(self):
-        #self.getData()
         if self.flavor == "NAT-MCH-MCMC":
             print ''
             print "==============================="
@@ -194,7 +192,7 @@ class MCH:
             print "Base 2.5V:", self.volt2V5, "V"
             print "Base 3.3V:", self.volt3V3, "V"
             print "Base 12V:", self.volt12V, "V"
-            print "Base Current:", self.current, "V"
+            print "Base Current:", self.current, "A"
             print ""
 
         else:
@@ -211,27 +209,27 @@ class MCH:
 class CU:
     '''Cooling Unit object'''
     def __init__(self, CUIndex):
-        self.hostname = HOSTNAME
-        self.CUIndex = CUIndex
-        self.entity = "30.{0}".format(96 + CUIndex)
+        self.hostname = HOSTNAME # global variable
+        self.CUIndex = CUIndex # CU index 
+        self.entity = "30.{0}".format(96 + CUIndex) # converting index to entity number
         if self.CUIndex == 1:
-            self.target = "0xa8"
+            self.target = "0xa8" # converting index to target ID
         else:
-            self.target = "0xaa"
-        #Initializing empty variables
-        self.flavor = None
-        self.CU3V3 = None
-        self.CU12V = None
-        self.CU12V_1 = None
-        self.LM75Temp = None
-        self.LM75Temp2 = None
-        self.fan1 = None
-        self.fan2 = None
-        self.fan3 = None
-        self.fan4 = None
-        self.fan5 = None
-        self.fan6 = None
-        #Get data upon instantiation
+            self.target = "0xaa" # converting index to target ID
+        # Initializing empty variables
+        self.flavor = None # CU type
+        self.CU3V3 = None # 3.3V
+        self.CU12V = None # 12V
+        self.CU12V_1 = None # 12V_1
+        self.LM75Temp = None # temperature
+        self.LM75Temp2 = None # temperature 2
+        self.fan1 = None # fan speed
+        self.fan2 = None # fan speed
+        self.fan3 = None # fan speed
+        self.fan4 = None # fan speed
+        self.fan5 = None # fan speed
+        self.fan6 = None # fan speed
+        # Get data upon instantiation
         self.sensorValueList = self.getData()
 
     def setHostname(self, hostname):
@@ -251,8 +249,7 @@ class CU:
         self.proc = subprocess.Popen(("ipmitool -H {0} -U '' -P '' -T 0x82 -b 7 -t {1} -B 0 sdr".format(self.hostname, self.target)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
         (self.data, self.err) = self.proc.communicate()
         if self.err != '':
-        #if not "Get HPM.x Capabilities request failed, compcode = c9" in err:                                                                                                                                                              
-            if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n":
+            if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n": # this error can be ingored
                 print self.err
                 return -1
         self.data = self.data.split('\n')
@@ -289,7 +286,6 @@ class CU:
         return [self.CU3V3, self.CU12V, self.CU12V_1, self.LM75Temp, self.LM75Temp2, self.fan1, self.fan2, self.fan3, self.fan4, self.fan5, self.fan6]
 
     def printSensorValues(self):
-        #self.getData()
         if self.flavor == "Schroff uTCA CU":
             print ''
             print "==============================="
@@ -323,14 +319,14 @@ class CU:
 class AMC13:
     '''AMC13 object'''
     def __init__(self):
-        self.hostname = HOSTNAME
-        #Initializing empty variables                                                                                                                                                                                                       
-        self.flavor = None
-        self.T2Temp = None
-        self.volt12V = None
-        self.volt3V3 = None
-        self.volt1V2 = None
-        #Get data upon instantiation                                                                                                                                                                                                        
+        self.hostname = HOSTNAME # global variable
+        # Initializing empty variables                                                                                                                                                                                                      
+        self.flavor = None # amc13 type
+        self.T2Temp = None # T2 temperature
+        self.volt12V = None # 12V
+        self.volt3V3 = None # 3.3V
+        self.volt1V2 = None # 1.2V
+        # Get data upon instantiation     
         self.sensorValueList = self.getData()
 
     def setHostname(self, hostname):
@@ -340,8 +336,7 @@ class AMC13:
         self.proc = subprocess.Popen(("ipmitool -H {0} -U admin -P admin sdr entity 193.122".format(self.hostname)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
         (self.data, self.err) = self.proc.communicate()
         if self.err != '':
-        #if not "Get HPM.x Capabilities request failed, compcode = c9" in err:                                                                                                                                                              
-            if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n":
+            if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n": # this error can be ignored
                 print self.err
                 return -1
         self.data = self.data.split('\n')
@@ -365,7 +360,6 @@ class AMC13:
         return [self.T2Temp, self.volt12V, self.volt3V3, self.volt1V2]
 
     def printSensorValues(self):
-        #self.getData()                                                                                                                                                                                                                     
         if self.flavor == "BU AMC13":
             print ''
             print "==============================="
@@ -391,40 +385,40 @@ class AMC13:
 class FC7:
     '''FC7 object'''
     def __init__(self, FC7Index):
-        self.hostname = HOSTNAME
-        self.FC7Index = FC7Index
-        self.entity = "193.{0}".format(96 + FC7Index)
-        #Initializing empty variables                                                                                                                                                                                                       
-        self.flavor = None
-        self.humidity = None
-        self.temperature = None
-        self.volt3V3 = None
-        self.current3V3 = None
-        self.volt5V = None
-        self.current5V = None
-        self.l12_VADJ = None
-        self.l12_IADJ = None
-        self.volt2V5 = None
-        self.current2V5 = None
-        self.volt1V8 = None
-        self.current1V8 = None
-        self.voltMP3V3 = None
-        self.currentMP3V3 = None
-        self.volt12V = None
-        self.current12V = None
-        self.volt1V5 = None
-        self.current1V5 = None
-        self.volt1V = None
-        self.current1V = None
-        self.volt1V8_GTX = None
-        self.current1V8_GTX = None
-        self.volt1V_GTX = None
-        self.current1V_GTX = None
-        self.volt1V2_GTX = None
-        self.current1V2_GTX = None
-        self.l8_VADJ = None
-        self.l8_IADJ = None
-        #Get data upon instantiation                                                                                                                                                                                                        
+        self.hostname = HOSTNAME # global variable
+        self.FC7Index = FC7Index # amc index / slot number in crate
+        self.entity = "193.{0}".format(96 + FC7Index) # index to entity id
+        # Initializing empty variables                                                                                                                                                                                                      
+        self.flavor = None # FC7 type
+        self.humidity = None # humidity
+        self.temperature = None # temperature
+        self.volt3V3 = None # 3.3V
+        self.current3V3 = None # 3.3V current
+        self.volt5V = None # 5V
+        self.current5V = None # 5V current
+        self.l12_VADJ = None # l12 ADJ voltage
+        self.l12_IADJ = None # l12 ADJ curent
+        self.volt2V5 = None # 2.5V
+        self.current2V5 = None # 2.5V current
+        self.volt1V8 = None # 1.8V
+        self.current1V8 = None # 1.8V current
+        self.voltMP3V3 = None # MP 3.3V
+        self.currentMP3V3 = None # MP 3.3V current
+        self.volt12V = None # 12V
+        self.current12V = None # 12V current
+        self.volt1V5 = None # 1.5V 
+        self.current1V5 = None # 1.5V current
+        self.volt1V = None # 1V
+        self.current1V = None # 1V current
+        self.volt1V8_GTX = None # gtx 1.8V
+        self.current1V8_GTX = None # gtx 1.8V current
+        self.volt1V_GTX = None # gtx 1V
+        self.current1V_GTX = None # gtx 1V current
+        self.volt1V2_GTX = None # gtx 1.2V
+        self.current1V2_GTX = None # gtx 1.2V current
+        self.l8_VADJ = None # l8 ADJ voltage 
+        self.l8_IADJ = None # l8 ADJ current
+        # Get data upon instantiation                                                                                                            
         self.sensorValueList = self.getData()
 
     def setHostname(self, hostname):
@@ -444,8 +438,7 @@ class FC7:
         self.proc = subprocess.Popen(("ipmitool -H {0} -U admin -P admin sdr entity {1}".format(self.hostname, self.entity)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
         (self.data, self.err) = self.proc.communicate()
         if self.err != '':
-            # if not "Get HPM.x Capabilities request failed, compcode = c9" in err:                                                                                                                                                     
-            if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n":
+            if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n": # this error can be ignored
                 print self.err
                 return -1
         self.data = self.data.split('\n')
@@ -466,7 +459,6 @@ class FC7:
         print "This function is not yet completed"
 
 if __name__ == "__main__":
-
     try:
         # Instantiate the objects in the crate
         MCH = MCH()
@@ -475,8 +467,6 @@ if __name__ == "__main__":
         CU1 = CU(1)
         CU2 = CU(2)
         AMC13 = AMC13()
-        # amc2 = FC7(2)
-        # amc2.printSensorValues()
 
         # Print sensor values
         MCH.printSensorValues()
@@ -486,12 +476,10 @@ if __name__ == "__main__":
         CU2.printSensorValues()
         AMC13.printSensorValues()
         
-    except:
-        print "error!!"
+    except: # For now, if ANY exception is thrown it will exit with code 1
         sys.exit(1) # Warning
-
     else:
-        sys.exit(0) #Everything is normal
+        sys.exit(0) # Everything is normal
 
 
     
