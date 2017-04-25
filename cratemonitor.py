@@ -12,6 +12,7 @@ import subprocess
 import sys
 import os
 
+
 #======================================
 #Defining which crate we're working with
 
@@ -19,8 +20,29 @@ if len(sys.argv) > 1:
     HOSTNAME = sys.argv[1]
 else:
     HOSTNAME = "mch-e1a04-18" # Insert hostname of mch here
-#=====================================
 
+
+class EXITCODE:
+    """Quick class to let the classes update the exit code"""
+    def __init__(self):
+        self.code = 0 # When everything is OK
+    def getCode(self):
+        return self.code
+    def setCode(self, newExitCode):
+        # Will only update exit code if the new exit code is more serious than the previous
+        if newExitCode > self.code:
+            self.code = newExitCode
+    
+# =============================================================
+# This will be used at the end of the script to determine
+# how the script exits. If a class experiences an error it will 
+# update this variable.
+EXITCODE = EXITCODE()
+        
+# =============================================================
+
+
+#=====================================
 #Defining every board as a class, hence treating each card as an object with sensor data
 
 #===============
@@ -55,17 +77,18 @@ class PM:
         if self.err != '':
             if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n": # This error can safely be ignored
                 print self.err
+                EXITCODE.setCode(2) # sys.exit(EXITCODE) will use this at the end
                 return -1
+        if self.data == '':
+            EXITCODE.setCode(1) # sys.exit(EXITCODE) will use this at the end
+            return -1
         self.data = self.data.split('\n')
         #=========================================#
         # This block is for NAT-PM-DC840 type PMs #
         #=========================================#
         if "NAT-PM-DC840" in self.data[0]:
             self.flavor = "NAT-PM-DC840"
-            if self.data == '':
-                print "No data"
-            else:
-                for item in self.data:
+            for item in self.data:
                     if "TBrick-A" in item:
                         self.tempA = item.strip().split(" ")[17]    
                     elif "TBrick-B" in item:
@@ -90,7 +113,7 @@ class PM:
         return [self.tempA, self.tempB, self.tempBase, self.VIN, self.VOutA, self.VOutB, self.volt12V, self.volt3V3, self.currentSum]
 
     def printSensorValues(self):
-        if self.flavor == "NAT-PM-DC840":
+       # if self.flavor == "NAT-PM-DC840":
             print ''
             print "==============================="
             print "    Sensor Values for PM{0}    ".format(self.PMIndex)
@@ -104,11 +127,11 @@ class PM:
             print "Output Voltage B:", self.VOutB, "V"
             print "12V:", self.volt12V, "V"
             print "3.3V:", self.volt3V3, "V"
-            print "Total Current:", self.currentSum, "V"
+            print "Total Current:", self.currentSum, "A"
             print ""
 
-        else:
-            print "Unknown PM flavor. Check code and PM class"
+       # else:
+           # print "Unknown PM flavor. Check code and PM class"
 
 #=============
 # End PM class
@@ -146,7 +169,11 @@ class MCH:
         if self.err != '':
             if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n": # this error can safely be ignored
                 print self.err
+                EXITCODE.setCode(2)
                 return -1
+        if self.data == '':
+            EXITCODE.setCode(1)
+            return -1
         self.data = self.data.split('\n')
        #=========================================#
        # This block is for NAT-MCH-MCMC type MCH #
@@ -172,8 +199,8 @@ class MCH:
                     self.volt12V = item.strip().split(" ")[18]
                 elif "Base Current" in item:
                     self.current = item.strip().split(" ")[14]
-        #==========================================#                                                                                                                                                                                        
-        # End NAT-MCH-MCMC block                   #                                                                                                                                                                                        
+        #==========================================#                                  
+        # End NAT-MCH-MCMC block                   #                                                      
         #==========================================#            
         return [self.tempCPU, self.tempIO, self.volt1V2, self.volt1V8, self.volt2V5, self.volt3V3, self.volt12V, self.current]
 
@@ -195,8 +222,8 @@ class MCH:
             print "Base Current:", self.current, "A"
             print ""
 
-        else:
-            print "Unknown MCH flavor, check code and MCH class"
+        # else:
+            # print "Unknown MCH flavor, check code and MCH class"
 
 #==============
 # End MCH class
@@ -251,11 +278,15 @@ class CU:
         if self.err != '':
             if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n": # this error can be ingored
                 print self.err
+                EXITCODE.setCode(2)
                 return -1
+        if self.data == '':
+            EXITCODE.setCode(1)
+            return -1
         self.data = self.data.split('\n')
-        #=====================================================#                                                                                                                                                                      
+        #=====================================================#                                                      
         # This block is for Schroff uTCA CU type Cooling Unit #                                                                       
-        #=====================================================#                                                                                                        
+        #=====================================================#   
         if self.checkFlavor("Schroff uTCA CU"):
             for item in self.data:
                 if "+3.3V" in item:
@@ -281,7 +312,7 @@ class CU:
                 elif "Fan 6" in item:
                     self.fan6 = item.strip().split(" ")[14]
         #=====================================================#
-        # END Schroff uTCA CU type Cooling Unit block         #                                                                                                                                                                             
+        # END Schroff uTCA CU type Cooling Unit block         #                                                                       
         #=====================================================#
         return [self.CU3V3, self.CU12V, self.CU12V_1, self.LM75Temp, self.LM75Temp2, self.fan1, self.fan2, self.fan3, self.fan4, self.fan5, self.fan6]
 
@@ -305,8 +336,8 @@ class CU:
             print "Fan 6:", self.fan6, "rpm"
             print ""
 
-        else:
-            print "Unkown CU type, check code and CU class"
+        # else:
+            # print "Unkown CU type, check code and CU class"
 
 #=============
 # END CU class
@@ -320,7 +351,7 @@ class AMC13:
     '''AMC13 object'''
     def __init__(self):
         self.hostname = HOSTNAME # global variable
-        # Initializing empty variables                                                                                                                                                                                                      
+        # Initializing empty variables             
         self.flavor = None # amc13 type
         self.T2Temp = None # T2 temperature
         self.volt12V = None # 12V
@@ -338,10 +369,14 @@ class AMC13:
         if self.err != '':
             if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n": # this error can be ignored
                 print self.err
+                EXITCODE.setCode(2)
                 return -1
+        if self.data == '':
+            EXITCODE.setCode(1)
+            return -1
         self.data = self.data.split('\n')
-        #=====================================================#                                                                                                                                                                             
-        # This block is for BU AMC13 type amc13               #                                                                                                                                                                             
+        #=====================================================#                         
+        # This block is for BU AMC13 type amc13               #            
         #=====================================================#
         if "BU AMC13" in self.data[0]:
             self.flavor = "BU AMC13"
@@ -354,8 +389,8 @@ class AMC13:
                     self.volt3V3 = item.strip().split(" ")[20]
                 elif "+1.2V" in item:
                     self.volt1V2 = item.strip().split(" ")[20]
-        #=====================================================#                                                                                                                                                                             
-        # END BU AMC13 type block                             #                                                                                                                                                                             
+        #=====================================================#      
+        # END BU AMC13 type block                             #   
         #=====================================================#
         return [self.T2Temp, self.volt12V, self.volt3V3, self.volt1V2]
 
@@ -371,8 +406,8 @@ class AMC13:
             print "+3.3V:", self.volt3V3, "V"
             print "+1.2V:", self.volt1V2, "V"
             print ''
-        else:
-            print "Unkown AMC13 type, check code and AMC13 class"
+        # else:
+            # print "Unkown AMC13 type, check code and AMC13 class"
 
 ###################
 # END AMC13 class
@@ -388,7 +423,7 @@ class FC7:
         self.hostname = HOSTNAME # global variable
         self.FC7Index = FC7Index # amc index / slot number in crate
         self.entity = "193.{0}".format(96 + FC7Index) # index to entity id
-        # Initializing empty variables                                                                                                                                                                                                      
+        # Initializing empty variables                                 
         self.flavor = None # FC7 type
         self.humidity = None # humidity
         self.temperature = None # temperature
@@ -440,7 +475,11 @@ class FC7:
         if self.err != '':
             if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n": # this error can be ignored
                 print self.err
+                EXITCODE.setCode(2)
                 return -1
+        if self.data == '':
+            EXITCODE.setCode(1)
+            return -1
         self.data = self.data.split('\n')
         if "ICL-CERN FC7" in self.data[0]:
             # =======================================
@@ -459,27 +498,10 @@ class FC7:
         print "This function is not yet completed"
 
 if __name__ == "__main__":
-    try:
         # Instantiate the objects in the crate
-        MCH = MCH()
         PM1 = PM(1)
-        PM2 = PM(2)
-        CU1 = CU(1)
-        CU2 = CU(2)
-        AMC13 = AMC13()
-
-        # Print sensor values
-        MCH.printSensorValues()
+        PM4 = PM(4)
         PM1.printSensorValues()
-        PM2.printSensorValues()
-        CU1.printSensorValues()
-        CU2.printSensorValues()
-        AMC13.printSensorValues()
-        
-    except: # For now, if ANY exception is thrown it will exit with code 1
-        sys.exit(1) # Warning
-    else:
-        sys.exit(0) # Everything is normal
+        PM4.printSensorValues()
 
-
-    
+        sys.exit(EXITCODE.getCode())
