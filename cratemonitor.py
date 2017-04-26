@@ -21,22 +21,25 @@ if len(sys.argv) > 1:
 else:
     HOSTNAME = "mch-e1a04-18" # Insert hostname of mch here
 
+crate = str.upper(str.split(HOSTNAME, '-')[1] + '-' + str.split(HOSTNAME, '-')[2]) # Gives the crate name, e.g. e1a04-18 
+
+# =============================================================
+# This will be used at the end of the script to determine
+# how the script exits. If a class experiences an error it will 
+# update this variable.
 
 class EXITCODE:
-    """Quick class to let the classes update the exit code"""
+    """Quick class to let the classes update the exit code
+       0 - OK, 1 - Warning, 2 Critical, 3 Unkown"""
     def __init__(self):
-        self.code = 0 # When everything is OK
+        self.code = 0 # When everything is OK     
     def getCode(self):
         return self.code
     def setCode(self, newExitCode):
         # Will only update exit code if the new exit code is more serious than the previous
         if newExitCode > self.code:
             self.code = newExitCode
-    
-# =============================================================
-# This will be used at the end of the script to determine
-# how the script exits. If a class experiences an error it will 
-# update this variable.
+
 EXITCODE = EXITCODE()
         
 # =============================================================
@@ -66,7 +69,7 @@ class PM:
         self.currentSum = None # total current
         self.flavor = None # PM type
         # Get data upon instantiation
-        self.sensorValueList = self.getData()
+        self.output = self.getData()
 
     def setHostname(self, hostname):
         self.hostname = hostname
@@ -78,10 +81,8 @@ class PM:
             if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n": # This error can safely be ignored
                 print self.err
                 EXITCODE.setCode(2) # sys.exit(EXITCODE) will use this at the end
-                return -1
         if self.data == '':
             EXITCODE.setCode(1) # sys.exit(EXITCODE) will use this at the end
-            return -1
         self.data = self.data.split('\n')
         #=========================================#
         # This block is for NAT-PM-DC840 type PMs #
@@ -110,7 +111,12 @@ class PM:
         #==========================================#
         # End NAT-PM-DC840 block                   #
         #==========================================#
-        return [self.tempA, self.tempB, self.tempBase, self.VIN, self.VOutA, self.VOutB, self.volt12V, self.volt3V3, self.currentSum]
+        return "{0}_PM{1}_tempA={2};;;; {0}_PM{1}_tempB={3};;;; {0}_PM{1}_tempBase={4};;;; \
+{0}_PM{1}_VIN={5};;;; {0}_PM{1}_VOutA={6};;;; {0}_PM{1}_VOutB={7};;;; {0}_PM{1}_12V={8};;;; \
+{0}_PM{1}_3.3V={9};;;; {0}_PM{1}_currentSum={10};;;;"\
+            .format(crate, self.PMIndex, self.tempA, self.tempB, self.tempBase, self.VIN, self.VOutA, self.VOutB, self.volt12V, self.volt3V3, self.currentSum)
+
+
 
     def printSensorValues(self):
        # if self.flavor == "NAT-PM-DC840":
@@ -265,6 +271,11 @@ class CU:
     def checkFlavor(self, flavor):
         self._proc = subprocess.Popen(("ipmitool -H {0} -U admin -P admin sdr entity {1}".format(self.hostname, self.entity)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
         (self._data, self._err) = self._proc.communicate()
+        if self._err != '':
+            if self._err != "Get HPM.x Capabilities request failed, compcode = c9\n": # this error can be ingored
+                # print self._err
+                EXITCODE.setCode(2)
+                return -1
         self._data = self._data.split('\n')
         if flavor in self._data[0]:
             self.flavor = flavor
@@ -277,7 +288,7 @@ class CU:
         (self.data, self.err) = self.proc.communicate()
         if self.err != '':
             if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n": # this error can be ingored
-                print self.err
+                # print self.err
                 EXITCODE.setCode(2)
                 return -1
         if self.data == '':
@@ -368,7 +379,7 @@ class AMC13:
         (self.data, self.err) = self.proc.communicate()
         if self.err != '':
             if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n": # this error can be ignored
-                print self.err
+                # print self.err
                 EXITCODE.setCode(2)
                 return -1
         if self.data == '':
@@ -462,6 +473,11 @@ class FC7:
     def checkFlavor(self, flavor):
         self._proc = subprocess.Popen(("ipmitool -H {0} -U admin -P admin sdr entity {1}".format(self.hostname, self.entity)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
         (self._data, self._err) = self._proc.communicate()
+        if self._err != '':
+            if self._err != "Get HPM.x Capabilities request failed, compcode = c9\n": # this error can be ingored  
+                # print self._err
+                EXITCODE.setCode(2)
+                return -1
         self._data = self._data.split('\n')
         if flavor in self._data[0]:
             self.flavor = flavor
@@ -498,10 +514,20 @@ class FC7:
         print "This function is not yet completed"
 
 if __name__ == "__main__":
+
         # Instantiate the objects in the crate
         PM1 = PM(1)
         PM4 = PM(4)
-        PM1.printSensorValues()
-        PM4.printSensorValues()
 
+        CU1 = CU(1)
+        CU2 = CU(2)
+
+        MCH = MCH()
+        amc13 = AMC13()
+        
+        # Format output
+        status = ["OK", "WARNING", "CRITICAL", "UNKNOWN"]
+        print "Sensor values {0} | {1} {2}".format(status[EXITCODE.getCode()], PM1.output, PM4.output) 
+
+        # Exit with appropriate exit code
         sys.exit(EXITCODE.getCode())
