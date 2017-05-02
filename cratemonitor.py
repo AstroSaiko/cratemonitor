@@ -40,14 +40,13 @@ class EXITCODE:
         # Will only update exit code if the new exit code is more serious than the previous
         if newExitCode > self.code:
             self.code = newExitCode
-            self.msg = string
+            self.msg = (string.replace('\n', '. ')).replace('!. ', '!')
     def setMsg(self, string):
         self.msg = string
     def getMsg(self):
         return self.msg
 
 # =============================================================
-
 
 #=====================================
 #Defining every board as a class, hence treating each card as an object with sensor data
@@ -159,6 +158,7 @@ class MCH:
         self.flavor = None # MCH type
         self.tempCPU = None # CPU temperature
         self.tempIO = None # I/O temperature
+        self.volt1V2 = None # 1.2V
         self.volt1V5 = None # 1.5V
         self.volt1V8 = None # 1.8V
         self.volt2V5 = None # 2.5V
@@ -178,7 +178,6 @@ class MCH:
             if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n": # this error can safely be ignored
                 # print self.err
                 EXITCODE.setCode(2, self.err)
-                return -1
         if self.data == '':
             EXITCODE.setCode(1, "No data received from one or more objects in the crate")
         self.data = self.data.split('\n')
@@ -294,10 +293,8 @@ class CU:
             if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n": # this error can be ingored
                 # print self.err
                 EXITCODE.setCode(2, self.err)
-                return -1
         if self.data == '':
             EXITCODE.setCode(1, "No data received from one or more objects in the crate")
-            return -1
         self.data = self.data.split('\n')
         #=====================================================#                                                      
         # This block is for Schroff uTCA CU type Cooling Unit #                                                                       
@@ -391,7 +388,6 @@ class AMC13:
                 EXITCODE.setCode(2, self.err)
         if self.data == '':
             EXITCODE.setCode(1, "No data received from one or more objects in the crate")
-            return -1
         self.data = self.data.split('\n')
         #=====================================================#                         
         # This block is for BU AMC13 type amc13               #            
@@ -486,7 +482,6 @@ class FC7:
             if self._err != "Get HPM.x Capabilities request failed, compcode = c9\n": # this error can be ingored  
                 # print self._err
                 EXITCODE.setCode(2, self._err)
-                return -1
         self._data = self._data.split('\n')
         if flavor in self._data[0]:
             self.flavor = flavor
@@ -503,7 +498,6 @@ class FC7:
                 EXITCODE.setCode(2, self.err)
         if self.data == '':
             EXITCODE.setCode(1, "No data received from one or more objects in the crate")
-            return -1
         self.data = self.data.split('\n')
         if "ICL-CERN FC7" in self.data[0]:
             # =======================================
