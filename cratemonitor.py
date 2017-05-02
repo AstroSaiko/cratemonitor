@@ -19,7 +19,7 @@ import os
 if len(sys.argv) > 1:
     HOSTNAME = sys.argv[1]
 else:
-    HOSTNAME = "mch-e1a04-18" # Insert hostname of mch here
+    HOSTNAME = "mch-s1g04-18-01" # Insert hostname of mch here
 
 crate = str.upper(str.split(HOSTNAME, '-')[1] + '-' + str.split(HOSTNAME, '-')[2]) # Gives the crate name, e.g. e1a04-18 
 
@@ -32,16 +32,20 @@ class EXITCODE:
     """Quick class to let the classes update the exit code
        0 - OK, 1 - Warning, 2 Critical, 3 Unkown"""
     def __init__(self):
-        self.code = 0 # When everything is OK     
+        self.code = 0 # When everything is OK
+        self.msg = "OK"
     def getCode(self):
         return self.code
-    def setCode(self, newExitCode):
+    def setCode(self, newExitCode, string="Something happened"):
         # Will only update exit code if the new exit code is more serious than the previous
         if newExitCode > self.code:
             self.code = newExitCode
+            self.msg = string
+    def setMsg(self, string):
+        self.msg = string
+    def getMsg(self):
+        return self.msg
 
-EXITCODE = EXITCODE()
-        
 # =============================================================
 
 
@@ -79,10 +83,10 @@ class PM:
         (self.data, self.err) = self.proc.communicate()
         if self.err != '':
             if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n": # This error can safely be ignored
-                print self.err
-                EXITCODE.setCode(2) # sys.exit(EXITCODE) will use this at the end
+                # print self.err
+                EXITCODE.setCode(2, self.err) # sys.exit(EXITCODE) will use this at the end
         if self.data == '':
-            EXITCODE.setCode(1) # sys.exit(EXITCODE) will use this at the end
+            EXITCODE.setCode(1, "No data received from one or more crate objects") # sys.exit(EXITCODE) will use this at the end
         self.data = self.data.split('\n')
         #=========================================#
         # This block is for NAT-PM-DC840 type PMs #
@@ -111,12 +115,10 @@ class PM:
         #==========================================#
         # End NAT-PM-DC840 block                   #
         #==========================================#
-        return "{0}_PM{1}_tempA={2};;;; {0}_PM{1}_tempB={3};;;; {0}_PM{1}_tempBase={4};;;; \
-{0}_PM{1}_VIN={5};;;; {0}_PM{1}_VOutA={6};;;; {0}_PM{1}_VOutB={7};;;; {0}_PM{1}_12V={8};;;; \
-{0}_PM{1}_3.3V={9};;;; {0}_PM{1}_currentSum={10};;;;"\
-            .format(crate, self.PMIndex, self.tempA, self.tempB, self.tempBase, self.VIN, self.VOutA, self.VOutB, self.volt12V, self.volt3V3, self.currentSum)
-
-
+        return "PM{0}_tempA={1};;;; PM{0}_tempB={2};;;; PM{0}_tempBase={3};;;; \
+PM{0}_VIN={4};;;; PM{0}_VOutA={5};;;; PM{0}_VOutB={6};;;; PM{0}_12V={7};;;; \
+PM{0}_3.3V={8};;;; PM{0}_currentSum={9};;;;"\
+            .format(self.PMIndex, self.tempA, self.tempB, self.tempBase, self.VIN, self.VOutA, self.VOutB, self.volt12V, self.volt3V3, self.currentSum)
 
     def printSensorValues(self):
        # if self.flavor == "NAT-PM-DC840":
@@ -164,7 +166,7 @@ class MCH:
         self.volt12V = None # 12V
         self.current = None # base current
         # Get data upon instantiation                                                                                                                                                                                                
-        self.sensorValueList = self.getData()
+        self.output = self.getData()
 
     def setHostname(self, hostname):
         self.hostname = hostname
@@ -174,12 +176,11 @@ class MCH:
         (self.data, self.err) = self.proc.communicate()
         if self.err != '':
             if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n": # this error can safely be ignored
-                print self.err
-                EXITCODE.setCode(2)
+                # print self.err
+                EXITCODE.setCode(2, self.err)
                 return -1
         if self.data == '':
-            EXITCODE.setCode(1)
-            return -1
+            EXITCODE.setCode(1, "No data received from one or more objects in the crate")
         self.data = self.data.split('\n')
        #=========================================#
        # This block is for NAT-MCH-MCMC type MCH #
@@ -208,8 +209,12 @@ class MCH:
         #==========================================#                                  
         # End NAT-MCH-MCMC block                   #                                                      
         #==========================================#            
-        return [self.tempCPU, self.tempIO, self.volt1V2, self.volt1V8, self.volt2V5, self.volt3V3, self.volt12V, self.current]
-
+        # return [self.tempCPU, self.tempIO, self.volt1V2, self.volt1V8, self.volt2V5, self.volt3V3, self.volt12V, self.current]
+        return "MCH{0}_tempCPU={1};;;; MCH{0}_tempIO={2};;;; MCH{0}_1.2V={3};;;; \
+MCH{0}_1.5V={4};;;; MCH{0}_1.8V={5};;;; MCH{0}_2.5V={6};;;; MCH{0}_3.3V={7};;;; \
+MCH{0}_12V={8};;;; MCH{0}_baseCurrent={9};;;;"\
+            .format(self.MCHIndex, self.tempCPU, self.tempIO, self.volt1V2, self.volt1V5, self.volt1V8, self.volt2V5, self.volt3V3, self.volt12V, self.current)
+ 
     def printSensorValues(self):
         if self.flavor == "NAT-MCH-MCMC":
             print ''
@@ -263,7 +268,7 @@ class CU:
         self.fan5 = None # fan speed
         self.fan6 = None # fan speed
         # Get data upon instantiation
-        self.sensorValueList = self.getData()
+        self.output = self.getData()
 
     def setHostname(self, hostname):
         self.hostname = hostname
@@ -274,8 +279,7 @@ class CU:
         if self._err != '':
             if self._err != "Get HPM.x Capabilities request failed, compcode = c9\n": # this error can be ingored
                 # print self._err
-                EXITCODE.setCode(2)
-                return -1
+                EXITCODE.setCode(2, self._err)
         self._data = self._data.split('\n')
         if flavor in self._data[0]:
             self.flavor = flavor
@@ -289,10 +293,10 @@ class CU:
         if self.err != '':
             if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n": # this error can be ingored
                 # print self.err
-                EXITCODE.setCode(2)
+                EXITCODE.setCode(2, self.err)
                 return -1
         if self.data == '':
-            EXITCODE.setCode(1)
+            EXITCODE.setCode(1, "No data received from one or more objects in the crate")
             return -1
         self.data = self.data.split('\n')
         #=====================================================#                                                      
@@ -325,7 +329,11 @@ class CU:
         #=====================================================#
         # END Schroff uTCA CU type Cooling Unit block         #                                                                       
         #=====================================================#
-        return [self.CU3V3, self.CU12V, self.CU12V_1, self.LM75Temp, self.LM75Temp2, self.fan1, self.fan2, self.fan3, self.fan4, self.fan5, self.fan6]
+        # return [self.CU3V3, self.CU12V, self.CU12V_1, self.LM75Temp, self.LM75Temp2, self.fan1, self.fan2, self.fan3, self.fan4, self.fan5, self.fan6]
+        return "CU{0}_temp1={1};;;; CU{0}_temp2={2};;;; CU{0}_3.3V={3};;;; \
+CU{0}_12V={4};;;; CU{0}_12V_1={5};;;; CU{0}_fan1={6};;;; CU{0}_fan2={7};;;; \
+CU{0}_fan3={8};;;; CU{0}_fan4={9};;;; CU{0}_fan5={10};;;; CU{0}_fan6={10};;;;"\
+            .format(self.CUIndex, self.LM75Temp, self.LM75Temp2, self.CU3V3, self.CU12V, self.CU12V_1, self.fan1, self.fan2, self.fan3, self.fan4, self.fan5, self.fan6)
 
     def printSensorValues(self):
         if self.flavor == "Schroff uTCA CU":
@@ -369,7 +377,7 @@ class AMC13:
         self.volt3V3 = None # 3.3V
         self.volt1V2 = None # 1.2V
         # Get data upon instantiation     
-        self.sensorValueList = self.getData()
+        self.output = self.getData()
 
     def setHostname(self, hostname):
         self.hostname = hostname
@@ -380,10 +388,9 @@ class AMC13:
         if self.err != '':
             if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n": # this error can be ignored
                 # print self.err
-                EXITCODE.setCode(2)
-                return -1
+                EXITCODE.setCode(2, self.err)
         if self.data == '':
-            EXITCODE.setCode(1)
+            EXITCODE.setCode(1, "No data received from one or more objects in the crate")
             return -1
         self.data = self.data.split('\n')
         #=====================================================#                         
@@ -403,7 +410,9 @@ class AMC13:
         #=====================================================#      
         # END BU AMC13 type block                             #   
         #=====================================================#
-        return [self.T2Temp, self.volt12V, self.volt3V3, self.volt1V2]
+        # return [self.T2Temp, self.volt12V, self.volt3V3, self.volt1V2]
+        return "AMC13_T2Temp={0};;;; AMC13_1.2V={1};;;; AMC13_3.3V={2};;;; AMC13_12V={3};;;;"\
+            .format(self.T2Temp, self.volt1V2, self.volt3V3, self.volt12V)
 
     def printSensorValues(self):
         if self.flavor == "BU AMC13":
@@ -476,7 +485,7 @@ class FC7:
         if self._err != '':
             if self._err != "Get HPM.x Capabilities request failed, compcode = c9\n": # this error can be ingored  
                 # print self._err
-                EXITCODE.setCode(2)
+                EXITCODE.setCode(2, self._err)
                 return -1
         self._data = self._data.split('\n')
         if flavor in self._data[0]:
@@ -491,10 +500,9 @@ class FC7:
         if self.err != '':
             if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n": # this error can be ignored
                 print self.err
-                EXITCODE.setCode(2)
-                return -1
+                EXITCODE.setCode(2, self.err)
         if self.data == '':
-            EXITCODE.setCode(1)
+            EXITCODE.setCode(1, "No data received from one or more objects in the crate")
             return -1
         self.data = self.data.split('\n')
         if "ICL-CERN FC7" in self.data[0]:
@@ -515,19 +523,36 @@ class FC7:
 
 if __name__ == "__main__":
 
-        # Instantiate the objects in the crate
-        PM1 = PM(1)
-        PM4 = PM(4)
-
-        CU1 = CU(1)
-        CU2 = CU(2)
-
-        MCH = MCH()
-        amc13 = AMC13()
-        
-        # Format output
-        status = ["OK", "WARNING", "CRITICAL", "UNKNOWN"]
-        print "Sensor values {0} | {1} {2}".format(status[EXITCODE.getCode()], PM1.output, PM4.output) 
-
-        # Exit with appropriate exit code
-        sys.exit(EXITCODE.getCode())
+    EXITCODE = EXITCODE() # For proper exit codes
+    # Instantiate the objects in the crate
+    
+    # =========================================
+    # Basic uTCA crate / Common for every crate
+    # =========================================
+    PM1 = PM(1)
+    PM4 = PM(4)
+    CU1 = CU(1)
+    CU2 = CU(2)
+    MCH = MCH()
+    amc13 = AMC13()
+    # =========================================
+    # FC7s and crate specifics
+    # =========================================
+    
+    # =========================================
+    # Format output
+    # =========================================
+    status = ["OK", "WARNING", "CRITICAL", "UNKNOWN"]
+    if EXITCODE.getCode() == 0:
+        print "Sensor values {0} | {1} {2} {3} {4} {5} {6}".format(status[EXITCODE.getCode()], PM1.output, PM4.output, CU1.output, CU2.output, MCH.output, amc13.output) 
+    else:
+        print "Sensor values {0}, Message: {1} | {2} {3} {4} {5} {6} {7}".format(status[EXITCODE.getCode()], EXITCODE.getMsg(), PM1.output, PM4.output, CU1.output, CU2.output, MCH.output, amc13.output)
+    
+    MCH.printSensorValues()
+    PM1.printSensorValues()
+    PM4.printSensorValues()
+    CU1.printSensorValues()
+    CU2.printSensorValues()
+    amc13.printSensorValues()
+    # Exit with appropriate exit code
+    sys.exit(EXITCODE.getCode())
