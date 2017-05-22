@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta http-equiv="refresh" content="300">
+        <title>TCDS System Monitoring with RRDtool</title>
+</head>
+<body>
+
+<h1>Ph1 Pixel Crate Monitoring Daily Plots</h1>
+
+<table style="width:100%">
+        <tr>
+                <td><a href="./crates.html">Daily Plots</a></td>
+                <td><a href="./crates-weekly.html">Weekly Plots</a></td>
+                <td><a href="./crates-monthly.html">Monthly Plots</a></td>
+                <td><a href="./crates_nic.html">Control Hub Traffic Plots</a></td>
+        </tr>
+</table>
+
+<table style="width:100%">
+
+  <tr>
+    <td><img src="./png/s1g01-45-w-mchtemp.png"></td>
+    <td><img src="./png/s1g01-45-w-fmctemp.png"></td>
+    <td><img src="./png/s1g01-45-w-curr.png"></td>
+    <td><img src="./png/s1g01-45-w-12curr.png"></td>
+    <td><img src="./png/s1g01-45-w-v1.png"></td>
+    <td><img src="./png/s1g01-45-w-v2.png"></td>
+    <td><img src="./png/s1g01-45-w-v3.png"></td>
+    <td><img src="./png/s1g01-45-w-v4.png"></td>
+    <td><img src="./png/s1g01-45-w-vcc.png"></td>
+  </tr>
+  <tr>
+    <td><img src="./png/s1g01-36-w-mchtemp.png"></td>
+    <td><img src="./png/s1g01-36-w-fmctemp.png"></td>
+    <td><img src="./png/s1g01-36-w-curr.png"></td>
+    <td><img src="./png/s1g01-36-w-12curr.png"></td>
+    <td><img src="./png/s1g01-36-w-v1.png"></td>
+    <td><img src="./png/s1g01-36-w-v2.png"></td>
+    <td><img src="./png/s1g01-36-w-v3.png"></td>
+    <td><img src="./png/s1g01-36-w-v4.png"></td>
+    <td><img src="./png/s1g01-36-w-vcc.png"></td>
+  </tr>
+  <tr>
+    <td><img src="./png/s1g01-27-w-mchtemp.png"></td>
+    <td><img src="./png/s1g01-27-w-fmctemp.png"></td>
+    <td><img src="./png/s1g01-27-w-curr.png"></td>
+    <td><img src="./png/s1g01-27-w-12curr.png"></td>
+    <td><img src="./png/s1g01-27-w-v1.png"></td>
+    <td><img src="./png/s1g01-27-w-v2.png"></td>
+    <td><img src="./png/s1g01-27-w-v3.png"></td>
+    <td><img src="./png/s1g01-27-w-v4.png"></td>
+    <td><img src="./png/s1g01-27-w-vcc.png"></td>
+  </tr>
+  <tr>
+    <td><img src="./png/s1g01-18-w-mchtemp.png"></td>
+    <td><img src="./png/s1g01-18-w-fmctemp.png"></td>
+    <td><img src="./png/s1g01-18-w-curr.png"></td>
+    <td><img src="./png/s1g01-18-w-12curr.png"></td>
+    <td><img src="./png/s1g01-18-w-v1.png"></td>
+    <td><img src="./png/s1g01-18-w-v2.png"></td>
+    <td><img src="./png/s1g01-18-w-v3.png"></td>
+    <td><img src="./png/s1g01-18-w-v4.png"></td>
+    <td><img src="./png/s1g01-18-w-vcc.png"></td>
+  </tr>
+  <tr>
+    <td><img src="./png/s1g03-45-w-mchtemp.png"></td>
+    <td><img src="./png/s1g03-45-w-fmctemp.png"></td>
+    <td><img src="./png/s1g03-45-w-curr.png"></td>
+    <td><img src="./png/s1g03-45-w-12curr.png"></td>
+    <td><img src="./png/s1g03-45-w-v1.png"></td>
+    <td><img src="./png/s1g03-45-w-v2.png"></td>
+    <td><img src="./png/s1g03-45-w-v3.png"></td>
+    <td><img src="./png/s1g03-45-w-v4.png"></td>
+    <td><img src="./png/s1g03-45-w-vcc.png"></td>
+  </tr>
+  <tr>
+    <td><img src="./png/s1g03-36-w-mchtemp.png"></td>
+    <td><img src="./png/s1g03-36-w-fmctemp.png"></td>
+    <td><img src="./png/s1g03-36-w-curr.png"></td>
+    <td><img src="./png/s1g03-36-w-12curr.png"></td>
+    <td><img src="./png/s1g03-36-w-v1.png"></td>
+    <td><img src="./png/s1g03-36-w-v2.png"></td>
+    <td><img src="./png/s1g03-36-w-v3.png"></td>
+    <td><img src="./png/s1g03-36-w-v4.png"></td>
+    <td><img src="./png/s1g03-36-w-vcc.png"></td>
+  </tr>
+  <tr>
+    <td><img src="./png/s1g03-27-w-mchtemp.png"></td>
+    <td><img src="./png/s1g03-27-w-fmctemp.png"></td>
+    <td><img src="./png/s1g03-27-w-curr.png"></td>
+    <td><img src="./png/s1g03-27-w-12curr.png"></td>
+    <td><img src="./png/s1g03-27-w-v1.png"></td>
+    <td><img src="./png/s1g03-27-w-v2.png"></td>
+    <td><img src="./png/s1g03-27-w-v3.png"></td>
+    <td><img src="./png/s1g03-27-w-v4.png"></td>
+    <td><img src="./png/s1g03-27-w-vcc.png"></td>
+  </tr>
+  <tr>
+    <td><img src="./png/s1g03-18-w-mchtemp.png"></td>
+    <td><img src="./png/s1g03-18-w-fmctemp.png"></td>
+    <td><img src="./png/s1g03-18-w-curr.png"></td>
+    <td><img src="./png/s1g03-18-w-12curr.png"></td>
+    <td><img src="./png/s1g03-18-w-v1.png"></td>
+    <td><img src="./png/s1g03-18-w-v2.png"></td>
+    <td><img src="./png/s1g03-18-w-v3.png"></td>
+    <td><img src="./png/s1g03-18-w-v4.png"></td>
+    <td><img src="./png/s1g03-18-w-vcc.png"></td>
+  </tr>
+  <tr>
+    <td><img src="./png/s1g04-45-w-mchtemp.png"></td>
+    <td><img src="./png/s1g04-45-w-fmctemp.png"></td>
+    <td><img src="./png/s1g04-45-w-curr.png"></td>
+    <td><img src="./png/s1g04-45-w-12curr.png"></td>
+    <td><img src="./png/s1g04-45-w-v1.png"></td>
+    <td><img src="./png/s1g04-45-w-v2.png"></td>
+    <td><img src="./png/s1g04-45-w-v3.png"></td>
+    <td><img src="./png/s1g04-45-w-v4.png"></td>
+    <td><img src="./png/s1g04-45-w-vcc.png"></td>
+  </tr>
+  <tr>
+    <td><img src="./png/s1g04-36-w-mchtemp.png"></td>
+    <td><img src="./png/s1g04-36-w-fmctemp.png"></td>
+    <td><img src="./png/s1g04-36-w-curr.png"></td>
+    <td><img src="./png/s1g04-36-w-12curr.png"></td>
+    <td><img src="./png/s1g04-36-w-v1.png"></td>
+    <td><img src="./png/s1g04-36-w-v2.png"></td>
+    <td><img src="./png/s1g04-36-w-v3.png"></td>
+    <td><img src="./png/s1g04-36-w-v4.png"></td>
+    <td><img src="./png/s1g04-36-w-vcc.png"></td>
+  </tr>
+  <tr>
+    <td><img src="./png/s1g04-27-w-mchtemp.png"></td>
+    <td><img src="./png/s1g04-27-w-fmctemp.png"></td>
+    <td><img src="./png/s1g04-27-w-curr.png"></td>
+    <td><img src="./png/s1g04-27-w-12curr.png"></td>
+    <td><img src="./png/s1g04-27-w-v1.png"></td>
+    <td><img src="./png/s1g04-27-w-v2.png"></td>
+    <td><img src="./png/s1g04-27-w-v3.png"></td>
+    <td><img src="./png/s1g04-27-w-v4.png"></td>
+    <td><img src="./png/s1g04-27-w-vcc.png"></td>
+  </tr>
+  <tr>
+    <td><img src="./png/s1g04-18-w-mchtemp.png"></td>
+    <td><img src="./png/s1g04-18-w-fmctemp.png"></td>
+    <td><img src="./png/s1g04-18-w-curr.png"></td>
+    <td><img src="./png/s1g04-18-w-12curr.png"></td>
+    <td><img src="./png/s1g04-18-w-v1.png"></td>
+    <td><img src="./png/s1g04-18-w-v2.png"></td>
+    <td><img src="./png/s1g04-18-w-v3.png"></td>
+    <td><img src="./png/s1g04-18-w-v4.png"></td>
+    <td><img src="./png/s1g04-18-w-vcc.png"></td>
+  </tr>
+
+  <tr>
+    <td>&nbsp</td>
+    <td>&nbsp</td>
+  </tr>
+</table>
+
+<table style="width:100%">
+        <tr>
+                <td><a href="./crates.html">Daily Plots</a></td>
+                <td><a href="./crates-weekly.html">Weekly Plots</a></td>
+                <td><a href="./crates-monthly.html">Monthly Plots</a></td>
+                <td><a href="./crates_nic.html">Control Hub Traffic Plots</a></td>
+        </tr>
+</table>
+
+</body>
+</html>

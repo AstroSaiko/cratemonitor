@@ -1,0 +1,55 @@
+#!/usr/bin/env python
+
+import netsnmp
+import os
+import sys
+from rrdtool import update as rrd_update
+
+os.environ['MIBS'] = 'ACX-MIB:SNMPv2-SMI' # To add the acdc controller's MIB to snmp's path
+
+hostname = sys.argv[1] # Call the script with a hostname
+
+temp = [None] * 4 
+outVolt = [None] * 4
+inVolt = [None] * 4
+outCurr = [None] * 4
+
+for module in [0, 1, 2, 3]: # There are 4 rectifier modules, numbered from left to right and top to bottom
+    temp[module] = netsnmp.Varbind("ACX-MIB::temperature.{0}".format(module))
+    outVolt[module] = netsnmp.Varbind("ACX-MIB::outputVoltage.{0}".format(module)) # V*10
+    inVolt[module] = netsnmp.Varbind("ACX-MIB::inputVoltage.{0}".format(module))
+    outCurr[module] = netsnmp.Varbind("ACX-MIB::outputCurrent.{0}".format(module)) # A*10
+
+ph1Volt = netsnmp.Varbind("ACX-MIB::acPhase1Voltage.0")
+ph2Volt = netsnmp.Varbind("ACX-MIB::acPhase2Voltage.0")
+ph3Volt = netsnmp.Varbind("ACX-MIB::acPhase3Voltage.0")
+
+systemVoltage = netsnmp.Varbind("ACX-MIB::systemVoltage.0") #V*100
+rectifierCurrent = netsnmp.Varbind("ACX-MIB::rectifierCurrent.0") #A*10
+
+# netsnmp.snmpget() seems to only be able to hold 19 OIDs
+data1 = netsnmp.snmpget(temp[0], temp[1], temp[2], temp[3], \
+                           outVolt[0], outVolt[1], outVolt[2], outVolt[3], \
+                           inVolt[0], inVolt[1], inVolt[2], inVolt[3], \
+                           outCurr[0], outCurr[1], outCurr[2], outCurr[3], \
+                           ph1Volt, ph2Volt, ph3Volt, \
+                           Version = 2, \
+                           DestHost = hostname, \
+                           Community = 'accread')
+
+data2 = netsnmp.snmpget(systemVoltage, rectifierCurrent,
+                        Version = 2,
+                        DestHost = hostname,
+                        Community = 'accread')
+
+outVoltAdjusted = [float(data1[4])/10, float(data1[5])/10, float(data1[6])/10, float(data1[7])/10]
+outCurrAdjusted = [float(data1[12])/10, float(data1[13])/10, float(data1[14])/10, float(data1[15])/10]
+systemVoltageAdjusted = float(data2[0])/100
+rectifierCurrentAdjusted = float(data2[1])/10
+                
+ret = rrd_update('/home/xtaldaq/cratemonitor_v3/rrd/{0}.rrd'.format(hostname),
+                 'N:{0[0]}:{0[1]}:{0[2]}:{0[3]}:{1[0]}:{1[1]}:{1[2]}:{1[3]}:{0[8]}:{0[9]}:{0[10]}:{0[11]}:{2[0]}:{2[1]}:{2[2]}:{2[3]}:{0[16]}:{0[17]}:{0[18]}:{3}:{4}'.format(data1,
+                                                                                                                                                                              outVoltAdjusted,
+                                                                                                                                                                              outCurrAdjusted,
+                                                                                                                                                                              systemVoltageAdjusted,
+                                                                                                                                                                              rectifierCurrentAdjusted))

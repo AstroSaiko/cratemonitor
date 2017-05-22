@@ -1,0 +1,4 @@
+#/bin/bash 
+echo "hello"
+
+ipmitool -H mch-e1a04-18 -P '' -T 0x82 -b 7 -B 0 -t 0xc2 sdr | grep ("TBrick-A", "TBrick-B")

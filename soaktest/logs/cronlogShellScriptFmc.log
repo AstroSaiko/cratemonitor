@@ -1,0 +1,1742 @@
+Did not find any conflicting processes, carry on
+[0;31m05-01-17 14:55:03.800396 [7ffa42fdd700] ERROR - The ControlHub did not receive any response from the target with URI: chtcp-2.0://cmsfpixch001.cern.ch:10203?target=amc-s1g03-18-11:50001[0m
+[0;31m05-01-17 14:55:03.800461 [7ffa42fdd700] ERROR - ControlHub error code is: 3[0m
+Could not connect to amc-s1g03-18-11
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-18-02
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-45-08
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+[0;31m05-01-17 14:55:03.870655 [7f1541cb7700] ERROR - The ControlHub did not receive any response from the target with URI: chtcp-2.0://cmsfpixch001.cern.ch:10203?target=amc-s1g01-36-12:50001[0m
+[0;31m05-01-17 14:55:03.870703 [7f1541cb7700] ERROR - ControlHub error code is: 3[0m
+Could not connect to amc-s1g01-36-12
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-45-04
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+[0;31m05-01-17 14:55:03.892423 [7f9efd248700] ERROR - The ControlHub did not receive any response from the target with URI: chtcp-2.0://cmsfpixch001.cern.ch:10203?target=amc-s1g03-18-12:50001[0m
+[0;31m05-01-17 14:55:03.892484 [7f9efd248700] ERROR - ControlHub error code is: 3[0m
+Could not connect to amc-s1g03-18-12
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-27-05
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-27-10
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-36-04
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-45-04
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-36-05
+--=======================================--
+ChipsExceptionTraceback (most recent call last):
+.  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-18-07
+--=======================================--
+    Traceback (most recent call last):
+fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+        self.queueRun()
+raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-36-11
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+[0;31m05-01-17 14:55:03.935448 [7faf5fc0c700] ERROR - The ControlHub did not receive any response from the target with URI: chtcp-2.0://cmsfpixch001.cern.ch:10203?target=amc-s1g01-45-12:50001[0m
+[0;31m05-01-17 14:55:03.935513 [7faf5fc0c700] ERROR - ControlHub error code is: 3[0m
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-36-07
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-18-09
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Could not connect to amc-s1g01-45-12
+Did not find any conflicting processes, carry on
+[0;31m05-01-17 14:55:03.943558 [7f0372505700] ERROR - The ControlHub did not receive any response from the target with URI: chtcp-2.0://cmsfpixch001.cern.ch:10203?target=amc-s1g03-27-12:50001[0m
+[0;31m05-01-17 14:55:03.943623 [7f0372505700] ERROR - ControlHub error code is: 3[0m
+Could not connect to amc-s1g03-27-12
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-36-03
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-45-07
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-36-04
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-45-06
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-45-05
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-45-09
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-45-01
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-27-07
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-27-04
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-18-05
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-36-01
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-45-03
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+[0;31m05-01-17 14:55:04.014816 [7fba6135d700] ERROR - The ControlHub did not receive any response from the target with URI: chtcp-2.0://cmsfpixch001.cern.ch:10203?target=amc-s1g03-45-12:50001[0m
+[0;31m05-01-17 14:55:04.014884 [7fba6135d700] ERROR - ControlHub error code is: 3[0m
+Did not find any conflicting processes, carry on
+[0;31m05-01-17 14:55:04.014950 [7f7845868700] ERROR - The ControlHub did not receive any response from the target with URI: chtcp-2.0://cmsfpixch001.cern.ch:10203?target=amc-s1g03-27-11:50001[0m
+[0;31m05-01-17 14:55:04.015059 [7f7845868700] ERROR - ControlHub error code is: 3[0m
+Could not connect to amc-s1g03-45-12
+Could not connect to amc-s1g03-27-11
+Did not find any conflicting processes, carry on
+[0;31m05-01-17 14:55:04.033921 [7fd71791b700] ERROR - Hostname to IP look up failed for hostname=amc-s1g04-36-10, port=50001[0m
+[0;31m05-01-17 14:55:04.034006 [7fd71791b700] ERROR - ASIO threw exception with what returning: "resolve: Host not found (authoritative)"[0m
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-27-12
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 121, in <module>
+    if not fmcPresent(hostname):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 42, in fmcPresent
+    fed = manager.getDevice(hostname)
+uhal._core.exception: Hostname to IP look up failed for hostname=amc-s1g04-36-10, port=50001
+ASIO threw exception with what returning: "resolve: Host not found (authoritative)"
+
+Did not find any conflicting processes, carry on
+[0;31m05-01-17 14:55:04.037149 [7f43ec3b4700] ERROR - The ControlHub did not receive any response from the target with URI: chtcp-2.0://cmsfpixch001.cern.ch:10203?target=amc-s1g03-36-12:50001[0m
+[0;31m05-01-17 14:55:04.037197 [7f43ec3b4700] ERROR - ControlHub error code is: 3[0m
+Did not find any conflicting processes, carry on
+[0;31m05-01-17 14:55:04.037254 [7f9c4df9b700] ERROR - The ControlHub did not receive any response from the target with URI: chtcp-2.0://cmsfpixch001.cern.ch:10203?target=amc-s1g03-36-11:50001[0m
+[0;31m05-01-17 14:55:04.037301 [7f9c4df9b700] ERROR - ControlHub error code is: 3[0m
+Could not connect to amc-s1g03-36-11
+Could not connect to amc-s1g03-36-12
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-36-07
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+[0;31m05-01-17 14:55:04.044138 [7f910ba7e700] ERROR - Hostname to IP look up failed for hostname=amc-s1g04-45-11, port=50001[0m
+[0;31m05-01-17 14:55:04.044228 [7f910ba7e700] ERROR - ASIO threw exception with what returning: "resolve: Host not found (authoritative)"[0m
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 121, in <module>
+    if not fmcPresent(hostname):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 42, in fmcPresent
+    fed = manager.getDevice(hostname)
+uhal._core.exception: Hostname to IP look up failed for hostname=amc-s1g04-45-11, port=50001
+ASIO threw exception with what returning: "resolve: Host not found (authoritative)"
+
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-36-02
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-18-04
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-27-09
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-45-03
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-18-08
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-18-10
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-45-01
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-36-01
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-18-06
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+[0;31m05-01-17 14:55:04.087840 [7fbdc1123700] ERROR - Hostname to IP look up failed for hostname=amc-s1g04-36-11, port=50001[0m
+[0;31m05-01-17 14:55:04.087918 [7fbdc1123700] ERROR - ASIO threw exception with what returning: "resolve: Host not found (authoritative)"[0m
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-45-11
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 121, in <module>
+    if not fmcPresent(hostname):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 42, in fmcPresent
+    fed = manager.getDevice(hostname)
+uhal._core.exception: Hostname to IP look up failed for hostname=amc-s1g04-36-11, port=50001
+ASIO threw exception with what returning: "resolve: Host not found (authoritative)"
+
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-36-10
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-36-06
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+[0;31m05-01-17 14:55:04.112824 [7fcdb8612700] ERROR - Hostname to IP look up failed for hostname=amc-s1g04-45-09, port=50001[0m
+[0;31m05-01-17 14:55:04.112863 [7fcdb8612700] ERROR - ASIO threw exception with what returning: "resolve: Host not found (authoritative)"[0m
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-36-08
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 121, in <module>
+    if not fmcPresent(hostname):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 42, in fmcPresent
+    fed = manager.getDevice(hostname)
+uhal._core.exception: Hostname to IP look up failed for hostname=amc-s1g04-45-09, port=50001
+ASIO threw exception with what returning: "resolve: Host not found (authoritative)"
+
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-27-03
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-27-02
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+[0;31m05-01-17 14:55:04.117379 [7f7f088b1700] ERROR - Hostname to IP look up failed for hostname=amc-s1g04-36-09, port=50001[0m
+[0;31m05-01-17 14:55:04.117445 [7f7f088b1700] ERROR - ASIO threw exception with what returning: "resolve: Host not found (authoritative)"[0m
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-27-08
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 121, in <module>
+    if not fmcPresent(hostname):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 42, in fmcPresent
+    fed = manager.getDevice(hostname)
+uhal._core.exception: Hostname to IP look up failed for hostname=amc-s1g04-36-09, port=50001
+ASIO threw exception with what returning: "resolve: Host not found (authoritative)"
+
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-18-04
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-36-10
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-27-07
+--=======================================--
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-45-07
+--=======================================--
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+        fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+        self.queueRun()
+self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsExceptionChipsException..ChipsExceptionChipsException: : Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-45-04
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-27-08
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-36-03
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-27-06
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException:     Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-27-04
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+[0;31m05-01-17 14:55:04.160910 [7f9549035700] ERROR - Hostname to IP look up failed for hostname=amc-s1g04-45-12, port=50001[0m
+[0;31m05-01-17 14:55:04.160983 [7f9549035700] ERROR - ASIO threw exception with what returning: "resolve: Host not found (authoritative)"[0m
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-27-06
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-36-02
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-45-02
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-27-05
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-45-05
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-36-05
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-27-10
+--=======================================--
+    Traceback (most recent call last):
+self.queueRun()
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+    ChipsExceptionfc7.write("fitel_i2c_cmd_reset",1) #1: EN
+.ChipsException:   File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+[0;31m05-01-17 14:55:04.183909 [7f5a2d96f700] ERROR - Hostname to IP look up failed for hostname=amc-s1g04-36-12, port=50001[0m
+[0;31m05-01-17 14:55:04.184031 [7f5a2d96f700] ERROR - ASIO threw exception with what returning: "resolve: Host not found (authoritative)"[0m
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-45-08
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-18-02
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 121, in <module>
+    if not fmcPresent(hostname):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 42, in fmcPresent
+    fed = manager.getDevice(hostname)
+uhal._core.exception: Hostname to IP look up failed for hostname=amc-s1g04-36-12, port=50001
+ASIO threw exception with what returning: "resolve: Host not found (authoritative)"
+
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-36-08
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+[0;31m05-01-17 14:55:04.194176 [7f1c7eeed700] ERROR - The ControlHub did not receive any response from the target with URI: chtcp-2.0://cmsfpixch001.cern.ch:10203?target=amc-s1g03-45-08:50001[0m
+Did not find any conflicting processes, carry on
+[0;31m05-01-17 14:55:04.194173 [7efeb0cd6700] ERROR - The ControlHub did not receive any response from the target with URI: chtcp-2.0://cmsfpixch001.cern.ch:10203?target=amc-s1g04-27-11:50001[0m
+[0;31m05-01-17 14:55:04.194269 [7f1c7eeed700] ERROR - ControlHub error code is: 3[0m
+[0;31m05-01-17 14:55:04.194286 [7efeb0cd6700] ERROR - ControlHub error code is: 3[0m
+Could not connect to amc-s1g04-27-11
+Could not connect to amc-s1g03-45-08
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-36-08
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+Did not find any conflicting processes, carry on
+[0;31m05-01-17 14:55:04.214247 [7fd11099c700] ERROR - Hostname to IP look up failed for hostname=amc-s1g04-45-10, port=50001[0m
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+[0;31m05-01-17 14:55:04.214327 [7fd11099c700] ERROR - ASIO threw exception with what returning: "resolve: Host not found (authoritative)"[0m
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-45-05
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 121, in <module>
+    if not fmcPresent(hostname):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 42, in fmcPresent
+    fed = manager.getDevice(hostname)
+uhal._core.exception: Hostname to IP look up failed for hostname=amc-s1g04-45-10, port=50001
+ASIO threw exception with what returning: "resolve: Host not found (authoritative)"
+
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-27-03
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-45-06
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-27-02
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-36-06
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-27-09
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-18-09
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+[0;31m05-01-17 14:55:04.231860 [7fd45e0ce700] ERROR - The ControlHub did not receive any response from the target with URI: chtcp-2.0://cmsfpixch001.cern.ch:10203?target=amc-s1g04-27-12:50001[0m
+[0;31m05-01-17 14:55:04.231956 [7fd45e0ce700] ERROR - ControlHub error code is: 3[0m
+Did not find any conflicting processes, carry on
+[0;31m05-01-17 14:55:04.232237 [7f2e95c2c700] ERROR - The ControlHub did not receive any response from the target with URI: chtcp-2.0://cmsfpixch001.cern.ch:10203?target=amc-s1g04-18-12:50001[0m
+[0;31m05-01-17 14:55:04.232367 [7f2e95c2c700] ERROR - ControlHub error code is: 3[0m
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-45-06
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+Could not connect to amc-s1g04-27-12
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-18-07
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+Could not connect to amc-s1g04-18-12
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-18-01
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-27-04
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-27-01
+--=======================================--
+    Traceback (most recent call last):
+fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-36-02
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-27-03
+--=======================================--
+Did not find any conflicting processes, carry on
+[0;31m05-01-17 14:55:04.255300 [7fe3318b5700] ERROR - The ControlHub did not receive any response from the target with URI: chtcp-2.0://cmsfpixch001.cern.ch:10203?target=amc-s1g03-45-11:50001[0m
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+[0;31m05-01-17 14:55:04.264582 [7fe3318b5700] ERROR - ControlHub error code is: 3[0m
+Did not find any conflicting processes, carry on
+[0;31m05-01-17 14:55:04.255423 [7f5c4705a700] ERROR - The ControlHub did not receive any response from the target with URI: chtcp-2.0://cmsfpixch001.cern.ch:10203?target=amc-s1g04-18-11:50001[0m
+    Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-27-10
+--=======================================--
+fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+[0;31m05-01-17 14:55:04.264703 [7f5c4705a700] ERROR - ControlHub error code is: 3[0m
+Did not find any conflicting processes, carry on
+[0;31m05-01-17 14:55:04.255520 [7f240a5c6700] ERROR - The ControlHub did not receive any response from the target with URI: chtcp-2.0://cmsfpixch001.cern.ch:10203?target=amc-s1g03-45-09:50001[0m
+Traceback (most recent call last):
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+[0;31m05-01-17 14:55:04.264829 [7f240a5c6700] ERROR - ControlHub error code is: 3[0m
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-36-03
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+        self.queueRun()
+raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+ChipsException.ChipsException    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+    ChipsExceptionself.queueRun()
+.ChipsException  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Could not connect to amc-s1g04-18-11
+Could not connect to amc-s1g03-45-11
+Could not connect to amc-s1g03-45-09
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-18-03
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-36-09
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-45-02
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+[0;31m05-01-17 14:55:04.281446 [7f4053444700] ERROR - The ControlHub did not receive any response from the target with URI: chtcp-2.0://cmsfpixch001.cern.ch:10203?target=amc-s1g04-18-10:50001[0m
+[0;31m05-01-17 14:55:04.281512 [7f4053444700] ERROR - ControlHub error code is: 3[0m
+Could not connect to amc-s1g04-18-10
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-36-01
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-45-10
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-27-06
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-36-06
+--=======================================--
+self.queueRun()
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+ChipsException.ChipsException  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-27-08
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-27-11
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsExceptionDid not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-27-01
+--=======================================--
+: Traceback (most recent call last):
+Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+[0;31m05-01-17 14:55:04.326492 [7f7e30215700] ERROR - The ControlHub did not receive any response from the target with URI: chtcp-2.0://cmsfpixch001.cern.ch:10203?target=amc-s1g03-45-10:50001[0m
+[0;31m05-01-17 14:55:04.326555 [7f7e30215700] ERROR - ControlHub error code is: 3[0m
+Could not connect to amc-s1g03-45-10
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-27-09
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-36-05
+--=======================================--
+    Traceback (most recent call last):
+self.queueRun()
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+ChipsException  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-45-07
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g01-36-09
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-18-03
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-27-02
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-18-01
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-18-06
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-18-08
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 121, in <module>
+    if not fmcPresent(hostname):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 42, in fmcPresent
+    fed = manager.getDevice(hostname)
+uhal._core.exception: Hostname to IP look up failed for hostname=amc-s1g04-45-12, port=50001
+ASIO threw exception with what returning: "resolve: Host not found (authoritative)"
+
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-18-05
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g03-27-07
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-36-04
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-27-01
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-45-02
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-45-03
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-27-05
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-36-07
+--=======================================--
+Traceback (most recent call last):
+  File "/home/xtaldaq/cratemonitor_v3/getFmcData.py", line 144, in <module>
+    fc7.write("fitel_i2c_cmd_reset",1) #1: EN
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 227, in write
+    self.queueRun()
+  File "/home/xtaldaq/PyChips/ChipsBus.py", line 146, in queueRun
+    raise ChipsException("Error while running queued transactions:\n\t" + str(err))
+ChipsException.ChipsException: Error while running queued transactions:
+	Deserialisation error: packet not correctly formatted or does not contain the expected amount of data!
+Did not find any conflicting processes, carry on
+
+--=======================================--
+  Opening FC7 with IP amc-s1g04-45-01
+--=======================================--
+-> FITEL_DEVICE_NB = 2
+-> Start First Access
+-> Checking:
+--------------------------------------------------------------------------------
+fmcSel = 0 fitelSel = 0 	|	regAddr = 0x1 	|	wrData = 0x5f
+fmcSel = 0 fitelSel = 0 	|	regAddr = 0x2 	|	wrData = 0x1
+fmcSel = 0 fitelSel = 1 	|	regAddr = 0x1 	|	wrData = 0x5f
+fmcSel = 0 fitelSel = 1 	|	regAddr = 0x2 	|	wrData = 0x1
+--------------------------------------------------------------------------------
+0x15f
+0x201
+0x10015f
+0x100201
+-> 4 words to write to FIFO TX...
+-> i2c ok and ADC in acquisition
+sleep
+-> End First Access
+
+
+-> Start Second Access
+-> Checking:
+--------------------------------------------------------------------------------
+fmcSel = 0 fitelSel = 0 	|	regAddr = 0x4 	|	wrData = 0x0
+fmcSel = 0 fitelSel = 0 	|	regAddr = 0x5 	|	wrData = 0x0
+fmcSel = 0 fitelSel = 0 	|	regAddr = 0x6 	|	wrData = 0x0
+fmcSel = 0 fitelSel = 0 	|	regAddr = 0x7 	|	wrData = 0x0
+fmcSel = 0 fitelSel = 0 	|	regAddr = 0x8 	|	wrData = 0x0
+fmcSel = 0 fitelSel = 0 	|	regAddr = 0x9 	|	wrData = 0x0
+fmcSel = 0 fitelSel = 0 	|	regAddr = 0xa 	|	wrData = 0x0
+fmcSel = 0 fitelSel = 0 	|	regAddr = 0xb 	|	wrData = 0x0
+fmcSel = 0 fitelSel = 0 	|	regAddr = 0xc 	|	wrData = 0x0
+fmcSel = 0 fitelSel = 0 	|	regAddr = 0xd 	|	wrData = 0x0
+fmcSel = 0 fitelSel = 0 	|	regAddr = 0xe 	|	wrData = 0x0
+fmcSel = 0 fitelSel = 0 	|	regAddr = 0xf 	|	wrData = 0x0
+fmcSel = 0 fitelSel = 1 	|	regAddr = 0x4 	|	wrData = 0x0
+fmcSel = 0 fitelSel = 1 	|	regAddr = 0x5 	|	wrData = 0x0
+fmcSel = 0 fitelSel = 1 	|	regAddr = 0x6 	|	wrData = 0x0
+fmcSel = 0 fitelSel = 1 	|	regAddr = 0x7 	|	wrData = 0x0
+fmcSel = 0 fitelSel = 1 	|	regAddr = 0x8 	|	wrData = 0x0
+fmcSel = 0 fitelSel = 1 	|	regAddr = 0x9 	|	wrData = 0x0
+fmcSel = 0 fitelSel = 1 	|	regAddr = 0xa 	|	wrData = 0x0
+fmcSel = 0 fitelSel = 1 	|	regAddr = 0xb 	|	wrData = 0x0
+fmcSel = 0 fitelSel = 1 	|	regAddr = 0xc 	|	wrData = 0x0
+fmcSel = 0 fitelSel = 1 	|	regAddr = 0xd 	|	wrData = 0x0
+fmcSel = 0 fitelSel = 1 	|	regAddr = 0xe 	|	wrData = 0x0
+fmcSel = 0 fitelSel = 1 	|	regAddr = 0xf 	|	wrData = 0x0
+--------------------------------------------------------------------------------
+-> 24 words to write to FIFO TX...
+-> i2c ok and reading done
+-> 24  words to read from FIFO_RX...
+-> Checking:
+-> 0x481L
+-> 0x598L
+-> 0x6a9L
+-> 0x7ddL
+-> 0x8a9L
+-> 0x9dbL
+-> 0xa80L
+-> 0xb00L
+-> 0xcffL
+-> 0xdffL
+-> 0xe89L
+-> 0xfdbL
+-> 0x100481L
+-> 0x1005c0L
+-> 0x1006a9L
+-> 0x1007daL
+-> 0x1008a9L
+-> 0x1009daL
+-> 0x100affL
+-> 0x100bffL
+-> 0x100cffL
+-> 0x100dffL
+-> 0x100e89L
+-> 0x100fdaL
+--------------------
+-> Measurement for ADC from Fitel FMCL8_FRR1
+DV, SS, SO: 1, 0, 0
+1)	T_INT(degC)  =  25.5000degC		-> Internal temperature
+DV, Sign: 1, 0
+2)	V1(V)	     =   3.27061V		-> 3V3
+DV, Sign: 1, 0
+3)	V2(V)	     =   3.27000V		-> 3V3
+DV, Sign: 1, 0
+4)	V3(mV)	     =  0.00000mV		-> RSSI
+	V3(V)	     =  0.00000000V		-> RSSI
+DV, Sign: 1, 1
+5)	V4(V)	     =  -0.00031V		-> GND
+DV, Sign: 1, 0
+6)	V5(V)	     =   3.26997V		-> VCC
+-> Measurement for ADC from Fitel FMCL8_FRR2
+DV, SS, SO: 1, 0, 0
+1)	T_INT(degC)  =  28.0000degC		-> Internal temperature
+DV, Sign: 1, 0
+2)	V1(V)	     =   3.26970V		-> 3V3
+DV, Sign: 1, 0
+3)	V2(V)	     =   3.26970V		-> 3V3
+DV, Sign: 1, 1
+4)	V3(mV)	     =  -0.30518mV		-> RSSI
+	V3(V)	     =  -0.00030518V		-> RSSI
+DV, Sign: 1, 1
+5)	V4(V)	     =  -0.00031V		-> GND
+DV, Sign: 1, 0
+6)	V5(V)	     =   3.26966V		-> VCC
+
+
+-> End
