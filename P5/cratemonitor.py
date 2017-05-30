@@ -116,7 +116,7 @@ class PM:
         #==========================================#
         # End NAT-PM-DC840 block                   #
         #==========================================#
-        return "PM{0}_temperature-A={1};;;; PM{0}_temperatureB={2};;;; PM{0}_temperature-base={3};;;; \
+        return "PM{0}_temperatureA={1};;;; PM{0}_temperatureB={2};;;; PM{0}_temperature-base={3};;;; \
 PM{0}_inputVoltage={4};;;; PM{0}_outputVoltageA={5};;;; PM{0}_outputVoltageB={6};;;; PM{0}_12V={7};;;; \
 PM{0}_3.3V={8};;;; PM{0}_totalCurrent={9};;;;"\
             .format(self.PMIndex, self.tempA, self.tempB, self.tempBase, self.VIN, self.VOutA, self.VOutB, self.volt12V, self.volt3V3, self.currentSum)
