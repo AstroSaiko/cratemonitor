@@ -12,6 +12,8 @@ import subprocess
 import sys
 import os
 
+from time import *
+import datetime
 
 #======================================
 #Defining which crate we're working with
@@ -25,6 +27,15 @@ else:
 crate = str.upper(str.split(HOSTNAME, '-')[1] + '-' + str.split(HOSTNAME, '-')[2]) # Gives the crate name, e.g. e1a04-18 
 rack = str.upper(str.split(HOSTNAME, '-')[1])
 
+
+# =============================================================
+# Error log function 
+
+def errorMessage(errorMsg):
+    with open('/home/xtaldaq/cratemonitor_v3/P5/cratemon_errorlog.log', 'a') as f:
+        now = datetime.datetime.now() #Time of event                                                                                                                                                                                       
+        f.write(now.strftime("%Y-%b-%d %H:%M:%S") + ': ' + crate +  ' {0}\n'.format(errorMsg))
+        
 # =============================================================
 # This will be used at the end of the script to determine
 # how the script exits. If a class experiences an error it will 
@@ -87,7 +98,7 @@ class PM:
                 # print self.err
                 EXITCODE.setCode(2, self.err) # sys.exit(EXITCODE) will use this at the end
         if self.data == '':
-            EXITCODE.setCode(1, "No data received from one or more crate objects") # sys.exit(EXITCODE) will use this at the end
+            EXITCODE.setCode(1, "No sensor data received from one or more crate objects") # sys.exit(EXITCODE) will use this at the end
         self.data = self.data.split('\n')
         #=========================================#
         # This block is for NAT-PM-DC840 type PMs #
@@ -181,7 +192,7 @@ class MCH:
                 # print self.err
                 EXITCODE.setCode(2, self.err)
         if self.data == '':
-            EXITCODE.setCode(1, "No data received from one or more objects in the crate")
+            EXITCODE.setCode(1, "No sensor data received from one or more objects in the crate")
         self.data = self.data.split('\n')
        #=========================================#
        # This block is for NAT-MCH-MCMC type MCH #
@@ -296,7 +307,7 @@ class CU:
                 # print self.err
                 EXITCODE.setCode(2, self.err)
         if self.data == '':
-            EXITCODE.setCode(1, "No data received from one or more objects in the crate")
+            EXITCODE.setCode(1, "No sensor data received from one or more objects in the crate")
         self.data = self.data.split('\n')
         #=====================================================#                                                      
         # This block is for Schroff uTCA CU type Cooling Unit #                                                                       
@@ -389,7 +400,7 @@ class AMC13:
                 # print self.err
                 EXITCODE.setCode(2, self.err)
         if self.data == '':
-            EXITCODE.setCode(1, "No data received from one or more objects in the crate")
+            EXITCODE.setCode(1, "No sensor data received from one or more objects in the crate")
         self.data = self.data.split('\n')
         #=====================================================#                         
         # This block is for BU AMC13 type amc13               #            
@@ -499,7 +510,7 @@ class FC7:
                 print self.err
                 EXITCODE.setCode(2, self.err)
         if self.data == '':
-            EXITCODE.setCode(1, "No data received from one or more objects in the crate")
+            EXITCODE.setCode(1, "No sensor data received from one or more objects in the crate")
         self.data = self.data.split('\n')
         if "ICL-CERN FC7" in self.data[0]:
             # =======================================
@@ -550,6 +561,10 @@ def BPIX():
         amc12 = FC7(12)
     return "bpixdata"
 
+def sendEmail(message, subject):
+    TO = "birk.engegaard@cern.ch" # "user1@example.com,user2@example.com"
+    os.system("echo \"{0}\" | mail -s \"{1}\" {2}".format(message, subject, TO))
+
 if __name__ == "__main__":
 
     EXITCODE = EXITCODE() # For proper exit codes
@@ -559,7 +574,7 @@ if __name__ == "__main__":
     # Basic uTCA crate / Common for every crate
     # =========================================
     PM1 = PM(1)
-    PM4 = PM(4)
+    PM2 = PM(2)
     CU1 = CU(1)
     CU2 = CU(2)
     MCH = MCH()
@@ -573,15 +588,21 @@ if __name__ == "__main__":
     # =========================================
     status = ["OK", "WARNING", "CRITICAL", "UNKNOWN"]
     if EXITCODE.getCode() == 0:
-        print "Sensor values {0} | {1} {2} {3} {4} {5} {6}".format(status[EXITCODE.getCode()], PM1.output, PM4.output, CU1.output, CU2.output, MCH.output, amc13.output) 
+        print "Sensor values {0} | {1} {2} {3} {4} {5} {6}".format(status[EXITCODE.getCode()], PM1.output, PM2.output, CU1.output, CU2.output, MCH.output, amc13.output) 
     else:
-        print "Sensor values {0}, Message: {1} | {2} {3} {4} {5} {6} {7}".format(status[EXITCODE.getCode()], EXITCODE.getMsg(), PM1.output, PM4.output, CU1.output, CU2.output, MCH.output, amc13.output)
+        print "Sensor values {0}, Message: {1} | {2} {3} {4} {5} {6} {7}".format(status[EXITCODE.getCode()], EXITCODE.getMsg(), PM1.output, PM2.output, CU1.output, CU2.output, MCH.output, amc13.output)
     
-    MCH.printSensorValues()
-    PM1.printSensorValues()
-    PM4.printSensorValues()
-    CU1.printSensorValues()
-    CU2.printSensorValues()
-    amc13.printSensorValues()
+    if EXITCODE.getCode() != 0:
+        errorMessage(EXITCODE.getMsg())
+        now = datetime.datetime.now() #Time of event
+        message = "{0} : crate {1} : {2} \n".format(now.strftime("%Y-%b-%d %H:%M:%S"), str.lower(crate), EXITCODE.getMsg())
+        subject = "Link status: {0}! {1} Cratemonitor alert".format(status[EXITCODE.getCode()], crate)
+        sendEmail(message, subject)
+    # MCH.printSensorValues()
+    # PM1.printSensorValues()
+    # PM4.printSensorValues()
+    # CU1.printSensorValues()
+    # CU2.printSensorValues()
+    # amc13.printSensorValues()
     # Exit with appropriate exit code
     sys.exit(EXITCODE.getCode())
