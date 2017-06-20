@@ -32,7 +32,7 @@ rack = str.upper(str.split(HOSTNAME, '-')[1])
 # Error log function 
 
 def errorMessage(errorMsg):
-    with open('/home/xtaldaq/cratemonitor_v3/P5/cratemon_errorlog.log', 'a') as f:
+    with open('/home/xtaldaq/cratemonitor_v3/P5/cratemon_errorlog.log', 'a') as f: # change filepath in production version
         now = datetime.datetime.now() #Time of event                                                                                                                                                                                       
         f.write(now.strftime("%Y-%b-%d %H:%M:%S") + ': ' + crate +  ' {0}\n'.format(errorMsg))
         
@@ -594,15 +594,10 @@ if __name__ == "__main__":
     
     if EXITCODE.getCode() != 0:
         errorMessage(EXITCODE.getMsg())
-        now = datetime.datetime.now() #Time of event
-        message = "{0} : crate {1} : {2} \n".format(now.strftime("%Y-%b-%d %H:%M:%S"), str.lower(crate), EXITCODE.getMsg())
-        subject = "Link status: {0}! {1} Cratemonitor alert".format(status[EXITCODE.getCode()], crate)
-        sendEmail(message, subject)
-    # MCH.printSensorValues()
-    # PM1.printSensorValues()
-    # PM4.printSensorValues()
-    # CU1.printSensorValues()
-    # CU2.printSensorValues()
-    # amc13.printSensorValues()
+        # now = datetime.datetime.now() #Time of event
+        # message = "{0} : crate {1} : {2} \n".format(now.strftime("%Y-%b-%d %H:%M:%S"), str.lower(crate), EXITCODE.getMsg())
+        # subject = "Link status: {0}! {1} Cratemonitor alert".format(status[EXITCODE.getCode()], crate)
+        # sendEmail(message, subject)
+
     # Exit with appropriate exit code
     sys.exit(EXITCODE.getCode())
