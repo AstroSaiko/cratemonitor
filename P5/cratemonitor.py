@@ -16,26 +16,46 @@ from time import *
 import datetime
 
 #======================================
+# To start/stop
+if "start" in str.lower(sys.argv[1]):
+    with open('/home/xtaldaq/cratemonitor/P5/start_stop_file.txt', 'w') as f:
+        f.write("Cratemon is running")
+    sys.exit(0)
+elif "stop" in str.lower(sys.argv[1]) or "pause" in str.lower(sys.argv[1]):
+    with open('/home/xtaldaq/cratemonitor/P5/start_stop_file.txt', 'w') as f:
+        f.write("Cratemon is stopped")
+    sys.exit(0)
+#======================================
 #Defining which crate we're working with
 
 if len(sys.argv) > 1:
     HOSTNAME = sys.argv[1]
     # HOSTNAME = "mch-" + sys.argv[1]
-else:
-    HOSTNAME = "mch-s1g04-18-01" # Insert hostname of mch here
+# else:
+    # HOSTNAME = "mch-s1g04-18-01" # Insert hostname of mch here
 
-crate = str.upper(str.split(HOSTNAME, '-')[1] + '-' + str.split(HOSTNAME, '-')[2]) # Gives the crate name, e.g. e1a04-18 
-rack = str.upper(str.split(HOSTNAME, '-')[1])
+crate="14ch"
+rack="B186"
 
+if HOSTNAME != "mch02":
+    crate = str.upper(str.split(HOSTNAME, '-')[1] + '-' + str.split(HOSTNAME, '-')[2]) # Gives the crate name, e.g. e1a04-18 
+    rack = str.upper(str.split(HOSTNAME, '-')[1])
 
 # =============================================================
 # Error log function 
 
 def errorMessage(errorMsg):
-    with open('/home/xtaldaq/cratemonitor_v3/P5/cratemon_errorlog.log', 'a') as f: # change filepath in production version
-        now = datetime.datetime.now() #Time of event                                                                                                                                                                                       
+    with open('/home/xtaldaq/cratemonitor/P5/cratemon_errorlog.log', 'a') as f: # change filepath in production version
+        now = datetime.datetime.now() #Time of event                                                                      
         f.write(now.strftime("%Y-%b-%d %H:%M:%S") + ': ' + crate +  ' {0}\n'.format(errorMsg))
         
+def isStopped():
+    with open('/home/xtaldaq/cratemonitor/P5/start_stop_file.txt', 'r') as f:
+        if f.read() == "Cratemon is stopped":
+            return True
+        elif f.read() == "Cratemon is running":
+            return False
+
 # =============================================================
 # This will be used at the end of the script to determine
 # how the script exits. If a class experiences an error it will 
@@ -91,6 +111,11 @@ class PM:
         self.hostname = hostname
          
     def getData(self):
+        if isStopped():
+            return "PM{0}_temperatureA={1};;;; PM{0}_temperatureB={2};;;; PM{0}_temperature-base={3};;;; \
+PM{0}_inputVoltage={4};;;; PM{0}_outputVoltageA={5};;;; PM{0}_outputVoltageB={6};;;; PM{0}_12V={7};;;; \
+PM{0}_3.3V={8};;;; PM{0}_totalCurrent={9};;;;"\
+            .format(self.PMIndex, self.tempA, self.tempB, self.tempBase, self.VIN, self.VOutA, self.VOutB, self.volt12V, self.volt3V3, self.currentSum)
         self.proc = subprocess.Popen(("ipmitool -H {0} -U '' -P '' sdr entity {1}".format(self.hostname, self.entity)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
         (self.data, self.err) = self.proc.communicate()
         if self.err != '':
@@ -185,6 +210,11 @@ class MCH:
         self.hostname = hostname
 
     def getData(self):
+        if isStopped():
+            return "MCH{0}_CPUTemperature={1};;;; MCH{0}_IOTemperature={2};;;; MCH{0}_1.2V={3};;;; \
+MCH{0}_1.5V={4};;;; MCH{0}_1.8V={5};;;; MCH{0}_2.5V={6};;;; MCH{0}_3.3V={7};;;; \
+MCH{0}_12V={8};;;; MCH{0}_baseCurrent={9};;;;"\
+            .format(self.MCHIndex, self.tempCPU, self.tempIO, self.volt1V2, self.volt1V5, self.volt1V8, self.volt2V5, self.volt3V3, self.volt12V, self.current)
         self.proc = subprocess.Popen(("ipmitool -H {0} -U admin -P admin sdr entity {1}".format(self.hostname, self.entity)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
         (self.data, self.err) = self.proc.communicate()
         if self.err != '':
@@ -300,6 +330,11 @@ class CU:
             return False
 
     def getData(self):
+        if isStopped():
+            return "CU{0}_temperature1={1};;;; CU{0}_temperature2={2};;;; CU{0}_3.3V={3};;;; \
+CU{0}_12V={4};;;; CU{0}_12V_1={5};;;; CU{0}_fan1={6};;;; CU{0}_fan2={7};;;; \
+CU{0}_fan3={8};;;; CU{0}_fan4={9};;;; CU{0}_fan5={10};;;; CU{0}_fan6={10};;;;"\
+                .format(self.CUIndex, self.LM75Temp, self.LM75Temp2, self.CU3V3, self.CU12V, self.CU12V_1, self.fan1, self.fan2, self.fan3, self.fan4, self.fan5, self.fan6)
         self.proc = subprocess.Popen(("ipmitool -H {0} -U '' -P '' -T 0x82 -b 7 -t {1} -B 0 sdr".format(self.hostname, self.target)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
         (self.data, self.err) = self.proc.communicate()
         if self.err != '':
@@ -393,6 +428,9 @@ class AMC13:
         self.hostname = hostname
 
     def getData(self):
+        if isStopped():
+            return "AMC13_temperature={0};;;; AMC13_1.2V={1};;;; AMC13_3.3V={2};;;; AMC13_12V={3};;;;"\
+            .format(self.T2Temp, self.volt1V2, self.volt3V3, self.volt12V)
         self.proc = subprocess.Popen(("ipmitool -H {0} -U admin -P admin sdr entity 193.122".format(self.hostname)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
         (self.data, self.err) = self.proc.communicate()
         if self.err != '':
@@ -509,8 +547,8 @@ class FC7:
             if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n": # this error can be ignored
                 print self.err
                 EXITCODE.setCode(2, self.err)
-        if self.data == '':
-            EXITCODE.setCode(1, "No sensor data received from one or more objects in the crate")
+        # if self.data == '':
+            # EXITCODE.setCode(1, "No sensor data received from one or more objects in the crate")
         self.data = self.data.split('\n')
         if "ICL-CERN FC7" in self.data[0]:
             # =======================================
@@ -587,11 +625,15 @@ if __name__ == "__main__":
     # Format output
     # =========================================
     status = ["OK", "WARNING", "CRITICAL", "UNKNOWN"]
+    runstat = 0
+    if isStopped():
+        runstat = 1
     if EXITCODE.getCode() == 0:
-        print "Sensor values {0} | {1} {2} {3} {4} {5} {6}".format(status[EXITCODE.getCode()], PM1.output, PM2.output, CU1.output, CU2.output, MCH.output, amc13.output) 
+        print "Sensor values {0} | runstat={8};;;; sensorStatus={7};;;; {1} {2} {3} {4} {5} {6}".format(status[EXITCODE.getCode()], PM1.output, PM2.output\
+                                                                                                             , CU1.output, CU2.output, MCH.output, amc13.output, EXITCODE.getCode(), runstat) 
     else:
-        print "Sensor values {0}, Message: {1} | {2} {3} {4} {5} {6} {7}".format(status[EXITCODE.getCode()], EXITCODE.getMsg(), PM1.output, PM2.output, CU1.output, CU2.output, MCH.output, amc13.output)
-    
+        print "Sensor values {0}, Message: {1} | runstat={9};;;; sensorStatus={8};;;; {2} {3} {4} {5} {6} {7}".format(status[EXITCODE.getCode()], EXITCODE.getMsg(), PM1.output, PM2.output\
+                                                                                                                           , CU1.output, CU2.output, MCH.output, amc13.output, EXITCODE.getCode(), runstat)
     if EXITCODE.getCode() != 0:
         errorMessage(EXITCODE.getMsg())
         # now = datetime.datetime.now() #Time of event
