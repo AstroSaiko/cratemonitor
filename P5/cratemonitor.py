@@ -18,11 +18,11 @@ import datetime
 #======================================
 # To start/stop
 if "start" in str.lower(sys.argv[1]):
-    with open('/home/xtaldaq/cratemonitor/P5/start_stop_file.txt', 'w') as f:
+    with open('/nfshome0/pixelpro/pix_cratemonitor/run_status.txt', 'w') as f:
         f.write("Cratemon is running")
     sys.exit(0)
 elif "stop" in str.lower(sys.argv[1]) or "pause" in str.lower(sys.argv[1]):
-    with open('/home/xtaldaq/cratemonitor/P5/start_stop_file.txt', 'w') as f:
+    with open('/nfshome0/pixelpro/pix_cratemonitor/run_status.txt', 'w') as f:
         f.write("Cratemon is stopped")
     sys.exit(0)
 #======================================
@@ -45,16 +45,19 @@ if HOSTNAME != "mch02":
 # Error log function 
 
 def errorMessage(errorMsg):
-    with open('/home/xtaldaq/cratemonitor/P5/cratemon_errorlog.log', 'a') as f: # change filepath in production version
+    with open('/nfshome0/pixelpro/pix_cratemon/pix_cratemon_errorlog.txt', 'a') as f: # change filepath in production version
         now = datetime.datetime.now() #Time of event                                                                      
         f.write(now.strftime("%Y-%b-%d %H:%M:%S") + ': ' + crate +  ' {0}\n'.format(errorMsg))
         
 def isStopped():
-    with open('/home/xtaldaq/cratemonitor/P5/start_stop_file.txt', 'r') as f:
+    with open('/nfshome0/pixelpro/pix_cratemonitor/run_status.txt', 'r') as f:
         if f.read() == "Cratemon is stopped":
             return True
         elif f.read() == "Cratemon is running":
             return False
+        else:
+            errorMessage("Check /nfshome0/pixelpro/pix_cratemon/run_status.txt")
+            sys.exit(1)
 
 # =============================================================
 # This will be used at the end of the script to determine
@@ -621,21 +624,23 @@ if __name__ == "__main__":
     # FC7s and crate specifics
     # =========================================
 
+    # amc1 = FC7(1) # etc
+
     # =========================================
     # Format output
     # =========================================
     status = ["OK", "WARNING", "CRITICAL", "UNKNOWN"]
-    runstat = 0
+    runstat = 0 # Initiation run status as running
     if isStopped():
-        runstat = 1
+        runstat = 1 # cratemon is stopped/paused
     if EXITCODE.getCode() == 0:
-        print "Sensor values {0} | runstat={8};;;; sensorStatus={7};;;; {1} {2} {3} {4} {5} {6}".format(status[EXITCODE.getCode()], PM1.output, PM2.output\
+        print "Link status {0} | runstat={8};;;; linkStatus={7};;;; {1} {2} {3} {4} {5} {6}".format(status[EXITCODE.getCode()], PM1.output, PM2.output\
                                                                                                              , CU1.output, CU2.output, MCH.output, amc13.output, EXITCODE.getCode(), runstat) 
     else:
-        print "Sensor values {0}, Message: {1} | runstat={9};;;; sensorStatus={8};;;; {2} {3} {4} {5} {6} {7}".format(status[EXITCODE.getCode()], EXITCODE.getMsg(), PM1.output, PM2.output\
+        print "Link status {0}, Message: {1} | runstat={9};;;; linkStatus={8};;;; {2} {3} {4} {5} {6} {7}".format(status[EXITCODE.getCode()], EXITCODE.getMsg(), PM1.output, PM2.output\
                                                                                                                            , CU1.output, CU2.output, MCH.output, amc13.output, EXITCODE.getCode(), runstat)
-    if EXITCODE.getCode() != 0:
-        errorMessage(EXITCODE.getMsg())
+    # if EXITCODE.getCode() != 0:
+        # errorMessage(EXITCODE.getMsg())
         # now = datetime.datetime.now() #Time of event
         # message = "{0} : crate {1} : {2} \n".format(now.strftime("%Y-%b-%d %H:%M:%S"), str.lower(crate), EXITCODE.getMsg())
         # subject = "Link status: {0}! {1} Cratemonitor alert".format(status[EXITCODE.getCode()], crate)
