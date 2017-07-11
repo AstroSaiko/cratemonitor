@@ -51,9 +51,10 @@ def errorMessage(errorMsg):
         
 def isStopped():
     with open('/nfshome0/pixelpro/pix_cratemonitor/run_status.txt', 'r') as f:
-        if f.read() == "Cratemon is stopped":
+        line = f.read()
+        if line == "Cratemon is stopped":
             return True
-        elif f.read() == "Cratemon is running":
+        elif line == "Cratemon is running":
             return False
         else:
             errorMessage("Check /nfshome0/pixelpro/pix_cratemon/run_status.txt")
@@ -639,8 +640,8 @@ if __name__ == "__main__":
     else:
         print "Link status {0}, Message: {1} | runstat={9};;;; linkStatus={8};;;; {2} {3} {4} {5} {6} {7}".format(status[EXITCODE.getCode()], EXITCODE.getMsg(), PM1.output, PM2.output\
                                                                                                                            , CU1.output, CU2.output, MCH.output, amc13.output, EXITCODE.getCode(), runstat)
-    # if EXITCODE.getCode() != 0:
-        # errorMessage(EXITCODE.getMsg())
+    if EXITCODE.getCode() != 0:
+        errorMessage(EXITCODE.getMsg())
         # now = datetime.datetime.now() #Time of event
         # message = "{0} : crate {1} : {2} \n".format(now.strftime("%Y-%b-%d %H:%M:%S"), str.lower(crate), EXITCODE.getMsg())
         # subject = "Link status: {0}! {1} Cratemonitor alert".format(status[EXITCODE.getCode()], crate)
