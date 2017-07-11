@@ -45,7 +45,7 @@ if HOSTNAME != "mch02":
 # Error log function 
 
 def errorMessage(errorMsg):
-    with open('/nfshome0/pixelpro/pix_cratemon/pix_cratemon_errorlog.txt', 'a') as f: # change filepath in production version
+    with open('/nfshome0/pixelpro/pix_cratemonitor/pix_cratemon_errorlog.txt', 'a') as f: # change filepath in production version
         now = datetime.datetime.now() #Time of event                                                                      
         f.write(now.strftime("%Y-%b-%d %H:%M:%S") + ': ' + crate +  ' {0}\n'.format(errorMsg))
         
