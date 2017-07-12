@@ -11,35 +11,71 @@
 import subprocess
 import sys
 import os
+import socket
 
 from time import *
 import datetime
 
 #======================================
 # To start/stop
-if "start" in str.lower(sys.argv[1]):
-    with open('/nfshome0/pixelpro/pix_cratemonitor/run_status.txt', 'w') as f:
-        f.write("Cratemon is running")
-    sys.exit(0)
-elif "stop" in str.lower(sys.argv[1]) or "pause" in str.lower(sys.argv[1]):
-    with open('/nfshome0/pixelpro/pix_cratemonitor/run_status.txt', 'w') as f:
-        f.write("Cratemon is stopped")
-    sys.exit(0)
+if len(sys.argv) > 1:
+    if "start" in str.lower(sys.argv[1]):
+        with open('/nfshome0/pixelpro/pix_cratemonitor/run_status.txt', 'w') as f:
+            f.write("Cratemon is running")
+        sys.exit(0)
+    elif "stop" in str.lower(sys.argv[1]) or "pause" in str.lower(sys.argv[1]):
+        with open('/nfshome0/pixelpro/pix_cratemonitor/run_status.txt', 'w') as f:
+            f.write("Cratemon is stopped")
+        sys.exit(0)
 #======================================
 #Defining which crate we're working with
 
 if len(sys.argv) > 1:
     HOSTNAME = sys.argv[1]
-    # HOSTNAME = "mch-" + sys.argv[1]
-# else:
-    # HOSTNAME = "mch-s1g04-18-01" # Insert hostname of mch here
-
-crate="14ch"
-rack="B186"
-
-if HOSTNAME != "mch02":
-    crate = str.upper(str.split(HOSTNAME, '-')[1] + '-' + str.split(HOSTNAME, '-')[2]) # Gives the crate name, e.g. e1a04-18 
-    rack = str.upper(str.split(HOSTNAME, '-')[1])
+    if HOSTNAME == "mch02": # For developing at TIF
+        crate="14ch"
+        rack="B186"
+    else:
+        crate = str.upper(str.split(HOSTNAME, '-')[1] + '-' + str.split(HOSTNAME, '-')[2]) # Gives the crate name, e.g. e1a04-18
+        rack = str.upper(str.split(HOSTNAME, '-')[1])
+else: # For final deployment at P5
+    controlhub=socket.gethostname()
+    if controlhub == "ctrl-s2c17-06-01":
+        HOSTNAME = "mch-s1g01-18-01"
+        crate = "s1g01-18"
+    elif controlhub == "ctrl-s2c17-07-01":
+        HOSTNAME = "mch-s1g01-27-01"
+        crate = "s1g01-27"
+    elif controlhub == "ctrl-s2c17-08-01":
+        HOSTNAME = "mch-s1g01-36-01"
+        crate = "s1g01-36"
+    elif controlhub == "ctrl-s2c17-09-01":
+        HOSTNAME = "mch-s1g01-45-01"
+        crate = "s1g01-45"
+    elif controlhub == "ctrl-s2c17-10-01":
+        HOSTNAME = "mch-s1g03-18-01"
+        crate = "s1g03-18"
+    elif controlhub == "ctrl-s2c17-11-01":
+        HOSTNAME = "mch-s1g03-27-01"
+        crate = "s1g03-27"
+    elif controlhub == "ctrl-s2c17-12-01":
+        HOSTNAME = "mch-s1g03-36-01"
+        crate = "s1g03-36"
+    elif controlhub == "ctrl-s2c17-13-01":
+        HOSTNAME = "mch-s1g03-45-01"
+        crate = "s1g03-45"
+    elif controlhub == "ctrl-s2c17-14-01":
+        HOSTNAME = "mch-s1g04-18-01"
+        crate = "s1g04-18"
+    elif controlhub == "ctrl-s2c17-15-01":
+        HOSTNAME = "mch-s1g04-27-01"
+        crate = "s1g04-27"
+    elif controlhub == "ctrl-s2c17-16-01":
+        HOSTNAME = "mch-s1g04-36-01"
+        crate = "s1g04-36"
+    elif controlhub == "ctrl-s2c17-17-01":
+        HOSTNAME = "mch-s1g04-45-01"
+        crate = "s1g04-45"
 
 # =============================================================
 # Error log function 
@@ -634,18 +670,21 @@ if __name__ == "__main__":
     runstat = 0 # Initiation run status as running
     if isStopped():
         runstat = 1 # cratemon is stopped/paused
-    if EXITCODE.getCode() == 0:
-        print "Link status {0} | runstat={8};;;; linkStatus={7};;;; {1} {2} {3} {4} {5} {6}".format(status[EXITCODE.getCode()], PM1.output, PM2.output\
-                                                                                                             , CU1.output, CU2.output, MCH.output, amc13.output, EXITCODE.getCode(), runstat) 
-    else:
-        print "Link status {0}, Message: {1} | runstat={9};;;; linkStatus={8};;;; {2} {3} {4} {5} {6} {7}".format(status[EXITCODE.getCode()], EXITCODE.getMsg(), PM1.output, PM2.output\
-                                                                                                                           , CU1.output, CU2.output, MCH.output, amc13.output, EXITCODE.getCode(), runstat)
+    
+    # Output for Icinga
+    # if EXITCODE.getCode() == 0:
+    #     print "Link status {0} | runstat={8};;;; linkStatus={7};;;; {1} {2} {3} {4} {5} {6}".format(status[EXITCODE.getCode()], PM1.output, PM2.output\
+    #                                                                                                          , CU1.output, CU2.output, MCH.output, amc13.output, EXITCODE.getCode(), runstat) 
+    # else:
+    #     print "Link status {0}, Message: {1} | runstat={9};;;; linkStatus={8};;;; {2} {3} {4} {5} {6} {7}".format(status[EXITCODE.getCode()], EXITCODE.getMsg(), PM1.output, PM2.output\
+    #                                                                                                                        , CU1.output, CU2.output, MCH.output, amc13.output, EXITCODE.getCode(), runstat)
+    
+    # Append errors to the error log
     if EXITCODE.getCode() != 0:
         errorMessage(EXITCODE.getMsg())
-        # now = datetime.datetime.now() #Time of event
-        # message = "{0} : crate {1} : {2} \n".format(now.strftime("%Y-%b-%d %H:%M:%S"), str.lower(crate), EXITCODE.getMsg())
-        # subject = "Link status: {0}! {1} Cratemonitor alert".format(status[EXITCODE.getCode()], crate)
-        # sendEmail(message, subject)
 
+    # Output for Grafana / Graphite
+    print "Link status {0} | runstat={8};;;; linkStatus={7};;;; {1} {2} {3} {4} {5} {6}".format(status[EXITCODE.getCode()], PM1.output, PM2.output\
+                                                                                                             , CU1.output, CU2.output, MCH.output, amc13.output, EXITCODE.getCode(), runstat)
     # Exit with appropriate exit code
     sys.exit(EXITCODE.getCode())
