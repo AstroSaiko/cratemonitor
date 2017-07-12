@@ -1,4 +1,4 @@
-#!/usr/bin/env python 
+#!/usr/bin/env python2 
 
 #==================================================
 # Author: Birk Engegaard
@@ -652,7 +652,7 @@ if __name__ == "__main__":
     # Basic uTCA crate / Common for every crate
     # =========================================
     PM1 = PM(1)
-    PM2 = PM(2)
+    PM4 = PM(4)
     CU1 = CU(1)
     CU2 = CU(2)
     MCH = MCH()
@@ -673,10 +673,10 @@ if __name__ == "__main__":
     
     # Output for Icinga
     # if EXITCODE.getCode() == 0:
-    #     print "Link status {0} | runstat={8};;;; linkStatus={7};;;; {1} {2} {3} {4} {5} {6}".format(status[EXITCODE.getCode()], PM1.output, PM2.output\
+    #     print "Link status {0} | runstat={8};;;; linkStatus={7};;;; {1} {2} {3} {4} {5} {6}".format(status[EXITCODE.getCode()], PM1.output, PM4.output\
     #                                                                                                          , CU1.output, CU2.output, MCH.output, amc13.output, EXITCODE.getCode(), runstat) 
     # else:
-    #     print "Link status {0}, Message: {1} | runstat={9};;;; linkStatus={8};;;; {2} {3} {4} {5} {6} {7}".format(status[EXITCODE.getCode()], EXITCODE.getMsg(), PM1.output, PM2.output\
+    #     print "Link status {0}, Message: {1} | runstat={9};;;; linkStatus={8};;;; {2} {3} {4} {5} {6} {7}".format(status[EXITCODE.getCode()], EXITCODE.getMsg(), PM1.output, PM4.output\
     #                                                                                                                        , CU1.output, CU2.output, MCH.output, amc13.output, EXITCODE.getCode(), runstat)
     
     # Append errors to the error log
@@ -684,7 +684,7 @@ if __name__ == "__main__":
         errorMessage(EXITCODE.getMsg())
 
     # Output for Grafana / Graphite
-    print "Link status {0} | runstat={8};;;; linkStatus={7};;;; {1} {2} {3} {4} {5} {6}".format(status[EXITCODE.getCode()], PM1.output, PM2.output\
-                                                                                                             , CU1.output, CU2.output, MCH.output, amc13.output, EXITCODE.getCode(), runstat)
+    print "Link status {0} | crate={9};;;;  runstat={8};;;; linkStatus={7};;;; {1} {2} {3} {4} {5} {6}".format(status[EXITCODE.getCode()], PM1.output, PM4.output\
+                                                                                                             , CU1.output, CU2.output, MCH.output, amc13.output, EXITCODE.getCode(), runstat, crate)
     # Exit with appropriate exit code
     sys.exit(EXITCODE.getCode())
