@@ -644,7 +644,7 @@ def sendEmail(message, subject):
     os.system("echo \"{0}\" | mail -s \"{1}\" {2}".format(message, subject, TO))
 
 if __name__ == "__main__":
-
+    
     EXITCODE = EXITCODE() # For proper exit codes
     # Instantiate the objects in the crate
     
@@ -684,7 +684,13 @@ if __name__ == "__main__":
         errorMessage(EXITCODE.getMsg())
 
     # Output for Grafana / Graphite
-    print "Link status {0} | crate={9};;;;  runstat={8};;;; linkStatus={7};;;; {1} {2} {3} {4} {5} {6}".format(status[EXITCODE.getCode()], PM1.output, PM4.output\
+    timestamp = time()
+    output = "runstat={8};;;; linkStatus={7};;;; {1} {2} {3} {4} {5} {6}".format(status[EXITCODE.getCode()], PM1.output, PM4.output\
                                                                                                              , CU1.output, CU2.output, MCH.output, amc13.output, EXITCODE.getCode(), runstat, crate)
+
+    output =  output.replace(';;;; ', '\n').replace('=', ' ').replace(';;;;', '').replace('_', '.').replace('.1.', '.1_').replace('.2.', '.2_').replace('.3.', '.3_').replace('.12V.1', '.12V_1').split('\n')
+    for line in output:
+        print 'cratemon.{0}.{1} {2}'.format(crate, line, timestamp)
+
     # Exit with appropriate exit code
     sys.exit(EXITCODE.getCode())
