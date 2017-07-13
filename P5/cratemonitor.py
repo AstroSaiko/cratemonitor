@@ -1,6 +1,15 @@
 #!/usr/bin/env python2 
 
 #==================================================
+# This is a copy of the script being used to gather data
+# for the Pixel Crate Monitor.
+# If you want to make changes to the script use this to test them
+# and submit a JIRA ticket to Diego da Silva Gomes to add it to
+# the monitoring
+#==================================================
+
+
+#==================================================
 # Author: Birk Engegaard
 # birk.engegaard@cern.ch / birkengegaard@gmail.com
 # Call script with the crate address of the crate you 
@@ -132,6 +141,14 @@ class PM:
     def __init__(self, PMIndex):
         self.PMIndex = PMIndex # PM index in crate
         self.entity = "10.{0}".format(str(96 + self.PMIndex)) # converting PM index to ipmi entity
+        if self.PMIndex == 1:
+            self.target = "0xc2"
+        elif self.PMIndex == 2:
+            self.target = "0xc4"
+        elif self.PMIndex == 3:
+            self.target = "0xc6"
+        elif self.PMIndex == 4:
+            self.target = "0xc8"
         self.hostname = HOSTNAME # Global variable
         # Initializing empty variables
         self.tempA = None # Temperature of brick-A
@@ -156,7 +173,7 @@ class PM:
 PM{0}_inputVoltage={4};;;; PM{0}_outputVoltageA={5};;;; PM{0}_outputVoltageB={6};;;; PM{0}_12V={7};;;; \
 PM{0}_3.3V={8};;;; PM{0}_totalCurrent={9};;;;"\
             .format(self.PMIndex, self.tempA, self.tempB, self.tempBase, self.VIN, self.VOutA, self.VOutB, self.volt12V, self.volt3V3, self.currentSum)
-        self.proc = subprocess.Popen(("ipmitool -H {0} -U '' -P '' sdr entity {1}".format(self.hostname, self.entity)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
+        self.proc = subprocess.Popen(("ipmitool -H {0} -U '' -P '' -T 0x82 -b 7 -t {1} -B 0 sdr".format(self.hostname, self.target)).split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
         (self.data, self.err) = self.proc.communicate()
         if self.err != '':
             if self.err != "Get HPM.x Capabilities request failed, compcode = c9\n": # This error can safely be ignored
@@ -168,27 +185,27 @@ PM{0}_3.3V={8};;;; PM{0}_totalCurrent={9};;;;"\
         #=========================================#
         # This block is for NAT-PM-DC840 type PMs #
         #=========================================#
-        if "NAT-PM-DC840" in self.data[0]:
+        if True: #"NAT-PM-DC840" in self.data[0]: # Workaround for a problem with monitoring the PMs at P5
             self.flavor = "NAT-PM-DC840"
             for item in self.data:
                     if "TBrick-A" in item:
-                        self.tempA = item.strip().split(" ")[17]    
+                        self.tempA = item.strip().split(" ")[10]    
                     elif "TBrick-B" in item:
-                        self.tempB = item.strip().split(" ")[17]
+                        self.tempB = item.strip().split(" ")[10]
                     elif "T-Base" in item:
-                        self.tempBase = item.strip().split(" ")[19]
+                        self.tempBase = item.strip().split(" ")[12]
                     elif "VIN" in item:
-                        self.VIN = item.strip().split(" ")[22]
+                        self.VIN = item.strip().split(" ")[15]
                     elif "VOUT-A" in item:
-                        self.VOutA = item.strip().split(" ")[19]
+                        self.VOutA = item.strip().split(" ")[12]
                     elif "VOUT-B" in item:
-                        self.VOutB = item.strip().split(" ")[19]
+                        self.VOutB = item.strip().split(" ")[12]
                     elif "12V" in item:
-                        self.volt12V = item.strip().split(" ")[22]
+                        self.volt12V = item.strip().split(" ")[15]
                     elif "3.3V" in item:
-                        self.volt3V3 = item.strip().split(" ")[21]
+                        self.volt3V3 = item.strip().split(" ")[14]
                     elif "Current(SUM)" in item:
-                        self.currentSum = item.strip().split(" ")[13]
+                        self.currentSum = item.strip().split(" ")[6]
         #==========================================#
         # End NAT-PM-DC840 block                   #
         #==========================================#
@@ -387,7 +404,7 @@ CU{0}_fan3={8};;;; CU{0}_fan4={9};;;; CU{0}_fan5={10};;;; CU{0}_fan6={10};;;;"\
         #=====================================================#                                                      
         # This block is for Schroff uTCA CU type Cooling Unit #                                                                       
         #=====================================================#   
-        if self.checkFlavor("Schroff uTCA CU"):
+        if True: #self.checkFlavor("Schroff uTCA CU"): # workaround for a problem with monitoring the CUs at P5
             for item in self.data:
                 if "+3.3V" in item:
                     self.CU3V3 = item.strip().split(" ")[13]
